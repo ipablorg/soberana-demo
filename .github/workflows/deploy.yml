@@ -21,7 +21,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          # @lingui/cli uses fs.globSync (Node >= 22)
+          node-version: 22
           cache: npm
       - run: npm ci
       - name: Compile i18n catalogs
