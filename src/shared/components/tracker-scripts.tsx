@@ -8,6 +8,7 @@
 
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { isDemoMode } from '@/shared/lib/dev-config';
 
 const PUBLIC_PREFIXES = [
   '/',
@@ -87,6 +88,11 @@ export function TrackerScripts() {
   const location = useLocation();
 
   useEffect(() => {
+    // Public portfolio demo: never inject GTM/Meta trackers. The demo-redirect
+    // from `/` to `/suite/dashboard` tears the scripts down mid-load (the Meta
+    // snippet races its async `fbevents.js` and dies on a deleted `window.fbq`),
+    // and a portfolio demo has no reason to track its visitors.
+    if (isDemoMode()) return;
     if (!isPublicRoute(location.pathname)) return;
 
     const scripts = injectAllTrackers();

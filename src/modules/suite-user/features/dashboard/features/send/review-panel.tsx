@@ -36,6 +36,7 @@ import { useIndicativeRate } from '@/shared/hooks/use-indicative-rate';
 import { useCreateDispersion } from '@/shared/hooks/use-create-dispersion';
 import { getCurrencyFlag } from '@/shared/lib/currency-flags';
 import { mapError } from '@/shared/lib/error-mapper';
+import { isDemoMode } from '@/shared/lib/dev-config';
 import { getIdempotencyErrorKind, useConfirmIntentKey } from '@/shared/lib/idempotency-key';
 import { isLoopayXNoQuoteOutboundRail } from '@/shared/lib/loopayx-send-rails';
 import { getLoopayXReferenceOnlyDisplay } from '@/shared/lib/loopayx-reference-only';
@@ -124,6 +125,13 @@ export const ReviewPanel: React.FC<ReviewPanelProps> = ({
   const handleConfirm = async () => {
     setLocalError(null);
     onSubmitStart();
+    // Public portfolio demo only: there is no backend, so the send completes
+    // locally with the same honest PENDING frame a live submission reports.
+    // Dev and production always run the real mutation below.
+    if (isDemoMode()) {
+      onSuccess(`demo-tx-${intentKey.getKey()}`, 'PENDING');
+      return;
+    }
     try {
       // Dispersion v2 contract: amount + currency are SOURCE-denominated
       // (the wallet currency). The payout estimate is decided by
