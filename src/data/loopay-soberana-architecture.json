@@ -1,0 +1,256 @@
+{
+  "loopay_soberana": {
+    "nombre": "Loopay Soberana",
+    "subtitulo": "El Sistema Operativo de Tesorería Autónoma",
+    "version": "1.0.0",
+    "descripcion": "Loopay Soberana no es una pasarela de pagos; es un Sistema Operativo (OS) diseñado para la Finalidad del Capital Soberano. Representa la convergencia definitiva entre la generación de rendimiento descentralizado (Yield) y la ubicuidad de los rieles de pago globales (Spend), orquestada por inteligencia artificial autónoma.",
+    
+    "principios_diseno": {
+      "soberania": {
+        "titulo": "La Soberanía como Estándar",
+        "descripcion": "La custodia no es negociable. Loopay elimina el riesgo de contraparte mediante el uso de Smart Wallets con Abstracción de Cuenta (ERC-4337). Usted mantiene las llaves; nosotros proveemos los rieles.",
+        "caracteristicas": [
+          "Smart Wallets con ERC-4337 (Account Abstraction)",
+          "Infraestructura financiera en servidores propios del cliente",
+          "Reglas criptográficas controladas por el usuario",
+          "Eliminación del riesgo de contraparte"
+        ]
+      },
+      "capital_activo": {
+        "titulo": "Zero Idle Capital",
+        "descripcion": "En el OS Loopay, el concepto de 'saldo disponible' se redefine. El capital no se 'estaciona' para ser gastado; se invierte hasta el microsegundo exacto de su utilización. La liquidez es Just-In-Time (JIT).",
+        "concepto": "El capital genera rendimiento hasta el momento exacto del gasto"
+      },
+      "tesoreria_agentica": {
+        "titulo": "Tesorería Agéntica",
+        "descripcion": "La gestión manual es obsoleta. Loopay Sovy, nuestro núcleo de IA, no es un dashboard pasivo; es un agente activo que predice flujos de caja, rebalancea posiciones de liquidez y mitiga riesgos de protocolo en tiempo real.",
+        "agente_ia": "Loopay Sovy"
+      }
+    },
+    
+    "loopay_card_pro": {
+      "nombre": "Loopay Card Pro",
+      "descripcion": "Transforma su tarjeta corporativa de un centro de costos a un instrumento de generación de rendimiento. Opera contra una Bóveda de Rendimiento activa.",
+      "diferenciador": "A diferencia de las tarjetas prepagadas tradicionales que requieren fondeo manual, Card Pro opera contra una Bóveda de Rendimiento activa.",
+      
+      "atomic_jit_settlement": {
+        "nombre": "Flujo de Liquidación Atómica (Atomic JIT Settlement)",
+        "descripcion": "Secuencia de operaciones en milisegundos cuando ocurre una transacción en el mundo real",
+        "pasos": [
+          {
+            "paso": 1,
+            "nombre": "La Señal",
+            "tiempo": "t=0ms",
+            "descripcion": "La red Visa/Mastercard envía una solicitud de autorización al nodo Loopay"
+          },
+          {
+            "paso": 2,
+            "nombre": "Verificación de Solvencia",
+            "tiempo": "t=50ms",
+            "descripcion": "Loopay Sovy verifica el valor colateral de sus activos en el Vault (posiciones en Aave, Morpho o Bonos del Tesoro Tokenizados)"
+          },
+          {
+            "paso": 3,
+            "nombre": "Deshacer Atómico",
+            "tiempo": "t=200ms",
+            "descripcion": "El sistema liquida programáticamente solo la fracción exacta de los activos necesarios para cubrir el cargo",
+            "swap_path": "Token de Rendimiento → USDC → Moneda de Liquidación (Fiat/EURe)"
+          },
+          {
+            "paso": 4,
+            "nombre": "Aprobación",
+            "tiempo": "t=800ms",
+            "descripcion": "La transacción se aprueba en el punto de venta"
+          }
+        ],
+        "resultado": "El 99.9% restante de su capital siguió generando interés durante la transacción",
+        "tiempo_total": "< 1 segundo"
+      }
+    },
+    
+    "loopay_vaults": {
+      "nombre": "Loopay Vaults",
+      "descripcion": "Contenedores inteligentes basados en el estándar ERC-4626",
+      "estandar": "ERC-4626",
+      "caracteristicas": {
+        "estrategias_componibles": {
+          "descripcion": "Configure Vaults que asignen capital automáticamente entre protocolos",
+          "tipos_activos": [
+            {
+              "tipo": "Lending",
+              "descripcion": "Protocolos de préstamo (Aave, Morpho, Compound)",
+              "rendimiento_tipico": "2-8% APY"
+            },
+            {
+              "tipo": "RWA (Real World Assets)",
+              "descripcion": "Activos del mundo real tokenizados",
+              "ejemplos": ["Bonos del Tesoro Tokenizados", "T-Bills on-chain"],
+              "rendimiento_tipico": "4-5% APY"
+            },
+            {
+              "tipo": "Liquid Staking",
+              "descripcion": "Pools de liquidez con staking",
+              "rendimiento_tipico": "3-6% APY"
+            }
+          ]
+        },
+        "rebalanceo_automatico": {
+          "descripcion": "Loopay Sovy rebalancea posiciones automáticamente",
+          "triggers": [
+            "Cambios en tasas de rendimiento",
+            "Alertas de riesgo de protocolo",
+            "Necesidades de liquidez predecidas"
+          ]
+        }
+      }
+    },
+    
+    "loopay_sovy": {
+      "nombre": "Loopay Sovy",
+      "tipo": "Núcleo de IA Agéntica",
+      "descripcion": "Agente de inteligencia artificial que gestiona la tesorería de forma autónoma",
+      "capacidades": [
+        {
+          "nombre": "Predicción de Flujos de Caja",
+          "descripcion": "Analiza patrones históricos y predice necesidades de liquidez"
+        },
+        {
+          "nombre": "Rebalanceo de Liquidez",
+          "descripcion": "Ajusta posiciones entre protocolos para optimizar rendimiento y disponibilidad"
+        },
+        {
+          "nombre": "Mitigación de Riesgos",
+          "descripcion": "Detecta y responde a riesgos de protocolo en tiempo real"
+        },
+        {
+          "nombre": "Optimización de Yield",
+          "descripcion": "Identifica las mejores oportunidades de rendimiento ajustadas por riesgo"
+        }
+      ]
+    },
+    
+    "arquitectura_tecnica": {
+      "smart_wallets": {
+        "estandar": "ERC-4337 (Account Abstraction)",
+        "caracteristicas": [
+          "Custodia propia (self-custody)",
+          "Transacciones sin gas para el usuario",
+          "Lógica de firma personalizable",
+          "Recuperación social de cuenta"
+        ]
+      },
+      "vaults": {
+        "estandar": "ERC-4626 (Tokenized Vault Standard)",
+        "caracteristicas": [
+          "Composabilidad con protocolos DeFi",
+          "Yield farming automatizado",
+          "Reportes estandarizados de rendimiento"
+        ]
+      },
+      "blockchains_soportadas": [
+        {
+          "nombre": "Ethereum",
+          "uso": "Vaults principales, máxima seguridad"
+        },
+        {
+          "nombre": "Polygon",
+          "uso": "Transacciones de bajo costo, alta velocidad"
+        },
+        {
+          "nombre": "Base",
+          "uso": "Optimizado para pagos retail"
+        },
+        {
+          "nombre": "Arbitrum",
+          "uso": "DeFi avanzado"
+        }
+      ],
+      "integraciones_defi": [
+        {
+          "protocolo": "Aave",
+          "tipo": "Lending",
+          "uso": "Préstamos y rendimiento"
+        },
+        {
+          "protocolo": "Morpho",
+          "tipo": "Lending Optimizer",
+          "uso": "Optimización de tasas de préstamo"
+        },
+        {
+          "protocolo": "Compound",
+          "tipo": "Lending",
+          "uso": "Mercados de préstamo"
+        },
+        {
+          "protocolo": "Maker/Sky",
+          "tipo": "CDP/Stablecoin",
+          "uso": "Generación de DAI/USDS"
+        }
+      ],
+      "integraciones_rwa": [
+        {
+          "nombre": "Ondo Finance",
+          "activo": "USDY (US Dollar Yield)",
+          "descripcion": "Bonos del Tesoro US tokenizados"
+        },
+        {
+          "nombre": "Mountain Protocol",
+          "activo": "USDM",
+          "descripcion": "Stablecoin con rendimiento respaldada por T-Bills"
+        },
+        {
+          "nombre": "BlackRock BUIDL",
+          "activo": "BUIDL",
+          "descripcion": "Fondo tokenizado del Tesoro US"
+        }
+      ]
+    },
+    
+    "casos_uso": {
+      "tesoreria_corporativa": {
+        "problema": "Capital estático en cuentas bancarias perdiendo valor por inflación",
+        "solucion": "Vaults que generan rendimiento mientras mantienen liquidez para operaciones",
+        "beneficio": "Rendimiento sobre capital de trabajo sin sacrificar disponibilidad"
+      },
+      "gastos_corporativos": {
+        "problema": "Tarjetas corporativas requieren fondeo manual y capital inmovilizado",
+        "solucion": "Loopay Card Pro con liquidación JIT desde Vaults de rendimiento",
+        "beneficio": "El capital genera rendimiento hasta el momento exacto del gasto"
+      },
+      "pagos_proveedores": {
+        "problema": "Ciclos ACH lentos y costos de transferencia internacional",
+        "solucion": "Pagos instantáneos en stablecoins con off-ramp automático",
+        "beneficio": "Liquidación inmediata con costos reducidos"
+      },
+      "recaudo_internacional": {
+        "problema": "Dificultad para recibir pagos de clientes internacionales",
+        "solucion": "Virtual Accounts que convierten fiat a crypto automáticamente",
+        "beneficio": "Recibir en cualquier moneda, mantener en stablecoins o fiat local"
+      }
+    },
+    
+    "api_endpoints": {
+      "base_url": "https://prod.soberana.network/v1",
+      "modulos": {
+        "vaults": {
+          "crear_vault": "POST /vaults",
+          "obtener_vault": "GET /vaults/{vaultId}",
+          "depositar": "POST /vaults/{vaultId}/deposit",
+          "retirar": "POST /vaults/{vaultId}/withdraw",
+          "obtener_rendimiento": "GET /vaults/{vaultId}/yield"
+        },
+        "cards": {
+          "crear_tarjeta": "POST /cards",
+          "obtener_tarjeta": "GET /cards/{cardId}",
+          "vincular_vault": "POST /cards/{cardId}/link-vault",
+          "transacciones": "GET /cards/{cardId}/transactions"
+        },
+        "sovy": {
+          "obtener_predicciones": "GET /sovy/predictions",
+          "configurar_alertas": "POST /sovy/alerts",
+          "obtener_recomendaciones": "GET /sovy/recommendations"
+        }
+      }
+    }
+  }
+}

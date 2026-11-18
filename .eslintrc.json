@@ -1,0 +1,178 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["react", "react-hooks", "@typescript-eslint", "import", "check-file"],
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off",
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    
+    /* ============================================
+       UNIDIRECTIONAL IMPORT RULES
+       Enforces: shared → modules → app
+       ============================================ */
+    "import/no-restricted-paths": [
+      "error",
+      {
+        "zones": [
+          /* Prevent shared from importing from modules or app */
+          {
+            "target": "./src/shared",
+            "from": "./src/modules"
+          },
+          {
+            "target": "./src/shared",
+            "from": "./src/app"
+          },
+          
+          /* Prevent modules from importing from app */
+          {
+            "target": "./src/modules",
+            "from": "./src/app"
+          },
+          
+          /* Prevent cross-module imports (suite-user <-> suite-backoffice) */
+          {
+            "target": "./src/modules/suite-user",
+            "from": "./src/modules/suite-backoffice"
+          },
+          {
+            "target": "./src/modules/suite-backoffice",
+            "from": "./src/modules/suite-user"
+          },
+          
+          /* Prevent features from importing from each other (within suite-user) */
+          {
+            "target": "./src/modules/suite-user/features/dashboard",
+            "from": "./src/modules/suite-user/features",
+            "except": ["./dashboard", "./loopayx", "./account"]
+          },
+          {
+            "target": "./src/modules/suite-user/features/move",
+            "from": "./src/modules/suite-user/features",
+            "except": ["./move"]
+          },
+          {
+            "target": "./src/modules/suite-user/features/change",
+            "from": "./src/modules/suite-user/features",
+            "except": ["./change"]
+          },
+          {
+            "target": "./src/modules/suite-user/features/account",
+            "from": "./src/modules/suite-user/features",
+            "except": ["./account"]
+          },
+          {
+            "target": "./src/modules/suite-user/features/marketplace",
+            "from": "./src/modules/suite-user/features",
+            "except": ["./marketplace"]
+          },
+          {
+            "target": "./src/modules/suite-user/features/pos",
+            "from": "./src/modules/suite-user/features",
+            "except": ["./pos"]
+          },
+          {
+            "target": "./src/modules/suite-user/features/automations",
+            "from": "./src/modules/suite-user/features",
+            "except": ["./automations"]
+          },
+          {
+            "target": "./src/modules/suite-user/features/ai-builder",
+            "from": "./src/modules/suite-user/features",
+            "except": ["./ai-builder"]
+          },
+          {
+            "target": "./src/modules/suite-user/features/treasury",
+            "from": "./src/modules/suite-user/features",
+            "except": ["./treasury"]
+          },
+          {
+            "target": "./src/modules/suite-user/features/policy",
+            "from": "./src/modules/suite-user/features",
+            "except": ["./policy"]
+          },
+          {
+            "target": "./src/modules/suite-user/features/connectors",
+            "from": "./src/modules/suite-user/features",
+            "except": ["./connectors"]
+          },
+          {
+            "target": "./src/modules/suite-user/features/analytics",
+            "from": "./src/modules/suite-user/features",
+            "except": ["./analytics"]
+          },
+          {
+            "target": "./src/modules/suite-user/features/compliance",
+            "from": "./src/modules/suite-user/features",
+            "except": ["./compliance"]
+          },
+          {
+            "target": "./src/modules/suite-user/features/settings",
+            "from": "./src/modules/suite-user/features",
+            "except": ["./settings", "./loopayx"]
+          },
+          {
+            "target": "./src/modules/suite-user/features/management",
+            "from": "./src/modules/suite-user/features",
+            "except": ["./management"]
+          },
+          {
+            "target": "./src/modules/suite-user/features/loopayx",
+            "from": "./src/modules/suite-user/features",
+            "except": ["./loopayx", "./dashboard"]
+          }
+        ]
+      }
+    ],
+    
+    /* ============================================
+       FILE NAMING CONVENTIONS (kebab-case)
+       ============================================ */
+    "check-file/filename-naming-convention": [
+      "error",
+      {
+        "**/*.{ts,tsx}": "KEBAB_CASE"
+      },
+      {
+        "ignoreMiddleExtensions": true
+      }
+    ],
+    "check-file/folder-naming-convention": [
+      "error",
+      {
+        "src/**/!(__tests__)": "KEBAB_CASE"
+      }
+    ]
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true,
+        "project": "./tsconfig.json"
+      }
+    }
+  }
+}
+

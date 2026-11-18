@@ -1,0 +1,1562 @@
+{
+  "bridge_api": {
+    "base_url": "https://prod.soberana.network/v0",
+    "authentication": {
+      "type": "API Key",
+      "header": "Api-Key",
+      "description": "Todas las solicitudes deben incluir el header Api-Key con su clave de API. Las solicitudes deben realizarse sobre HTTPS."
+    },
+    "headers_requeridos": {
+      "Api-Key": "<your-api-key>",
+      "Content-Type": "application/json",
+      "Idempotency-Key": "<unique-idempotency-key>"
+    },
+    "regiones_soportadas": {
+      "USA": {
+        "moneda": "USD",
+        "rails_pago": ["ACH", "Wire", "FedNow"],
+        "tipo_cuenta": "Bank Account + Routing Number",
+        "tiempo_liquidacion": {
+          "ACH": "Same-day o Next-day",
+          "Wire": "Same-day",
+          "FedNow": "Real-time (segundos)"
+        },
+        "fees": {
+          "on_ramp": "0.5% - 1.0%",
+          "off_ramp": "0.5% - 1.0%",
+          "fee_minimo": "$5 USD"
+        },
+        "limites": {
+          "ACH": { "min": "$10", "max": "$100,000" },
+          "Wire": { "min": "$100", "max": "Sin límite" }
+        },
+        "horario_operacion": {
+          "ACH": "Lunes-Viernes 6:00 AM - 6:00 PM ET",
+          "Wire": "Lunes-Viernes 8:00 AM - 5:00 PM ET"
+        }
+      },
+      "Mexico": {
+        "moneda": "MXN",
+        "rails_pago": ["SPEI", "SPEI Cobro"],
+        "tipo_cuenta": "CLABE (18 dígitos)",
+        "tiempo_liquidacion": {
+          "SPEI": "Real-time (segundos)",
+          "SPEI_Cobro": "Real-time (segundos)"
+        },
+        "fees": {
+          "on_ramp": "0.8% - 1.2%",
+          "off_ramp": "0.8% - 1.2%",
+          "fee_minimo": "$50 MXN"
+        },
+        "limites": {
+          "SPEI": { "min": "$100 MXN", "max": "Sin límite técnico" }
+        },
+        "horario_operacion": {
+          "SPEI": "24/7/365"
+        },
+        "bancos_principales": ["BBVA México", "Santander", "Banorte", "Citibanamex", "HSBC"]
+      },
+      "Brazil": {
+        "moneda": "BRL",
+        "rails_pago": ["PIX", "TED", "DOC"],
+        "tipo_cuenta": "BR Code / Chave PIX",
+        "tiempo_liquidacion": {
+          "PIX": "Real-time (segundos)",
+          "TED": "Same-day (hasta 5:00 PM BRT)",
+          "DOC": "T+1"
+        },
+        "fees": {
+          "on_ramp": "1.0% - 1.5%",
+          "off_ramp": "1.0% - 1.5%",
+          "fee_minimo": "$10 BRL"
+        },
+        "limites": {
+          "PIX": { "min": "R$0.01", "max": "Definido por banco" },
+          "TED": { "min": "R$100", "max": "Sin límite" }
+        },
+        "horario_operacion": {
+          "PIX": "24/7/365",
+          "TED": "Días hábiles 6:00 AM - 5:00 PM BRT"
+        },
+        "estado": "Disponible",
+        "bancos_principales": ["Itaú", "Bradesco", "Santander Brasil", "Banco do Brasil", "Caixa", "Nubank"]
+      },
+      "Colombia": {
+        "moneda": "COP",
+        "rails_pago": ["BRE-B", "ACH", "TransfiYa", "PSE"],
+        "tipo_cuenta": "Número de cuenta + Tipo documento",
+        "tiempo_liquidacion": {
+          "BRE-B": "< 20 segundos",
+          "ACH": "4-24 horas (según ciclo)",
+          "TransfiYa": "15 minutos",
+          "PSE": "4-6 horas"
+        },
+        "fees": {
+          "on_ramp": "0.5% - 1.0%",
+          "off_ramp": "0.5% - 1.0%",
+          "fee_minimo": "$500 COP"
+        },
+        "limites": {
+          "BRE-B": { "min": "$1 COP", "max": "$11,552,000 COP" },
+          "ACH": { "min": "$1 COP", "max": "Sin límite" },
+          "TransfiYa": { "min": "$1 COP", "max": "$3,000,000,000 COP" }
+        },
+        "horario_operacion": {
+          "BRE-B": "24/7/365",
+          "ACH": "Lunes-Viernes 7:00 AM - 6:00 PM COT",
+          "TransfiYa": "24/7"
+        },
+        "bancos_principales": ["Bancolombia", "Davivienda", "Banco de Bogotá", "BBVA Colombia", "Nequi", "Daviplata"],
+        "identificadores_bre_b": ["Cédula", "Celular", "Email", "Código alfanumérico"]
+      },
+      "Argentina": {
+        "moneda": "ARS",
+        "rails_pago": ["Transferencias 3.0", "DEBIN", "CVU"],
+        "tipo_cuenta": "CBU/CVU (22 dígitos) / Alias",
+        "tiempo_liquidacion": {
+          "Transferencias_3.0": "Real-time (segundos)",
+          "DEBIN": "Real-time (débito inmediato)",
+          "CVU": "Real-time"
+        },
+        "fees": {
+          "on_ramp": "1.0% - 2.0%",
+          "off_ramp": "1.0% - 2.0%",
+          "fee_minimo": "$500 ARS"
+        },
+        "limites": {
+          "Transferencias_3.0": { "min": "$1 ARS", "max": "Sin límite técnico" }
+        },
+        "horario_operacion": {
+          "Transferencias_3.0": "24/7/365"
+        },
+        "bancos_principales": ["Banco Galicia", "Santander Argentina", "BBVA Argentina", "Banco Macro", "Mercado Pago", "Ualá"]
+      },
+      "Chile": {
+        "moneda": "CLP",
+        "rails_pago": ["TEF", "Transferencias interbancarias"],
+        "tipo_cuenta": "RUT + Número de cuenta",
+        "tiempo_liquidacion": {
+          "TEF": "Same-day (hasta 2:00 PM CLT)",
+          "Transferencias": "Real-time entre mismo banco"
+        },
+        "fees": {
+          "on_ramp": "0.8% - 1.5%",
+          "off_ramp": "0.8% - 1.5%",
+          "fee_minimo": "$1,000 CLP"
+        },
+        "limites": {
+          "TEF": { "min": "$1,000 CLP", "max": "$100,000,000 CLP" }
+        },
+        "horario_operacion": {
+          "TEF": "Días hábiles 9:00 AM - 2:00 PM CLT"
+        },
+        "bancos_principales": ["Banco de Chile", "Santander Chile", "BCI", "Banco Estado", "Itaú Chile"]
+      },
+      "Peru": {
+        "moneda": "PEN",
+        "rails_pago": ["Transferencias inmediatas", "CCE"],
+        "tipo_cuenta": "CCI (20 dígitos)",
+        "tiempo_liquidacion": {
+          "Inmediatas": "Real-time (segundos)",
+          "CCE": "T+1"
+        },
+        "fees": {
+          "on_ramp": "1.0% - 1.8%",
+          "off_ramp": "1.0% - 1.8%",
+          "fee_minimo": "S/ 5 PEN"
+        },
+        "limites": {
+          "Inmediatas": { "min": "S/ 1", "max": "S/ 30,000" },
+          "CCE": { "min": "S/ 1", "max": "Sin límite" }
+        },
+        "horario_operacion": {
+          "Inmediatas": "24/7",
+          "CCE": "Días hábiles"
+        },
+        "bancos_principales": ["BCP", "Interbank", "BBVA Perú", "Scotiabank Perú", "Yape"]
+      },
+      "Ecuador": {
+        "moneda": "USD",
+        "rails_pago": ["SPI Inmediato", "Banco Pichincha API", "Corresponsales Cash", "E-Wallets"],
+        "tipo_cuenta": "Número de cuenta + Cédula",
+        "tiempo_liquidacion": {
+          "SPI_Inmediato": "Real-time (segundos)",
+          "Banco_Pichincha_API": "Real-time (100% Online)",
+          "Corresponsales": "Mismo día"
+        },
+        "fees": {
+          "on_ramp": "2.7% + IVA",
+          "off_ramp": "2.7% + IVA",
+          "fee_minimo": "$0.85 USD + 2.7% (+IVA)"
+        },
+        "tarifas_detalladas": {
+          "cashin_corresponsales": {
+            "descripcion": "Tarifas Cashin: Canales Alternativos y Online",
+            "tarifa": "2.7% (+IVA) por transacción",
+            "metodos_cash": ["Activa", "Western Union WU", "Banco del Pacífico Efectivo", "Bemovil", "RapiActivo", "Gamercar", "OmniSwitch"],
+            "metodos_ewallet": ["PayVálida Wallet", "Deuna!"],
+            "categoria": "Corresponsales Cash + E-Wallet"
+          },
+          "payin_transferencia": {
+            "descripcion": "Tarifas Payin: Bank Transfer Online",
+            "tarifa": "USD $0.85 + 2.7% (+IVA) por transacción",
+            "canales": ["Banco Pichincha API", "Mi Vecino Banco Pichincha"],
+            "modalidad": "100% Online"
+          }
+        },
+        "limites": {
+          "SPI_Inmediato": { "min": "$1 USD", "max": "$50,000 USD" },
+          "Transferencias": { "min": "$1 USD", "max": "Sin límite" },
+          "Corresponsales": { "min": "$1 USD", "max": "$5,000 USD" }
+        },
+        "limites_por_banco": {
+          "Banco Pichincha": { "diario": "$50,000 USD", "por_transaccion": "$25,000 USD" },
+          "Banco Guayaquil": { "diario": "$30,000 USD", "por_transaccion": "$15,000 USD" },
+          "Produbanco": { "diario": "$50,000 USD", "por_transaccion": "$25,000 USD" },
+          "Banco del Pacífico": { "diario": "$25,000 USD", "por_transaccion": "$10,000 USD" },
+          "Banco Internacional": { "diario": "$30,000 USD", "por_transaccion": "$15,000 USD" }
+        },
+        "horario_operacion": {
+          "SPI_Inmediato": "24/7/365",
+          "Banco_Pichincha_API": "24/7/365",
+          "Corresponsales_Cash": "Horario comercial (8 AM - 8 PM)"
+        },
+        "bancos_principales": ["Banco Pichincha", "Banco Guayaquil", "Produbanco", "Banco del Pacífico", "Banco Internacional"],
+        "corresponsales_cash": ["Activa", "Western Union WU", "Bemovil", "RapiActivo", "Gamercar", "OmniSwitch"],
+        "billeteras_digitales": ["PayVálida Wallet", "Deuna!"],
+        "partner_info": {
+          "nombre": "Payvalida",
+          "documento": "Tarifas Payvalida Loopay dic 2025",
+          "fecha_actualizacion": "DIC 2 DE 2025",
+          "condiciones_generales": "Los valores de las tarifas NO incluyen IVA",
+          "servicios": ["Cashin", "Payin", "Corresponsales", "E-Wallets", "Bank Transfer Online"]
+        },
+        "nota": "Ecuador usa USD. Tarifas NO incluyen IVA. Transferencias inmediatas 24/7 desde Dic 2024"
+      },
+      "Panama": {
+        "moneda": "USD",
+        "rails_pago": ["ACH Panamá", "Transferencias interbancarias"],
+        "tipo_cuenta": "Número de cuenta",
+        "tiempo_liquidacion": {
+          "ACH_Corte_1": "11:00 AM (envío antes 7:30 AM)",
+          "ACH_Corte_2": "1:45 PM (envío antes 9:45 AM)",
+          "ACH_Corte_3": "5:45 PM (envío antes 1:30 PM)"
+        },
+        "fees": {
+          "on_ramp": "0.5% - 1.0%",
+          "off_ramp": "0.5% - 1.0%",
+          "fee_minimo": "$2 USD"
+        },
+        "limites": {
+          "ACH_Panama": { "min": "$1 USD", "max": "$100,000 USD" },
+          "Transferencias": { "min": "$1 USD", "max": "Sin límite" }
+        },
+        "limites_por_banco": {
+          "Banco General": { "diario": "$100,000 USD", "por_transaccion": "$50,000 USD" },
+          "Banistmo": { "diario": "$75,000 USD", "por_transaccion": "$25,000 USD" },
+          "BAC Credomatic": { "diario": "$50,000 USD", "por_transaccion": "$25,000 USD" },
+          "Banco Nacional de Panamá": { "diario": "$100,000 USD", "por_transaccion": "$50,000 USD" },
+          "Global Bank": { "diario": "$50,000 USD", "por_transaccion": "$20,000 USD" }
+        },
+        "horario_operacion": {
+          "ACH_Panama": "Lunes-Viernes, cortes: 7:30 AM, 9:45 AM, 1:30 PM",
+          "Fines_semana": "Procesado siguiente día hábil 11:00 AM"
+        },
+        "bancos_principales": ["Banco General", "Banistmo", "BAC Credomatic", "Banco Nacional de Panamá", "Global Bank"],
+        "nota": "Panamá usa USD como moneda oficial. ACH opera en 3 cortes diarios L-V"
+      },
+      "Uruguay": {
+        "moneda": "UYU",
+        "rails_pago": ["Pagos Rápidos BCU", "Transferencias interbancarias", "BEVSA"],
+        "tipo_cuenta": "Número de cuenta + CI",
+        "tiempo_liquidacion": {
+          "Pagos_Rapidos": "Real-time (segundos)",
+          "Transferencias": "Same-day",
+          "BEVSA": "Real-time (montos altos)"
+        },
+        "fees": {
+          "on_ramp": "1.0% - 1.5%",
+          "off_ramp": "1.0% - 1.5%",
+          "fee_minimo": "$50 UYU"
+        },
+        "limites": {
+          "Pagos_Rapidos": { "min": "$1 UYU", "max": "$20,000 UYU / US$400" },
+          "Transferencias": { "min": "$1 UYU", "max": "Sin límite" },
+          "BEVSA": { "min": "$100,000 UYU", "max": "Sin límite" }
+        },
+        "limites_por_banco": {
+          "BROU": { "Pagos_Rapidos": "$20,000 UYU", "diario": "$500,000 UYU" },
+          "Santander": { "Pagos_Rapidos": "$20,000 UYU", "diario": "$300,000 UYU" },
+          "Itaú": { "Pagos_Rapidos": "$20,000 UYU", "diario": "$400,000 UYU" },
+          "BBVA": { "Pagos_Rapidos": "$15,000 UYU", "diario": "$250,000 UYU" },
+          "Scotiabank": { "Pagos_Rapidos": "$18,000 UYU", "diario": "$300,000 UYU" }
+        },
+        "horario_operacion": {
+          "Pagos_Rapidos": "24/7/365",
+          "Transferencias": "Días hábiles 9:00 AM - 5:00 PM UYT",
+          "BEVSA": "Días hábiles 9:00 AM - 4:30 PM UYT"
+        },
+        "bancos_principales": ["BROU", "Santander Uruguay", "Itaú Uruguay", "BBVA Uruguay", "Scotiabank Uruguay"],
+        "nota": "Pagos Rápidos BCU operativo 24/7. Límite $20,000 UYU (~US$400) por transacción"
+      },
+      "Costa Rica": {
+        "moneda": "CRC",
+        "rails_pago": ["SINPE Móvil App", "SINPE", "SINPE Móvil SMS"],
+        "tipo_cuenta": "IBAN Costa Rica (22 dígitos) / Número celular",
+        "tiempo_liquidacion": {
+          "SINPE_Movil_App": "Real-time (segundos)",
+          "SINPE": "Same-day (cortes 10:00 AM, 2:00 PM, 5:00 PM)",
+          "SINPE_Movil_SMS": "Real-time (segundos)"
+        },
+        "fees": {
+          "on_ramp": "0.8% - 1.2%",
+          "off_ramp": "0.8% - 1.2%",
+          "fee_minimo": "₡300 CRC"
+        },
+        "limites": {
+          "SINPE": { "min": "₡1,000 CRC", "max": "Sin límite técnico" },
+          "SINPE_Movil_App": { "min": "₡1 CRC", "max": "₡3,000,000 CRC por transacción" },
+          "SINPE_Movil_SMS": { "min": "₡1 CRC", "max": "₡100,000 CRC diarios" }
+        },
+        "limites_por_banco": {
+          "Banco Nacional": { "SINPE_Movil": "₡3,000,000 CRC", "SINPE": "Sin límite" },
+          "Banco de Costa Rica": { "SINPE_Movil": "₡2,500,000 CRC", "SINPE": "₡100,000,000 CRC" },
+          "BAC San José": { "SINPE_Movil": "₡3,000,000 CRC", "SINPE": "₡50,000,000 CRC" },
+          "Scotiabank": { "SINPE_Movil": "₡2,000,000 CRC", "SINPE": "₡75,000,000 CRC" },
+          "Davivienda": { "SINPE_Movil": "₡2,500,000 CRC", "SINPE": "₡50,000,000 CRC" }
+        },
+        "horario_operacion": {
+          "SINPE_Movil": "24/7/365",
+          "SINPE": "Lunes-Viernes, cortes: 10:00 AM, 2:00 PM, 5:00 PM"
+        },
+        "bancos_principales": ["Banco Nacional", "Banco de Costa Rica", "BAC San José", "Scotiabank Costa Rica", "Davivienda Costa Rica"],
+        "nota": "SINPE Móvil por SMS limitado a ₡100,000/día desde 2025. App sin restricción hasta ₡3M"
+      },
+      "Dominican Republic": {
+        "moneda": "DOP",
+        "rails_pago": ["Pagos al Instante BCRD", "LBTR", "Transferencias ACH"],
+        "tipo_cuenta": "Número de cuenta + Cédula",
+        "tiempo_liquidacion": {
+          "Pagos_Instante": "< 10 segundos",
+          "LBTR": "Real-time (días hábiles)",
+          "ACH": "Same-day o T+1"
+        },
+        "fees": {
+          "on_ramp": "0.8% - 1.5%",
+          "off_ramp": "0.8% - 1.5%",
+          "fee_minimo": "RD$50 DOP"
+        },
+        "limites": {
+          "Pagos_Instante": { "min": "RD$1 DOP", "max": "Según banco" },
+          "LBTR": { "min": "RD$100,000 DOP", "max": "Sin límite" },
+          "ACH": { "min": "RD$1 DOP", "max": "RD$5,000,000 DOP" }
+        },
+        "limites_por_banco": {
+          "Banco Popular": { "Pagos_Instante": "RD$500,000 DOP", "diario": "RD$2,000,000 DOP" },
+          "Banreservas": { "Pagos_Instante": "RD$300,000 DOP", "diario": "RD$1,500,000 DOP" },
+          "BHD León": { "Pagos_Instante": "RD$500,000 DOP", "diario": "RD$2,500,000 DOP" },
+          "Scotiabank RD": { "Pagos_Instante": "RD$400,000 DOP", "diario": "RD$2,000,000 DOP" },
+          "Banco Santa Cruz": { "Pagos_Instante": "RD$300,000 DOP", "diario": "RD$1,000,000 DOP" }
+        },
+        "horario_operacion": {
+          "Pagos_Instante": "7:00 AM - 11:00 PM",
+          "LBTR": "Días hábiles 8:00 AM - 5:00 PM AST",
+          "ACH": "Días hábiles, 3 cortes"
+        },
+        "bancos_principales": ["Banco Popular Dominicano", "Banreservas", "Banco BHD León", "Scotiabank RD", "Banco Santa Cruz"],
+        "nota": "Pagos al Instante BCRD acredita en menos de 10 segundos. Horario extendido 7 AM - 11 PM"
+      },
+      "Guatemala": {
+        "moneda": "GTQ",
+        "rails_pago": ["GuateACH Inmediato", "GuateACH Voluminoso", "Transferencias LBTR"],
+        "tipo_cuenta": "Número de cuenta + DPI (CUI)",
+        "tiempo_liquidacion": {
+          "GuateACH_Inmediato": "5-10 minutos",
+          "GuateACH_Voluminoso": "Same-day (según corte)",
+          "LBTR": "Real-time (montos altos)"
+        },
+        "fees": {
+          "on_ramp": "1.0% - 1.8%",
+          "off_ramp": "1.0% - 1.8%",
+          "fee_minimo": "Q15 GTQ"
+        },
+        "limites": {
+          "GuateACH_Inmediato": { "min": "Q1 GTQ", "max": "Q20,000 GTQ / $2,500 USD" },
+          "GuateACH_Voluminoso": { "min": "Q20,001 GTQ", "max": "Sin límite" },
+          "LBTR": { "min": "Q50,000 GTQ", "max": "Sin límite" }
+        },
+        "limites_por_banco": {
+          "Banco Industrial": { "ACH_Inmediato": "Q20,000 GTQ", "diario": "Q500,000 GTQ" },
+          "Banrural": { "ACH_Inmediato": "Q20,000 GTQ", "diario": "Q300,000 GTQ" },
+          "BAC Guatemala": { "ACH_Inmediato": "Q15,000 GTQ", "diario": "Q200,000 GTQ" },
+          "G&T Continental": { "ACH_Inmediato": "Q20,000 GTQ", "diario": "Q400,000 GTQ" },
+          "Banco Agromercantil": { "ACH_Inmediato": "Q18,000 GTQ", "diario": "Q250,000 GTQ" }
+        },
+        "horario_operacion": {
+          "GuateACH_Inmediato": "7:00 AM - 9:00 PM (todos los días)",
+          "GuateACH_Voluminoso": "L-V cortes: 9:00 AM, 1:30 PM, 5:45 PM",
+          "LBTR": "Días hábiles 8:00 AM - 5:00 PM"
+        },
+        "bancos_principales": ["Banco Industrial", "Banrural", "BAC Guatemala", "Banco G&T Continental", "Banco Agromercantil"],
+        "nota": "GuateACH Inmediato hasta Q20,000/US$2,500 en 5-10 min. Montos mayores van por ACH Voluminoso"
+      },
+      "El Salvador": {
+        "moneda": "USD",
+        "rails_pago": ["ACH El Salvador", "Transferencias LBTR"],
+        "tipo_cuenta": "Número de cuenta + DUI/NIT",
+        "tiempo_liquidacion": {
+          "ACH": "Same-day (según corte)",
+          "LBTR": "Real-time (montos altos)"
+        },
+        "fees": {
+          "on_ramp": "0.8% - 1.2%",
+          "off_ramp": "0.8% - 1.2%",
+          "fee_minimo": "$1.50 USD"
+        },
+        "limites": {
+          "ACH": { "min": "$1 USD", "max": "$25,000 USD" },
+          "LBTR": { "min": "$10,000 USD", "max": "Sin límite" }
+        },
+        "limites_por_banco": {
+          "Banco Agrícola": { "ACH": "$25,000 USD", "diario": "$100,000 USD" },
+          "Banco Cuscatlán": { "ACH": "$20,000 USD", "diario": "$75,000 USD" },
+          "Davivienda": { "ACH": "$25,000 USD", "diario": "$100,000 USD" },
+          "BAC Credomatic": { "ACH": "$15,000 USD", "diario": "$50,000 USD" },
+          "Banco Promerica": { "ACH": "$20,000 USD", "diario": "$60,000 USD" }
+        },
+        "horario_operacion": {
+          "ACH": "Días hábiles 9:00 AM - 4:00 PM CST",
+          "LBTR": "Días hábiles 8:00 AM - 5:00 PM CST"
+        },
+        "bancos_principales": ["Banco Agrícola", "Banco Cuscatlán", "Banco Davivienda El Salvador", "BAC Credomatic", "Banco Promerica"],
+        "nota": "El Salvador usa USD como moneda oficial. Bitcoin reconocido como moneda legal desde 2021"
+      },
+      "Honduras": {
+        "moneda": "HNL",
+        "rails_pago": ["ACH Pronto", "LBTR Honduras"],
+        "tipo_cuenta": "Número de cuenta + Identidad/RTN",
+        "tiempo_liquidacion": {
+          "ACH_Pronto": "Minutos (5 AM - 10 PM)",
+          "LBTR": "Real-time (días hábiles)"
+        },
+        "fees": {
+          "on_ramp": "1.0% - 1.5%",
+          "off_ramp": "1.0% - 1.5%",
+          "fee_minimo": "L40 HNL (~$1.50 USD)"
+        },
+        "limites": {
+          "ACH_Pronto": { "min": "L1 HNL", "max": "$30,000 USD o equivalente" },
+          "LBTR": { "min": "L50,000 HNL", "max": "Sin límite" }
+        },
+        "limites_por_banco": {
+          "Banco Atlántida": { "ACH_Pronto": "$30,000 USD", "diario": "$100,000 USD", "comision": "L40/US$1.50" },
+          "BAC Honduras": { "ACH_Pronto": "$25,000 USD", "diario": "$75,000 USD" },
+          "Banco Ficohsa": { "ACH_online": "$100 USD", "terceros": "$200 USD", "diario": "$1,500 USD" },
+          "Banpais": { "ACH_Pronto": "$20,000 USD", "diario": "$60,000 USD" },
+          "Banco Occidente": { "ACH_Pronto": "$25,000 USD", "diario": "$80,000 USD" }
+        },
+        "horario_operacion": {
+          "ACH_Pronto": "5:00 AM - 10:00 PM (todos los días)",
+          "LBTR": "Lunes-Viernes 9:00 AM - 5:00 PM"
+        },
+        "bancos_principales": ["Banco Atlántida", "BAC Honduras", "Banco Ficohsa", "Banpais", "Banco de Occidente Honduras"],
+        "nota": "ACH Pronto disponible hasta 10 PM, incluyendo fines de semana. Hasta $30,000 USD por transacción"
+      },
+      "Paraguay": {
+        "moneda": "PYG",
+        "rails_pago": ["SPI Paraguay", "Transferencias interbancarias"],
+        "tipo_cuenta": "Número de cuenta + CI",
+        "tiempo_liquidacion": {
+          "SPI_Paraguay": "Real-time (minutos)",
+          "Transferencias": "Same-day"
+        },
+        "fees": {
+          "on_ramp": "1.2% - 1.8%",
+          "off_ramp": "1.2% - 1.8%",
+          "fee_minimo": "₲10,000 PYG"
+        },
+        "limites": {
+          "SPI_Paraguay": { "min": "₲1,000 PYG", "max": "₲500,000,000 PYG" },
+          "Transferencias": { "min": "₲1 PYG", "max": "Sin límite" }
+        },
+        "horario_operacion": {
+          "SPI_Paraguay": "24/7",
+          "Transferencias": "Días hábiles 8:00 AM - 5:00 PM PYT"
+        },
+        "bancos_principales": ["Banco Itaú Paraguay", "Banco Continental", "Banco Regional", "Sudameris Bank", "Banco Atlas"]
+      },
+      "Bolivia": {
+        "moneda": "BOB",
+        "rails_pago": ["ACH Bolivia", "Transferencias interbancarias"],
+        "tipo_cuenta": "Número de cuenta + CI",
+        "tiempo_liquidacion": {
+          "ACH_Bolivia": "Same-day",
+          "Transferencias": "1-2 días hábiles"
+        },
+        "fees": {
+          "on_ramp": "1.5% - 2.5%",
+          "off_ramp": "1.5% - 2.5%",
+          "fee_minimo": "Bs20 BOB"
+        },
+        "limites": {
+          "ACH_Bolivia": { "min": "Bs10 BOB", "max": "Bs200,000 BOB" },
+          "Transferencias": { "min": "Bs1 BOB", "max": "Sin límite" }
+        },
+        "horario_operacion": {
+          "ACH_Bolivia": "Días hábiles 8:30 AM - 4:00 PM BOT",
+          "Transferencias": "Días hábiles"
+        },
+        "bancos_principales": ["Banco Mercantil Santa Cruz", "Banco de Crédito de Bolivia", "Banco Nacional de Bolivia", "Banco Fassil", "Banco Unión"]
+      },
+      "Nicaragua": {
+        "moneda": "NIO",
+        "rails_pago": ["ACH Nicaragua", "Transferencias interbancarias"],
+        "tipo_cuenta": "Número de cuenta + Cédula",
+        "tiempo_liquidacion": {
+          "ACH_Nicaragua": "Same-day",
+          "Transferencias": "1-2 días hábiles"
+        },
+        "fees": {
+          "on_ramp": "1.5% - 2.0%",
+          "off_ramp": "1.5% - 2.0%",
+          "fee_minimo": "C$50 NIO"
+        },
+        "limites": {
+          "ACH_Nicaragua": { "min": "C$100 NIO", "max": "C$500,000 NIO" },
+          "Transferencias": { "min": "C$1 NIO", "max": "Sin límite" }
+        },
+        "horario_operacion": {
+          "ACH_Nicaragua": "Días hábiles 8:00 AM - 4:00 PM CST",
+          "Transferencias": "Días hábiles"
+        },
+        "bancos_principales": ["Banpro", "BAC Nicaragua", "Banco Lafise", "Banco Ficohsa Nicaragua", "Bancentro"]
+      },
+      "Jamaica": {
+        "moneda": "JMD",
+        "rails_pago": ["RTGS Jamaica", "ACH Jamaica"],
+        "tipo_cuenta": "Número de cuenta",
+        "tiempo_liquidacion": {
+          "RTGS": "Real-time (minutos)",
+          "ACH": "Same-day"
+        },
+        "fees": {
+          "on_ramp": "1.5% - 2.0%",
+          "off_ramp": "1.5% - 2.0%",
+          "fee_minimo": "J$500 JMD"
+        },
+        "limites": {
+          "RTGS": { "min": "J$1,000 JMD", "max": "Sin límite" },
+          "ACH": { "min": "J$100 JMD", "max": "J$5,000,000 JMD" }
+        },
+        "horario_operacion": {
+          "RTGS": "Días hábiles 8:00 AM - 4:00 PM EST",
+          "ACH": "Días hábiles"
+        },
+        "bancos_principales": ["NCB Jamaica", "Scotiabank Jamaica", "First Caribbean", "JMMB", "JN Bank"]
+      },
+      "Trinidad and Tobago": {
+        "moneda": "TTD",
+        "rails_pago": ["RTGS Trinidad", "ACH Trinidad"],
+        "tipo_cuenta": "Número de cuenta",
+        "tiempo_liquidacion": {
+          "RTGS": "Real-time (minutos)",
+          "ACH": "Same-day"
+        },
+        "fees": {
+          "on_ramp": "1.2% - 1.8%",
+          "off_ramp": "1.2% - 1.8%",
+          "fee_minimo": "TT$50 TTD"
+        },
+        "limites": {
+          "RTGS": { "min": "TT$100 TTD", "max": "Sin límite" },
+          "ACH": { "min": "TT$10 TTD", "max": "TT$500,000 TTD" }
+        },
+        "horario_operacion": {
+          "RTGS": "Días hábiles 8:00 AM - 3:30 PM AST",
+          "ACH": "Días hábiles"
+        },
+        "bancos_principales": ["Republic Bank", "First Citizens", "Scotiabank Trinidad", "RBC Royal Bank", "JMMB Trinidad"]
+      },
+      "SEPA": {
+        "moneda": "EUR",
+        "rails_pago": ["SEPA", "SEPA Instant"],
+        "tipo_cuenta": "IBAN",
+        "tiempo_liquidacion": {
+          "SEPA": "1-2 días hábiles",
+          "SEPA_Instant": "Segundos (hasta 10s)"
+        },
+        "fees": {
+          "on_ramp": "0.3% - 0.8%",
+          "off_ramp": "0.3% - 0.8%",
+          "fee_minimo": "€5 EUR"
+        },
+        "limites": {
+          "SEPA": { "min": "€1", "max": "Sin límite" },
+          "SEPA_Instant": { "min": "€1", "max": "€100,000" }
+        },
+        "horario_operacion": {
+          "SEPA": "Días hábiles",
+          "SEPA_Instant": "24/7/365"
+        },
+        "paises_cubiertos": [
+          "Austria", "Belgium", "Bulgaria", "Croatia", "Cyprus", "Czech Republic",
+          "Denmark", "Estonia", "Finland", "France", "Germany", "Greece", "Hungary",
+          "Iceland", "Ireland", "Italy", "Latvia", "Liechtenstein", "Lithuania",
+          "Luxembourg", "Malta", "Monaco", "Netherlands", "Norway", "Poland",
+          "Portugal", "Romania", "San Marino", "Slovakia", "Slovenia", "Spain",
+          "Sweden", "Switzerland", "United Kingdom"
+        ]
+      }
+    },
+    "virtual_accounts": {
+      "descripcion": "Las cuentas virtuales proporcionan direcciones de depósito fiat permanentes y reutilizables que convierten automáticamente fiat entrante a crypto y lo entregan al destino especificado (onramp).",
+      "endpoints": {
+        "crear_cuenta_virtual": {
+          "method": "POST",
+          "endpoint": "/customers/{customer_id}/virtual_accounts",
+          "descripcion": "Crea una nueva cuenta virtual para un cliente. Requiere que el cliente esté verificado (KYC/KYB aprobado).",
+          "parametros_path": {
+            "customer_id": {
+              "tipo": "string",
+              "requerido": true,
+              "descripcion": "ID único del cliente"
+            }
+          },
+          "body": {
+            "source": {
+              "currency": {
+                "tipo": "string",
+                "requerido": true,
+                "valores": ["usd", "eur", "mxn", "brl"],
+                "descripcion": "Moneda de origen para los depósitos"
+              }
+            },
+            "destination": {
+              "payment_rail": {
+                "tipo": "string",
+                "requerido": true,
+                "valores": ["ethereum", "polygon", "solana", "base", "arbitrum", "optimism"],
+                "descripcion": "Blockchain de destino para la conversión"
+              },
+              "currency": {
+                "tipo": "string",
+                "requerido": true,
+                "valores": ["usdc", "usdt", "eurc"],
+                "descripcion": "Moneda crypto de destino"
+              },
+              "address": {
+                "tipo": "string",
+                "requerido": true,
+                "descripcion": "Dirección de wallet de destino"
+              }
+            },
+            "developer_fee_percent": {
+              "tipo": "string",
+              "requerido": false,
+              "descripcion": "Porcentaje de fee para el desarrollador (ej: '1.0' para 1%)"
+            }
+          },
+          "ejemplos": {
+            "USD_a_USDC_Ethereum": {
+              "descripcion": "Crear cuenta virtual USD que convierte a USDC en Ethereum",
+              "request": {
+                "method": "POST",
+                "url": "https://prod.soberana.network/v0/customers/{customer_id}/virtual_accounts",
+                "headers": {
+                  "Content-Type": "application/json",
+                  "Api-Key": "<Api-Key>",
+                  "Idempotency-Key": "<Unique-Key>"
+                },
+                "body": {
+                  "source": {
+                    "currency": "usd"
+                  },
+                  "destination": {
+                    "payment_rail": "ethereum",
+                    "currency": "usdc",
+                    "address": "0x3f5CE5FBFe3E9af3971dD833D26BA9b5C936f0bE"
+                  },
+                  "developer_fee_percent": "1.0"
+                }
+              },
+              "response": {
+                "id": "va_abc123",
+                "customer_id": "cust_12345",
+                "source_deposit_instructions": {
+                  "bank_name": "Bridge Bank Partner",
+                  "account_number": "123456789",
+                  "routing_number": "021000021",
+                  "account_type": "checking",
+                  "beneficiary_name": "Customer Name"
+                },
+                "destination": {
+                  "payment_rail": "ethereum",
+                  "currency": "usdc",
+                  "address": "0x3f5CE5FBFe3E9af3971dD833D26BA9b5C936f0bE"
+                },
+                "status": "active"
+              }
+            },
+            "EUR_a_USDC_Polygon": {
+              "descripcion": "Crear cuenta virtual EUR (SEPA) que convierte a USDC en Polygon",
+              "request": {
+                "method": "POST",
+                "url": "https://prod.soberana.network/v0/customers/{customer_id}/virtual_accounts",
+                "headers": {
+                  "Content-Type": "application/json",
+                  "Api-Key": "<Api-Key>",
+                  "Idempotency-Key": "<Unique-Key>"
+                },
+                "body": {
+                  "source": {
+                    "currency": "eur"
+                  },
+                  "destination": {
+                    "payment_rail": "polygon",
+                    "currency": "usdc",
+                    "address": "0xYourPolygonAddress"
+                  }
+                }
+              },
+              "response": {
+                "id": "va_eur456",
+                "customer_id": "cust_12345",
+                "source_deposit_instructions": {
+                  "iban": "DE89370400440532013000",
+                  "bic": "COBADEFFXXX",
+                  "bank_name": "Bridge SEPA Partner",
+                  "beneficiary_name": "Customer Name"
+                },
+                "destination": {
+                  "payment_rail": "polygon",
+                  "currency": "usdc",
+                  "address": "0xYourPolygonAddress"
+                },
+                "status": "active"
+              }
+            },
+            "MXN_a_USDC_Solana": {
+              "descripcion": "Crear cuenta virtual MXN (SPEI) que convierte a USDC en Solana",
+              "request": {
+                "method": "POST",
+                "url": "https://prod.soberana.network/v0/customers/{customer_id}/virtual_accounts",
+                "headers": {
+                  "Content-Type": "application/json",
+                  "Api-Key": "<Api-Key>",
+                  "Idempotency-Key": "<Unique-Key>"
+                },
+                "body": {
+                  "source": {
+                    "currency": "mxn"
+                  },
+                  "destination": {
+                    "payment_rail": "solana",
+                    "currency": "usdc",
+                    "address": "YourSolanaAddress..."
+                  }
+                }
+              },
+              "response": {
+                "id": "va_mxn789",
+                "customer_id": "cust_12345",
+                "source_deposit_instructions": {
+                  "clabe": "012180015000000001",
+                  "bank_name": "Bridge Mexico Partner",
+                  "beneficiary_name": "Customer Name"
+                },
+                "destination": {
+                  "payment_rail": "solana",
+                  "currency": "usdc",
+                  "address": "YourSolanaAddress..."
+                },
+                "status": "active"
+              }
+            },
+            "BRL_a_USDC_Base": {
+              "descripcion": "Crear cuenta virtual BRL (PIX) que convierte a USDC en Base (Beta)",
+              "request": {
+                "method": "POST",
+                "url": "https://prod.soberana.network/v0/customers/{customer_id}/virtual_accounts",
+                "headers": {
+                  "Content-Type": "application/json",
+                  "Api-Key": "<Api-Key>",
+                  "Idempotency-Key": "<Unique-Key>"
+                },
+                "body": {
+                  "source": {
+                    "currency": "brl"
+                  },
+                  "destination": {
+                    "payment_rail": "base",
+                    "currency": "usdc",
+                    "address": "0xYourBaseAddress"
+                  }
+                }
+              },
+              "response": {
+                "id": "va_brl012",
+                "customer_id": "cust_12345",
+                "source_deposit_instructions": {
+                  "pix_key": "random-uuid-key",
+                  "pix_key_type": "random",
+                  "bank_name": "Bridge Brazil Partner",
+                  "beneficiary_name": "Customer Name"
+                },
+                "destination": {
+                  "payment_rail": "base",
+                  "currency": "usdc",
+                  "address": "0xYourBaseAddress"
+                },
+                "status": "active"
+              }
+            }
+          }
+        },
+        "listar_cuentas_virtuales": {
+          "method": "GET",
+          "endpoint": "/customers/{customer_id}/virtual_accounts",
+          "descripcion": "Lista todas las cuentas virtuales de un cliente",
+          "parametros_path": {
+            "customer_id": {
+              "tipo": "string",
+              "requerido": true,
+              "descripcion": "ID único del cliente"
+            }
+          },
+          "ejemplo": {
+            "request": {
+              "method": "GET",
+              "url": "https://prod.soberana.network/v0/customers/{customer_id}/virtual_accounts",
+              "headers": {
+                "Api-Key": "<Api-Key>"
+              }
+            },
+            "response": {
+              "data": [
+                {
+                  "id": "va_abc123",
+                  "source": {"currency": "usd"},
+                  "destination": {"payment_rail": "ethereum", "currency": "usdc"},
+                  "status": "active"
+                }
+              ],
+              "count": 1
+            }
+          }
+        },
+        "obtener_cuenta_virtual": {
+          "method": "GET",
+          "endpoint": "/customers/{customer_id}/virtual_accounts/{virtual_account_id}",
+          "descripcion": "Obtiene los detalles de una cuenta virtual específica",
+          "parametros_path": {
+            "customer_id": {
+              "tipo": "string",
+              "requerido": true
+            },
+            "virtual_account_id": {
+              "tipo": "string",
+              "requerido": true
+            }
+          }
+        }
+      }
+    },
+    "transfers": {
+      "descripcion": "Los transfers permiten mover fondos entre wallets Bridge y cuentas externas (offramp) o viceversa.",
+      "endpoints": {
+        "crear_transfer": {
+          "method": "POST",
+          "endpoint": "/transfers",
+          "descripcion": "Crea un nuevo transfer para mover fondos. Usado principalmente para offramp (crypto a fiat).",
+          "body": {
+            "amount": {
+              "tipo": "string",
+              "requerido": true,
+              "descripcion": "Monto a transferir (ej: '100.00')"
+            },
+            "on_behalf_of": {
+              "tipo": "string",
+              "requerido": true,
+              "descripcion": "ID del cliente propietario del wallet y cuenta externa"
+            },
+            "source": {
+              "payment_rail": {
+                "tipo": "string",
+                "requerido": true,
+                "valores": ["bridge_wallet", "ethereum", "polygon", "solana", "base"],
+                "descripcion": "Rail de origen de los fondos"
+              },
+              "currency": {
+                "tipo": "string",
+                "requerido": true,
+                "valores": ["usdb", "usdc"],
+                "descripcion": "Moneda de origen"
+              },
+              "bridge_wallet_id": {
+                "tipo": "string",
+                "requerido": "si payment_rail es bridge_wallet",
+                "descripcion": "ID del wallet Bridge con fondos"
+              }
+            },
+            "destination": {
+              "payment_rail": {
+                "tipo": "string",
+                "requerido": true,
+                "valores": ["ach", "wire", "sepa", "sepa_instant", "spei", "pix"],
+                "descripcion": "Rail de pago de destino"
+              },
+              "currency": {
+                "tipo": "string",
+                "requerido": true,
+                "valores": ["usd", "eur", "mxn", "brl"],
+                "descripcion": "Moneda fiat de destino"
+              },
+              "external_account_id": {
+                "tipo": "string",
+                "requerido": true,
+                "descripcion": "ID de la cuenta externa del cliente"
+              }
+            }
+          },
+          "ejemplos": {
+            "offramp_USD_ACH": {
+              "descripcion": "Offramp: Convertir USDC de wallet a USD vía ACH",
+              "request": {
+                "method": "POST",
+                "url": "https://prod.soberana.network/v0/transfers",
+                "headers": {
+                  "Api-Key": "<Api-Key>",
+                  "Idempotency-Key": "<Unique-Key>",
+                  "Content-Type": "application/json"
+                },
+                "body": {
+                  "amount": "1000.00",
+                  "on_behalf_of": "cust_12345",
+                  "source": {
+                    "payment_rail": "bridge_wallet",
+                    "currency": "usdb",
+                    "bridge_wallet_id": "wallet_abc123"
+                  },
+                  "destination": {
+                    "payment_rail": "ach",
+                    "currency": "usd",
+                    "external_account_id": "ext_account_xyz789"
+                  }
+                }
+              },
+              "response": {
+                "id": "transfer_xyz",
+                "state": "payment_submitted",
+                "amount": "1000.00",
+                "source": {
+                  "payment_rail": "bridge_wallet",
+                  "currency": "usdb",
+                  "bridge_wallet_id": "wallet_abc123"
+                },
+                "destination": {
+                  "payment_rail": "ach",
+                  "currency": "usd",
+                  "external_account_id": "ext_account_xyz789"
+                },
+                "created_at": "2024-01-15T10:30:00Z"
+              }
+            },
+            "offramp_EUR_SEPA": {
+              "descripcion": "Offramp: Convertir USDC a EUR vía SEPA",
+              "request": {
+                "method": "POST",
+                "url": "https://prod.soberana.network/v0/transfers",
+                "headers": {
+                  "Api-Key": "<Api-Key>",
+                  "Idempotency-Key": "<Unique-Key>",
+                  "Content-Type": "application/json"
+                },
+                "body": {
+                  "amount": "500.00",
+                  "on_behalf_of": "cust_67890",
+                  "source": {
+                    "payment_rail": "bridge_wallet",
+                    "currency": "usdb",
+                    "bridge_wallet_id": "wallet_eur456"
+                  },
+                  "destination": {
+                    "payment_rail": "sepa",
+                    "currency": "eur",
+                    "external_account_id": "ext_sepa_account_123"
+                  }
+                }
+              }
+            },
+            "offramp_MXN_SPEI": {
+              "descripcion": "Offramp: Convertir USDC a MXN vía SPEI",
+              "request": {
+                "method": "POST",
+                "url": "https://prod.soberana.network/v0/transfers",
+                "headers": {
+                  "Api-Key": "<Api-Key>",
+                  "Idempotency-Key": "<Unique-Key>",
+                  "Content-Type": "application/json"
+                },
+                "body": {
+                  "amount": "10000.00",
+                  "on_behalf_of": "cust_mx123",
+                  "source": {
+                    "payment_rail": "bridge_wallet",
+                    "currency": "usdb",
+                    "bridge_wallet_id": "wallet_mx789"
+                  },
+                  "destination": {
+                    "payment_rail": "spei",
+                    "currency": "mxn",
+                    "external_account_id": "ext_clabe_account_456"
+                  }
+                }
+              }
+            },
+            "offramp_BRL_PIX": {
+              "descripcion": "Offramp: Convertir USDC a BRL vía PIX",
+              "request": {
+                "method": "POST",
+                "url": "https://prod.soberana.network/v0/transfers",
+                "headers": {
+                  "Api-Key": "<Api-Key>",
+                  "Idempotency-Key": "<Unique-Key>",
+                  "Content-Type": "application/json"
+                },
+                "body": {
+                  "amount": "5000.00",
+                  "on_behalf_of": "cust_br456",
+                  "source": {
+                    "payment_rail": "bridge_wallet",
+                    "currency": "usdb",
+                    "bridge_wallet_id": "wallet_br012"
+                  },
+                  "destination": {
+                    "payment_rail": "pix",
+                    "currency": "brl",
+                    "external_account_id": "ext_pix_account_789"
+                  }
+                }
+              }
+            }
+          },
+          "estados_transfer": {
+            "awaiting_funds": "Esperando balance en el origen",
+            "funds_received": "Fondos recibidos, procesando conversión",
+            "payment_submitted": "Pago enviado al partner bancario",
+            "payment_processed": "Fondos entregados a la cuenta externa",
+            "canceled": "Transfer cancelado",
+            "returned": "Fondos devueltos"
+          }
+        },
+        "obtener_transfer": {
+          "method": "GET",
+          "endpoint": "/transfers/{transfer_id}",
+          "descripcion": "Obtiene el estado y detalles de un transfer específico",
+          "parametros_path": {
+            "transfer_id": {
+              "tipo": "string",
+              "requerido": true
+            }
+          },
+          "ejemplo": {
+            "request": {
+              "method": "GET",
+              "url": "https://prod.soberana.network/v0/transfers/transfer_xyz",
+              "headers": {
+                "Api-Key": "<Api-Key>"
+              }
+            },
+            "response": {
+              "id": "transfer_xyz",
+              "state": "payment_processed",
+              "amount": "1000.00",
+              "source": {
+                "payment_rail": "bridge_wallet",
+                "currency": "usdb"
+              },
+              "destination": {
+                "payment_rail": "ach",
+                "currency": "usd"
+              },
+              "created_at": "2024-01-15T10:30:00Z",
+              "updated_at": "2024-01-15T14:45:00Z"
+            }
+          }
+        },
+        "listar_transfers": {
+          "method": "GET",
+          "endpoint": "/transfers",
+          "descripcion": "Lista todos los transfers con paginación opcional",
+          "parametros_query": {
+            "page": "Número de página",
+            "per_page": "Resultados por página (max 100)",
+            "customer_id": "Filtrar por cliente"
+          }
+        }
+      }
+    },
+    "external_accounts": {
+      "descripcion": "Las cuentas externas representan cuentas bancarias de clientes donde se pueden enviar fondos (offramp).",
+      "endpoints": {
+        "crear_cuenta_externa": {
+          "method": "POST",
+          "endpoint": "/customers/{customer_id}/external_accounts",
+          "descripcion": "Crea una nueva cuenta externa (bancaria) para un cliente",
+          "body_por_region": {
+            "USA_ACH": {
+              "account_type": "us",
+              "account": {
+                "account_number": "string (número de cuenta)",
+                "routing_number": "string (9 dígitos ABA routing)",
+                "account_owner_name": "string (nombre del titular)"
+              }
+            },
+            "USA_Wire": {
+              "account_type": "us",
+              "account": {
+                "account_number": "string",
+                "routing_number": "string",
+                "account_owner_name": "string"
+              }
+            },
+            "SEPA_EUR": {
+              "account_type": "iban",
+              "iban": {
+                "account_number": "string (IBAN completo)",
+                "bic": "string (BIC/SWIFT code)",
+                "account_owner_name": "string"
+              }
+            },
+            "Mexico_SPEI": {
+              "account_type": "mx",
+              "account": {
+                "clabe": "string (18 dígitos CLABE)",
+                "account_owner_name": "string"
+              }
+            },
+            "Brazil_PIX": {
+              "account_type": "br",
+              "account": {
+                "pix_key": "string (llave PIX: CPF, CNPJ, email, teléfono o random)",
+                "pix_key_type": "string (cpf|cnpj|email|phone|random)",
+                "account_owner_name": "string"
+              }
+            }
+          },
+          "ejemplos": {
+            "crear_cuenta_USA": {
+              "request": {
+                "method": "POST",
+                "url": "https://prod.soberana.network/v0/customers/{customer_id}/external_accounts",
+                "headers": {
+                  "Api-Key": "<Api-Key>",
+                  "Idempotency-Key": "<Unique-Key>",
+                  "Content-Type": "application/json"
+                },
+                "body": {
+                  "account_type": "us",
+                  "account": {
+                    "account_number": "123456789",
+                    "routing_number": "021000021",
+                    "account_owner_name": "John Doe"
+                  }
+                }
+              },
+              "response": {
+                "id": "ext_account_usa123",
+                "customer_id": "cust_12345",
+                "account_type": "us",
+                "account": {
+                  "last_4": "6789",
+                  "routing_number": "021000021",
+                  "account_owner_name": "John Doe"
+                },
+                "status": "active"
+              }
+            },
+            "crear_cuenta_SEPA": {
+              "request": {
+                "method": "POST",
+                "url": "https://prod.soberana.network/v0/customers/{customer_id}/external_accounts",
+                "body": {
+                  "account_type": "iban",
+                  "iban": {
+                    "account_number": "DE89370400440532013000",
+                    "bic": "COBADEFFXXX",
+                    "account_owner_name": "Hans Mueller"
+                  }
+                }
+              }
+            },
+            "crear_cuenta_Mexico": {
+              "request": {
+                "method": "POST",
+                "url": "https://prod.soberana.network/v0/customers/{customer_id}/external_accounts",
+                "body": {
+                  "account_type": "mx",
+                  "account": {
+                    "clabe": "012180015000000001",
+                    "account_owner_name": "Juan Pérez"
+                  }
+                }
+              }
+            },
+            "crear_cuenta_Brazil": {
+              "request": {
+                "method": "POST",
+                "url": "https://prod.soberana.network/v0/customers/{customer_id}/external_accounts",
+                "body": {
+                  "account_type": "br",
+                  "account": {
+                    "pix_key": "12345678900",
+                    "pix_key_type": "cpf",
+                    "account_owner_name": "João Silva"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "listar_cuentas_externas": {
+          "method": "GET",
+          "endpoint": "/customers/{customer_id}/external_accounts",
+          "descripcion": "Lista todas las cuentas externas de un cliente"
+        },
+        "obtener_cuenta_externa": {
+          "method": "GET",
+          "endpoint": "/customers/{customer_id}/external_accounts/{external_account_id}",
+          "descripcion": "Obtiene los detalles de una cuenta externa específica"
+        },
+        "eliminar_cuenta_externa": {
+          "method": "DELETE",
+          "endpoint": "/customers/{customer_id}/external_accounts/{external_account_id}",
+          "descripcion": "Elimina una cuenta externa"
+        }
+      }
+    },
+    "customers": {
+      "descripcion": "Los customers representan usuarios finales que deben pasar KYC/KYB antes de usar virtual accounts o transfers.",
+      "endpoints": {
+        "crear_customer": {
+          "method": "POST",
+          "endpoint": "/customers",
+          "descripcion": "Crea un nuevo customer (individual o business)",
+          "body": {
+            "type": {
+              "tipo": "string",
+              "valores": ["individual", "business"],
+              "requerido": true
+            },
+            "email": {
+              "tipo": "string",
+              "requerido": true
+            },
+            "first_name": {
+              "tipo": "string",
+              "requerido": "para individual"
+            },
+            "last_name": {
+              "tipo": "string",
+              "requerido": "para individual"
+            },
+            "business_name": {
+              "tipo": "string",
+              "requerido": "para business"
+            }
+          },
+          "ejemplo": {
+            "request": {
+              "method": "POST",
+              "url": "https://prod.soberana.network/v0/customers",
+              "body": {
+                "type": "individual",
+                "email": "john.doe@example.com",
+                "first_name": "John",
+                "last_name": "Doe"
+              }
+            },
+            "response": {
+              "id": "cust_12345",
+              "type": "individual",
+              "email": "john.doe@example.com",
+              "kyc_status": "pending",
+              "created_at": "2024-01-15T10:00:00Z"
+            }
+          }
+        },
+        "listar_customers": {
+          "method": "GET",
+          "endpoint": "/customers",
+          "descripcion": "Lista todos los customers"
+        },
+        "obtener_customer": {
+          "method": "GET",
+          "endpoint": "/customers/{customer_id}",
+          "descripcion": "Obtiene los detalles de un customer específico"
+        }
+      }
+    },
+    "kyc_links": {
+      "descripcion": "Links de KYC permiten redirigir usuarios a un flujo de verificación de identidad.",
+      "endpoints": {
+        "crear_kyc_link": {
+          "method": "POST",
+          "endpoint": "/kyc_links",
+          "descripcion": "Genera un link de KYC para un customer",
+          "body": {
+            "customer_id": {
+              "tipo": "string",
+              "requerido": true
+            },
+            "redirect_uri": {
+              "tipo": "string",
+              "requerido": false,
+              "descripcion": "URL de redirección después del KYC"
+            }
+          },
+          "ejemplo": {
+            "request": {
+              "method": "POST",
+              "url": "https://prod.soberana.network/v0/kyc_links",
+              "body": {
+                "customer_id": "cust_12345",
+                "redirect_uri": "https://app.loopay.com/kyc/complete"
+              }
+            },
+            "response": {
+              "id": "kyc_link_abc123",
+              "customer_id": "cust_12345",
+              "kyc_link": "https://soberana.app/verify/abc123",
+              "expires_at": "2024-01-16T10:00:00Z"
+            }
+          }
+        }
+      }
+    },
+    "exchange_rates": {
+      "descripcion": "Obtener tasas de cambio actuales para conversiones crypto-fiat.",
+      "endpoints": {
+        "obtener_tasa": {
+          "method": "GET",
+          "endpoint": "/exchange_rates",
+          "descripcion": "Obtiene la tasa de cambio actual",
+          "parametros_query": {
+            "source_currency": "Moneda de origen (ej: usdc)",
+            "destination_currency": "Moneda de destino (ej: usd, eur, mxn, brl)"
+          },
+          "ejemplo": {
+            "request": {
+              "method": "GET",
+              "url": "https://prod.soberana.network/v0/exchange_rates?source_currency=usdc&destination_currency=eur",
+              "headers": {
+                "Api-Key": "<Api-Key>"
+              }
+            },
+            "response": {
+              "source_currency": "usdc",
+              "destination_currency": "eur",
+              "rate": "0.92",
+              "expires_at": "2024-01-15T10:05:00Z"
+            }
+          }
+        }
+      }
+    },
+    "webhooks": {
+      "descripcion": "Webhooks para recibir notificaciones de eventos en tiempo real.",
+      "eventos_disponibles": [
+        "virtual_account.created",
+        "virtual_account.funds_received",
+        "transfer.created",
+        "transfer.payment_submitted",
+        "transfer.payment_processed",
+        "transfer.failed",
+        "customer.kyc_approved",
+        "customer.kyc_rejected"
+      ],
+      "endpoints": {
+        "crear_webhook": {
+          "method": "POST",
+          "endpoint": "/webhooks",
+          "body": {
+            "url": {
+              "tipo": "string",
+              "requerido": true,
+              "descripcion": "URL HTTPS donde enviar los eventos"
+            },
+            "enabled_events": {
+              "tipo": "array",
+              "requerido": true,
+              "descripcion": "Lista de eventos a suscribir"
+            }
+          }
+        },
+        "listar_webhooks": {
+          "method": "GET",
+          "endpoint": "/webhooks"
+        }
+      },
+      "ejemplo_payload": {
+        "event_type": "transfer.payment_processed",
+        "data": {
+          "id": "transfer_xyz",
+          "state": "payment_processed",
+          "amount": "1000.00",
+          "customer_id": "cust_12345"
+        },
+        "created_at": "2024-01-15T14:45:00Z"
+      }
+    },
+    "limites_y_fees": {
+      "virtual_accounts": {
+        "fee_orquestacion": "0.75% por transacción",
+        "minimo_deposito": {
+          "USD": "$10",
+          "EUR": "€10",
+          "MXN": "$200 MXN",
+          "BRL": "R$50"
+        }
+      },
+      "transfers": {
+        "fee_conversion": "Variable según volumen",
+        "tiempos_liquidacion": {
+          "ACH": "Same-day hasta las 15:00 EST, sino next-day",
+          "Wire": "Same-day",
+          "SEPA": "1-2 días hábiles",
+          "SEPA_Instant": "10 segundos",
+          "SPEI": "Real-time",
+          "PIX": "Real-time"
+        }
+      }
+    },
+    "lumx_integration": {
+      "descripcion": "Integración con Lumx para infraestructura de pagos con stablecoins en América Latina",
+      "version": "v1",
+      "estado": "Integrado",
+      "blockchains_soportadas": [
+        {
+          "nombre": "Ethereum",
+          "mainnet": true,
+          "testnet": "Holesky"
+        },
+        {
+          "nombre": "Polygon",
+          "mainnet": true,
+          "testnet": "Amoy"
+        },
+        {
+          "nombre": "Base",
+          "mainnet": true,
+          "testnet": "Sepolia"
+        },
+        {
+          "nombre": "Arbitrum",
+          "mainnet": true,
+          "testnet": "Sepolia"
+        },
+        {
+          "nombre": "Solana",
+          "mainnet": false,
+          "testnet": null,
+          "estado": "Próximamente"
+        }
+      ],
+      "stablecoins": ["USDC", "USDT", "EURC"],
+      "tipos_transaccion": {
+        "on_ramp": {
+          "descripcion": "Conversión de moneda fiat a stablecoin",
+          "flujo": "Fiat → Stablecoin → Wallet",
+          "tiempo_promedio": "< 5 minutos con rails instantáneos"
+        },
+        "off_ramp": {
+          "descripcion": "Conversión de stablecoin a moneda fiat",
+          "flujo": "Wallet → Stablecoin → Fiat → Cuenta bancaria",
+          "tiempo_promedio": "Depende del rail local (instantáneo a T+1)"
+        },
+        "transfer": {
+          "descripcion": "Transferencia de stablecoins entre wallets",
+          "flujo": "Wallet A → Stablecoin → Wallet B",
+          "tiempo_promedio": "Segundos a minutos según blockchain"
+        }
+      },
+      "partner_fees": {
+        "descripcion": "Los partners pueden configurar fees adicionales por transacción",
+        "tipos": {
+          "rate_fee": {
+            "descripcion": "Porcentaje del monto de transacción",
+            "unidad": "basis points (bps)",
+            "ejemplo": "75 bps = 0.75%"
+          },
+          "flat_fee": {
+            "descripcion": "Monto fijo por transacción",
+            "ejemplo": "$1.50 USD"
+          }
+        },
+        "configuracion_independiente": "On-ramp y Off-ramp pueden tener fees diferentes"
+      },
+      "cobertura_latam": {
+        "tier_1": {
+          "descripcion": "Cobertura completa con rails instantáneos",
+          "paises": ["Brazil", "Mexico", "Argentina", "Colombia", "Chile", "Peru"],
+          "caracteristicas": ["On-Ramp instantáneo", "Off-Ramp instantáneo", "Wallets custodiales", "Multi-blockchain"]
+        },
+        "tier_2": {
+          "descripcion": "Cobertura extendida via payout rails",
+          "paises": ["Ecuador", "Panama", "Uruguay", "Costa Rica", "Dominican Republic", "Guatemala", "El Salvador", "Honduras", "Paraguay", "Bolivia", "Nicaragua", "Jamaica", "Trinidad and Tobago"],
+          "caracteristicas": ["On-Ramp via stablecoin bridge", "Off-Ramp via payout local", "Soporte multi-moneda"]
+        }
+      },
+      "api_endpoints": {
+        "base_url": "https://prod.soberana.network/v1/lumx",
+        "crear_transaccion_onramp": {
+          "method": "POST",
+          "endpoint": "/transactions/on-ramp",
+          "body": {
+            "customer_id": "string",
+            "amount": "number",
+            "source_currency": "string (BRL, MXN, ARS, COP, CLP, PEN, etc.)",
+            "destination_currency": "string (USDC, USDT)",
+            "destination_blockchain": "string (ethereum, polygon, base, arbitrum)",
+            "destination_wallet": "string"
+          }
+        },
+        "crear_transaccion_offramp": {
+          "method": "POST",
+          "endpoint": "/transactions/off-ramp",
+          "body": {
+            "customer_id": "string",
+            "amount": "number",
+            "source_currency": "string (USDC, USDT)",
+            "source_blockchain": "string",
+            "destination_currency": "string (BRL, MXN, ARS, COP, etc.)",
+            "destination_account": {
+              "bank_code": "string",
+              "account_number": "string",
+              "account_type": "string"
+            }
+          }
+        },
+        "obtener_cotizacion": {
+          "method": "GET",
+          "endpoint": "/quotes",
+          "params": {
+            "source_currency": "string",
+            "destination_currency": "string",
+            "amount": "number"
+          }
+        }
+      },
+      "status_transacciones": [
+        "CREATED",
+        "PENDING_DEPOSIT",
+        "DEPOSIT_RECEIVED",
+        "CONVERTING",
+        "SENDING",
+        "COMPLETED",
+        "FAILED",
+        "REFUNDED"
+      ]
+    }
+  }
+}

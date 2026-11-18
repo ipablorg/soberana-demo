@@ -1,0 +1,371 @@
+{
+  "loopay_payments_playbook": {
+    "version": "1.0.0",
+    "ultima_actualizacion": "2025-01-15",
+    "descripcion": "Playbook unificado de pagos Loopay que combina capacidades de Pay-out (Nium) y Onramp/Offramp (Bridge)",
+    
+    "api_base_urls": {
+      "soberana": "https://prod.soberana.network/v0",
+      "nium": "Gestionado internamente"
+    },
+    
+    "capacidades": {
+      "onramp": {
+        "descripcion": "Conversión de Fiat a Crypto mediante Virtual Accounts",
+        "provider": "Bridge (Soberana)",
+        "regiones": {
+          "USA": {
+            "moneda": "USD",
+            "metodos": ["ACH", "Wire"],
+            "tipo_cuenta": "Bank Account + Routing Number",
+            "tiempo_conversion": "Same-day",
+            "crypto_destino": ["USDC", "USDT"],
+            "blockchains": ["Ethereum", "Polygon", "Solana", "Base", "Arbitrum", "Optimism"],
+            "endpoint_crear": "POST /customers/{customer_id}/virtual_accounts",
+            "ejemplo_body": {
+              "source": {"currency": "usd"},
+              "destination": {
+                "payment_rail": "ethereum",
+                "currency": "usdc",
+                "address": "0xYourWalletAddress"
+              }
+            }
+          },
+          "Mexico": {
+            "moneda": "MXN",
+            "metodos": ["SPEI"],
+            "tipo_cuenta": "CLABE (18 dígitos)",
+            "tiempo_conversion": "Real-time",
+            "crypto_destino": ["USDC", "USDT"],
+            "blockchains": ["Ethereum", "Polygon", "Solana", "Base"],
+            "endpoint_crear": "POST /customers/{customer_id}/virtual_accounts",
+            "ejemplo_body": {
+              "source": {"currency": "mxn"},
+              "destination": {
+                "payment_rail": "solana",
+                "currency": "usdc",
+                "address": "YourSolanaAddress"
+              }
+            }
+          },
+          "Brazil": {
+            "moneda": "BRL",
+            "metodos": ["PIX"],
+            "tipo_cuenta": "Chave PIX",
+            "tiempo_conversion": "Real-time",
+            "crypto_destino": ["USDC"],
+            "blockchains": ["Ethereum", "Polygon", "Solana", "Base"],
+            "estado": "Beta",
+            "endpoint_crear": "POST /customers/{customer_id}/virtual_accounts",
+            "ejemplo_body": {
+              "source": {"currency": "brl"},
+              "destination": {
+                "payment_rail": "base",
+                "currency": "usdc",
+                "address": "0xYourBaseAddress"
+              }
+            }
+          },
+          "SEPA": {
+            "moneda": "EUR",
+            "metodos": ["SEPA", "SEPA Instant"],
+            "tipo_cuenta": "IBAN",
+            "tiempo_conversion": "1-2 días (SEPA) / Segundos (Instant)",
+            "crypto_destino": ["USDC", "EURC"],
+            "blockchains": ["Ethereum", "Polygon", "Solana", "Base"],
+            "paises": ["Alemania", "Francia", "España", "Italia", "Países Bajos", "Bélgica", "Austria", "Portugal", "Irlanda", "Finlandia", "Grecia", "Luxemburgo", "Eslovaquia", "Eslovenia", "Estonia", "Letonia", "Lituania", "Malta", "Chipre", "Croacia", "Bulgaria", "Rumanía", "Hungría", "Polonia", "República Checa", "Dinamarca", "Suecia", "Noruega", "Islandia", "Liechtenstein", "Suiza", "Mónaco", "San Marino", "Reino Unido"],
+            "endpoint_crear": "POST /customers/{customer_id}/virtual_accounts",
+            "ejemplo_body": {
+              "source": {"currency": "eur"},
+              "destination": {
+                "payment_rail": "polygon",
+                "currency": "usdc",
+                "address": "0xYourPolygonAddress"
+              }
+            }
+          }
+        }
+      },
+      "offramp": {
+        "descripcion": "Conversión de Crypto a Fiat mediante Transfers",
+        "provider": "Bridge (Soberana)",
+        "flujo": [
+          "1. Cliente deposita crypto en Bridge Wallet",
+          "2. Se crea External Account con datos bancarios del cliente",
+          "3. Se crea Transfer de Bridge Wallet a External Account",
+          "4. Fondos se entregan en cuenta bancaria del cliente"
+        ],
+        "regiones": {
+          "USA": {
+            "moneda": "USD",
+            "metodos": ["ACH", "Wire"],
+            "tiempo_entrega": {
+              "ACH": "Same-day (hasta 15:00 EST) o Next-day",
+              "Wire": "Same-day"
+            },
+            "endpoint_transfer": "POST /transfers",
+            "ejemplo_body": {
+              "amount": "1000.00",
+              "on_behalf_of": "cust_12345",
+              "source": {
+                "payment_rail": "bridge_wallet",
+                "currency": "usdb",
+                "bridge_wallet_id": "wallet_abc123"
+              },
+              "destination": {
+                "payment_rail": "ach",
+                "currency": "usd",
+                "external_account_id": "ext_account_xyz"
+              }
+            }
+          },
+          "Mexico": {
+            "moneda": "MXN",
+            "metodos": ["SPEI"],
+            "tiempo_entrega": "Real-time (segundos)",
+            "endpoint_transfer": "POST /transfers",
+            "ejemplo_body": {
+              "amount": "10000.00",
+              "on_behalf_of": "cust_mx123",
+              "source": {
+                "payment_rail": "bridge_wallet",
+                "currency": "usdb",
+                "bridge_wallet_id": "wallet_mx789"
+              },
+              "destination": {
+                "payment_rail": "spei",
+                "currency": "mxn",
+                "external_account_id": "ext_clabe_456"
+              }
+            }
+          },
+          "Brazil": {
+            "moneda": "BRL",
+            "metodos": ["PIX"],
+            "tiempo_entrega": "Real-time (segundos)",
+            "estado": "Beta",
+            "endpoint_transfer": "POST /transfers",
+            "ejemplo_body": {
+              "amount": "5000.00",
+              "on_behalf_of": "cust_br456",
+              "source": {
+                "payment_rail": "bridge_wallet",
+                "currency": "usdb",
+                "bridge_wallet_id": "wallet_br012"
+              },
+              "destination": {
+                "payment_rail": "pix",
+                "currency": "brl",
+                "external_account_id": "ext_pix_789"
+              }
+            }
+          },
+          "SEPA": {
+            "moneda": "EUR",
+            "metodos": ["SEPA", "SEPA Instant"],
+            "tiempo_entrega": {
+              "SEPA": "1-2 días hábiles",
+              "SEPA_Instant": "Segundos"
+            },
+            "endpoint_transfer": "POST /transfers",
+            "ejemplo_body": {
+              "amount": "500.00",
+              "on_behalf_of": "cust_eu789",
+              "source": {
+                "payment_rail": "bridge_wallet",
+                "currency": "usdb",
+                "bridge_wallet_id": "wallet_eu456"
+              },
+              "destination": {
+                "payment_rail": "sepa",
+                "currency": "eur",
+                "external_account_id": "ext_iban_123"
+              }
+            }
+          }
+        }
+      },
+      "payout": {
+        "descripcion": "Pagos directos a cuentas bancarias en +200 países",
+        "provider": "Nium",
+        "nota": "Ver archivo playbook-payout.json para detalles completos por país",
+        "metodos_principales": {
+          "BANK_ACCOUNT_ACH": {
+            "descripcion": "Transferencia bancaria local",
+            "paises": 60,
+            "tiempo": "Same-day a T+4 según país"
+          },
+          "BANK_ACCOUNT_SEPA": {
+            "descripcion": "Transferencia SEPA en Europa",
+            "paises": 42,
+            "tiempo": "Same-day a T+1"
+          },
+          "FOREIGN_CURRENCY_WIRE_TRANSFER_SWIFT": {
+            "descripcion": "Transferencia internacional SWIFT",
+            "paises": 220,
+            "monedas": ["USD", "EUR", "SGD", "GBP", "AUD", "CAD", "HKD", "JPY", "CHF", "NZD"],
+            "tiempo": "Same-day processing"
+          },
+          "VISA_DIRECT": {
+            "descripcion": "Pago directo a tarjetas Visa",
+            "paises": 85,
+            "tiempo": "Real-time a T+2"
+          },
+          "WALLET": {
+            "descripcion": "Pago a wallets móviles",
+            "paises": 14,
+            "tiempo": "Same-day"
+          }
+        }
+      }
+    },
+    
+    "flujos_completos": {
+      "onramp_completo": {
+        "nombre": "Fiat → Crypto (Onramp)",
+        "pasos": [
+          {
+            "paso": 1,
+            "accion": "Crear Customer",
+            "endpoint": "POST /customers",
+            "descripcion": "Registrar usuario en el sistema"
+          },
+          {
+            "paso": 2,
+            "accion": "Verificar KYC",
+            "endpoint": "POST /kyc_links",
+            "descripcion": "Generar link de verificación de identidad"
+          },
+          {
+            "paso": 3,
+            "accion": "Crear Virtual Account",
+            "endpoint": "POST /customers/{id}/virtual_accounts",
+            "descripcion": "Crear cuenta virtual con instrucciones de depósito"
+          },
+          {
+            "paso": 4,
+            "accion": "Usuario deposita fiat",
+            "descripcion": "Usuario transfiere a la cuenta virtual (ACH/SEPA/SPEI/PIX)"
+          },
+          {
+            "paso": 5,
+            "accion": "Conversión automática",
+            "descripcion": "Bridge convierte fiat a crypto y envía a wallet destino"
+          }
+        ]
+      },
+      "offramp_completo": {
+        "nombre": "Crypto → Fiat (Offramp)",
+        "pasos": [
+          {
+            "paso": 1,
+            "accion": "Crear Customer (si no existe)",
+            "endpoint": "POST /customers"
+          },
+          {
+            "paso": 2,
+            "accion": "Verificar KYC (si no verificado)",
+            "endpoint": "POST /kyc_links"
+          },
+          {
+            "paso": 3,
+            "accion": "Crear External Account",
+            "endpoint": "POST /customers/{id}/external_accounts",
+            "descripcion": "Registrar cuenta bancaria del usuario"
+          },
+          {
+            "paso": 4,
+            "accion": "Usuario deposita crypto en Bridge Wallet",
+            "descripcion": "Usuario envía USDC/USDT a su Bridge Wallet"
+          },
+          {
+            "paso": 5,
+            "accion": "Crear Transfer",
+            "endpoint": "POST /transfers",
+            "descripcion": "Iniciar conversión y pago a cuenta bancaria"
+          },
+          {
+            "paso": 6,
+            "accion": "Entrega de fondos",
+            "descripcion": "Fondos fiat llegan a cuenta bancaria del usuario"
+          }
+        ]
+      },
+      "payout_global": {
+        "nombre": "Pago Global (Nium)",
+        "descripcion": "Para pagos a países no cubiertos por Bridge o métodos específicos",
+        "referencia": "Ver playbook-payout.json"
+      }
+    },
+    
+    "comparativa_regiones": {
+      "USA": {
+        "onramp_disponible": true,
+        "offramp_disponible": true,
+        "payout_disponible": true,
+        "metodos_preferidos": {
+          "onramp": "ACH Virtual Account",
+          "offramp": "ACH Transfer",
+          "payout": "ACH o Wire"
+        },
+        "tiempos": {
+          "onramp": "Same-day",
+          "offramp": "Same-day",
+          "payout": "Same-day a T+1"
+        }
+      },
+      "Mexico": {
+        "onramp_disponible": true,
+        "offramp_disponible": true,
+        "payout_disponible": true,
+        "metodos_preferidos": {
+          "onramp": "SPEI Virtual Account",
+          "offramp": "SPEI Transfer",
+          "payout": "SPEI"
+        },
+        "tiempos": {
+          "onramp": "Real-time",
+          "offramp": "Real-time",
+          "payout": "Same-day"
+        }
+      },
+      "Brazil": {
+        "onramp_disponible": true,
+        "offramp_disponible": true,
+        "payout_disponible": true,
+        "estado": "Onramp/Offramp en Beta",
+        "metodos_preferidos": {
+          "onramp": "PIX Virtual Account",
+          "offramp": "PIX Transfer",
+          "payout": "PIX o ACH"
+        },
+        "tiempos": {
+          "onramp": "Real-time",
+          "offramp": "Real-time",
+          "payout": "Same-day"
+        }
+      },
+      "SEPA_Europa": {
+        "onramp_disponible": true,
+        "offramp_disponible": true,
+        "payout_disponible": true,
+        "metodos_preferidos": {
+          "onramp": "SEPA Virtual IBAN",
+          "offramp": "SEPA Transfer",
+          "payout": "SEPA"
+        },
+        "tiempos": {
+          "onramp": "1-2 días (Instant: segundos)",
+          "offramp": "1-2 días (Instant: segundos)",
+          "payout": "Same-day a T+1"
+        },
+        "paises_count": 34
+      }
+    },
+    
+    "archivos_relacionados": {
+      "playbook_payout": "src/data/playbook-payout.json",
+      "bridge_api_docs": "src/data/bridge-api-documentation.json"
+    }
+  }
+}

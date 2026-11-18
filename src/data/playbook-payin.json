@@ -1,0 +1,1447 @@
+{
+  "playbook": {
+    "United States of America": {
+      "región": "Norteamérica",
+      "secciones": [
+        {
+          "método_payin": "ACH (Automated Clearing House)",
+          "monedas_payin": "USD",
+          "red_participante": "NACHA",
+          "fuente_fx": "Live Interbank based rates available 24x7",
+          "canales": "All major US banks (ACH network)",
+          "tipos_transaccion": "B2B, B2P, P2B",
+          "tiempo_liquidacion": "Same-day or Next-day (depending on cutoff)",
+          "datos_obligatorios": [
+            "Account Holder Name",
+            "Account Type (Checking/Savings)",
+            "Account Number",
+            "Routing Number (9 digits)",
+            "Bank Name"
+          ],
+          "documentos_soporte": "No required for domestic ACH",
+          "narrativa_beneficiario": "Payment description visible in bank statement",
+          "comprobante_transaccion": "ACH confirmation number + bank statement",
+          "notas": "ACH is the most common method for receiving payments in the US. Same-day ACH available for faster settlement.",
+          "límites": {
+            "B2B": {
+              "min": "$1 USD",
+              "max": "$100,000 USD per transaction"
+            },
+            "B2P": {
+              "min": "$1 USD",
+              "max": "$25,000 USD per transaction"
+            }
+          },
+          "fees": {
+            "banco_receptor": "$0 - $3 per transaction",
+            "loopay_fee": "0.5% - 0.8%"
+          },
+          "horario_operacion": "Monday-Friday 6:00 AM - 6:00 PM ET"
+        },
+        {
+          "método_payin": "Wire Transfer (Domestic)",
+          "monedas_payin": "USD",
+          "red_participante": "Fedwire",
+          "fuente_fx": "Live Interbank based rates available 24x7",
+          "canales": "All US banks with Fedwire access",
+          "tipos_transaccion": "B2B, B2P, P2B",
+          "tiempo_liquidacion": "Same-day (usually within hours)",
+          "datos_obligatorios": [
+            "Beneficiary Bank Name",
+            "Beneficiary Bank Address",
+            "Beneficiary Account Name",
+            "Beneficiary Account Number",
+            "Routing Number (ABA)",
+            "Reference/Invoice Number"
+          ],
+          "documentos_soporte": "Wire confirmation from sending bank",
+          "narrativa_beneficiario": "Full sender details and reference included",
+          "comprobante_transaccion": "Wire confirmation + IMAD/OMAD number",
+          "notas": "Wire transfers are faster but more expensive than ACH. Best for high-value transactions.",
+          "límites": {
+            "B2B": {
+              "min": "$100 USD",
+              "max": "No limit"
+            }
+          },
+          "fees": {
+            "banco_receptor": "$10 - $30 per transaction",
+            "loopay_fee": "0.3% - 0.5%"
+          },
+          "horario_operacion": "Monday-Friday 8:00 AM - 6:00 PM ET"
+        },
+        {
+          "método_payin": "FedNow (Instant Payments)",
+          "monedas_payin": "USD",
+          "red_participante": "Federal Reserve",
+          "fuente_fx": "Live Interbank based rates available 24x7",
+          "canales": "FedNow participating banks",
+          "tipos_transaccion": "B2B, B2P, P2P, P2B",
+          "tiempo_liquidacion": "Real-time (seconds)",
+          "datos_obligatorios": [
+            "Account Holder Name",
+            "Account Number",
+            "Routing Number",
+            "Email or Phone (for notifications)"
+          ],
+          "documentos_soporte": "Instant confirmation",
+          "narrativa_beneficiario": "Real-time payment notification",
+          "comprobante_transaccion": "Instant confirmation + transaction ID",
+          "notas": "FedNow is the US instant payment system launched in 2023. Available 24/7/365.",
+          "límites": {
+            "B2B": {
+              "min": "$0.01 USD",
+              "max": "$500,000 USD per transaction"
+            },
+            "B2P": {
+              "min": "$0.01 USD",
+              "max": "$100,000 USD per transaction"
+            }
+          },
+          "fees": {
+            "banco_receptor": "$0.01 - $0.045 per transaction",
+            "loopay_fee": "0.5% - 1.0%"
+          },
+          "horario_operacion": "24/7/365"
+        },
+        {
+          "método_payin": "Credit/Debit Card",
+          "monedas_payin": "USD",
+          "red_participante": "Visa, Mastercard, Amex, Discover",
+          "fuente_fx": "Live card network rates",
+          "canales": "Online payment gateways",
+          "tipos_transaccion": "B2C, C2B",
+          "tiempo_liquidacion": "1-3 business days",
+          "datos_obligatorios": [
+            "Card Number",
+            "Expiry Date",
+            "CVV",
+            "Cardholder Name",
+            "Billing Address",
+            "ZIP Code"
+          ],
+          "documentos_soporte": "Payment gateway confirmation",
+          "narrativa_beneficiario": "Merchant name on card statement",
+          "comprobante_transaccion": "Transaction ID + payment gateway receipt",
+          "notas": "Card payments have higher fees but instant authorization. Subject to chargebacks.",
+          "límites": {
+            "B2C": {
+              "min": "$1 USD",
+              "max": "$10,000 USD per transaction"
+            }
+          },
+          "fees": {
+            "processing_fee": "2.5% - 3.5% + $0.30",
+            "loopay_fee": "Included in processing fee"
+          },
+          "horario_operacion": "24/7/365"
+        }
+      ]
+    },
+    "Mexico": {
+      "región": "Norteamérica",
+      "secciones": [
+        {
+          "método_payin": "SPEI Cobro (Collection)",
+          "monedas_payin": "MXN",
+          "red_participante": "Banco de México",
+          "fuente_fx": "Live Interbank based rates available 24x7",
+          "canales": "All Mexican banks",
+          "tipos_transaccion": "B2B, B2C, C2B",
+          "tiempo_liquidacion": "Real-time (seconds to minutes)",
+          "datos_obligatorios": [
+            "CLABE (18 digits)",
+            "Beneficiary Name",
+            "RFC (Tax ID)",
+            "Payment Reference"
+          ],
+          "documentos_soporte": "SPEI tracking number (rastreo)",
+          "narrativa_beneficiario": "Payment reference included in transfer",
+          "comprobante_transaccion": "SPEI confirmation + CEP number",
+          "notas": "SPEI is the primary real-time payment system in Mexico. Available 24/7/365.",
+          "límites": {
+            "B2B": {
+              "min": "$1 MXN",
+              "max": "No technical limit"
+            },
+            "B2C": {
+              "min": "$1 MXN",
+              "max": "Bank-defined limits"
+            }
+          },
+          "fees": {
+            "banco_receptor": "$0 - $10 MXN",
+            "loopay_fee": "0.8% - 1.2%"
+          },
+          "horario_operacion": "24/7/365"
+        },
+        {
+          "método_payin": "Cash Deposit (OXXO, 7Eleven)",
+          "monedas_payin": "MXN",
+          "red_participante": "OXXO, 7Eleven, Farmacia",
+          "fuente_fx": "Live Interbank based rates available 24x7",
+          "canales": "20,000+ convenience stores",
+          "tipos_transaccion": "C2B",
+          "tiempo_liquidacion": "2-24 hours after cash deposit",
+          "datos_obligatorios": [
+            "Payment Reference Number",
+            "Barcode",
+            "Customer Name"
+          ],
+          "documentos_soporte": "Store receipt",
+          "narrativa_beneficiario": "Reference number on receipt",
+          "comprobante_transaccion": "Store receipt + confirmation email",
+          "notas": "Popular for customers without bank accounts. Requires generating payment reference.",
+          "límites": {
+            "C2B": {
+              "min": "$20 MXN",
+              "max": "$10,000 MXN per transaction"
+            }
+          },
+          "fees": {
+            "store_fee": "$10 - $15 MXN",
+            "loopay_fee": "1.5% - 2.5%"
+          },
+          "horario_operacion": "Store hours (typically 24/7)"
+        },
+        {
+          "método_payin": "Credit/Debit Card (Mexican)",
+          "monedas_payin": "MXN",
+          "red_participante": "Visa, Mastercard, Carnet",
+          "fuente_fx": "Live card network rates",
+          "canales": "Online payment gateways",
+          "tipos_transaccion": "B2C, C2B",
+          "tiempo_liquidacion": "1-3 business days",
+          "datos_obligatorios": [
+            "Card Number",
+            "Expiry Date",
+            "CVV",
+            "Cardholder Name",
+            "RFC (for invoicing)"
+          ],
+          "documentos_soporte": "Payment gateway confirmation",
+          "narrativa_beneficiario": "Merchant name on statement",
+          "comprobante_transaccion": "Transaction ID + receipt",
+          "notas": "Card payments in Mexico require 3D Secure authentication. Support for monthly installments (Meses Sin Intereses).",
+          "límites": {
+            "B2C": {
+              "min": "$10 MXN",
+              "max": "$50,000 MXN per transaction"
+            }
+          },
+          "fees": {
+            "processing_fee": "3.0% - 3.6% + $3.00 MXN",
+            "loopay_fee": "Included in processing fee"
+          },
+          "horario_operacion": "24/7/365"
+        }
+      ]
+    },
+    "Brazil": {
+      "región": "Sudamérica",
+      "secciones": [
+        {
+          "método_payin": "PIX (Instant Payments)",
+          "monedas_payin": "BRL",
+          "red_participante": "Banco Central do Brasil",
+          "fuente_fx": "Live Interbank based rates available 24x7",
+          "canales": "All Brazilian banks and fintechs",
+          "tipos_transaccion": "B2B, B2C, C2B, P2P",
+          "tiempo_liquidacion": "Real-time (seconds)",
+          "datos_obligatorios": [
+            "PIX Key (CPF, CNPJ, Email, Phone, or Random Key)",
+            "Beneficiary Name",
+            "Amount"
+          ],
+          "documentos_soporte": "PIX receipt with End-to-End ID",
+          "narrativa_beneficiario": "Transaction details in PIX notification",
+          "comprobante_transaccion": "PIX receipt + E2E ID",
+          "notas": "PIX is the dominant payment method in Brazil. Launched in 2020 and now has 150M+ users. Available 24/7/365.",
+          "límites": {
+            "B2B": {
+              "min": "R$ 0.01",
+              "max": "Bank-defined (typically R$ 20,000 - R$ 100,000)"
+            },
+            "B2C": {
+              "min": "R$ 0.01",
+              "max": "Bank-defined (typically R$ 5,000 - R$ 50,000)"
+            },
+            "P2P": {
+              "min": "R$ 0.01",
+              "max": "R$ 20,000 per transaction (night hours)"
+            }
+          },
+          "fees": {
+            "banco_receptor": "R$ 0 (free for individuals)",
+            "loopay_fee": "1.0% - 1.5%"
+          },
+          "horario_operacion": "24/7/365"
+        },
+        {
+          "método_payin": "Boleto Bancário",
+          "monedas_payin": "BRL",
+          "red_participante": "FEBRABAN",
+          "fuente_fx": "Live Interbank based rates available 24x7",
+          "canales": "Banks, lottery shops, convenience stores, online",
+          "tipos_transaccion": "B2C, C2B",
+          "tiempo_liquidacion": "1-3 business days after payment",
+          "datos_obligatorios": [
+            "CPF or CNPJ",
+            "Customer Name",
+            "Due Date",
+            "Amount",
+            "Barcode (generated)"
+          ],
+          "documentos_soporte": "Boleto barcode + payment receipt",
+          "narrativa_beneficiario": "Boleto description field",
+          "comprobante_transaccion": "Payment receipt from bank/store",
+          "notas": "Traditional payment method in Brazil. Good for customers without cards. Can be paid in cash or via bank transfer.",
+          "límites": {
+            "B2C": {
+              "min": "R$ 5.00",
+              "max": "R$ 100,000 per boleto"
+            }
+          },
+          "fees": {
+            "processing_fee": "R$ 2.50 - R$ 4.00 per boleto",
+            "loopay_fee": "1.5% - 2.0%"
+          },
+          "horario_operacion": "Payment locations vary"
+        },
+        {
+          "método_payin": "TED (Electronic Transfer)",
+          "monedas_payin": "BRL",
+          "red_participante": "Banco Central do Brasil",
+          "fuente_fx": "Live Interbank based rates available 24x7",
+          "canales": "All Brazilian banks",
+          "tipos_transaccion": "B2B",
+          "tiempo_liquidacion": "Same-day (if before 5:00 PM BRT)",
+          "datos_obligatorios": [
+            "Bank Code (3 digits)",
+            "Branch Number",
+            "Account Number",
+            "Account Type",
+            "CPF/CNPJ",
+            "Beneficiary Name"
+          ],
+          "documentos_soporte": "TED confirmation number",
+          "narrativa_beneficiario": "Transfer description",
+          "comprobante_transaccion": "TED receipt + NSU number",
+          "notas": "TED is being replaced by PIX but still used for large business transfers. Higher fees than PIX.",
+          "límites": {
+            "B2B": {
+              "min": "R$ 100.00",
+              "max": "No limit"
+            }
+          },
+          "fees": {
+            "banco_emisor": "R$ 10 - R$ 25 per transfer",
+            "loopay_fee": "0.5% - 1.0%"
+          },
+          "horario_operacion": "Business days 6:00 AM - 5:00 PM BRT"
+        },
+        {
+          "método_payin": "Credit Card (Brazilian)",
+          "monedas_payin": "BRL",
+          "red_participante": "Visa, Mastercard, Elo, Hipercard",
+          "fuente_fx": "Live card network rates",
+          "canales": "Online payment gateways",
+          "tipos_transaccion": "B2C, C2B",
+          "tiempo_liquidacion": "30 days (parcelado) or 1-3 days (à vista)",
+          "datos_obligatorios": [
+            "Card Number",
+            "Expiry Date",
+            "CVV",
+            "CPF",
+            "Cardholder Name"
+          ],
+          "documentos_soporte": "Payment gateway confirmation",
+          "narrativa_beneficiario": "Merchant name on statement",
+          "comprobante_transaccion": "Transaction ID + authorization code",
+          "notas": "Brazilian cards support installment payments (parcelado). Common to split payments up to 12x.",
+          "límites": {
+            "B2C": {
+              "min": "R$ 5.00",
+              "max": "Card limit"
+            }
+          },
+          "fees": {
+            "processing_fee": "3.5% - 5.5% (depending on installments)",
+            "loopay_fee": "Included in processing fee"
+          },
+          "horario_operacion": "24/7/365"
+        }
+      ]
+    },
+    "Colombia": {
+      "región": "Sudamérica",
+      "secciones": [
+        {
+          "método_payin": "PSE (Pagos Seguros en Línea)",
+          "monedas_payin": "COP",
+          "red_participante": "ACH Colombia",
+          "fuente_fx": "Live Interbank based rates available 24x7",
+          "canales": "All major Colombian banks",
+          "tipos_transaccion": "B2C, C2B",
+          "tiempo_liquidacion": "4-6 hours",
+          "datos_obligatorios": [
+            "Bank Selection",
+            "Document Type (CC, CE, NIT)",
+            "Document Number",
+            "Customer Name",
+            "Email"
+          ],
+          "documentos_soporte": "PSE confirmation + CUS number",
+          "narrativa_beneficiario": "Payment description in bank statement",
+          "comprobante_transaccion": "CUS (Código Único de Seguimiento)",
+          "notas": "PSE is the most popular online payment method in Colombia. Direct bank debit with instant authorization.",
+          "límites": {
+            "B2C": {
+              "min": "$5,000 COP",
+              "max": "Bank-defined (typically $5M - $20M COP)"
+            }
+          },
+          "fees": {
+            "processing_fee": "$1,200 - $1,500 COP per transaction",
+            "loopay_fee": "2.0% - 2.5%"
+          },
+          "horario_operacion": "24/7 (subject to bank availability)"
+        },
+        {
+          "método_payin": "Bank Transfer (ACH Colombia)",
+          "monedas_payin": "COP",
+          "red_participante": "ACH Colombia",
+          "fuente_fx": "Live Interbank based rates available 24x7",
+          "canales": "All Colombian banks",
+          "tipos_transaccion": "B2B, B2C",
+          "tiempo_liquidacion": "4-24 hours (depending on cycle)",
+          "datos_obligatorios": [
+            "Bank Name",
+            "Account Type",
+            "Account Number",
+            "Document Type",
+            "Document Number",
+            "Beneficiary Name"
+          ],
+          "documentos_soporte": "ACH confirmation",
+          "narrativa_beneficiario": "Transfer description",
+          "comprobante_transaccion": "ACH receipt + reference number",
+          "notas": "ACH Colombia processes transactions in 5 daily cycles. Used for business transfers.",
+          "límites": {
+            "B2B": {
+              "min": "$1 COP",
+              "max": "No limit"
+            }
+          },
+          "fees": {
+            "banco_emisor": "$3,000 - $10,000 COP",
+            "loopay_fee": "0.5% - 1.0%"
+          },
+          "horario_operacion": "Monday-Friday 7:00 AM - 6:00 PM COT"
+        },
+        {
+          "método_payin": "Cash Collection (Corresponsales)",
+          "monedas_payin": "COP",
+          "red_participante": "Bancolombia, Davivienda, others",
+          "fuente_fx": "Live Interbank based rates available 24x7",
+          "canales": "Efecty, Baloto, Su Red, bank branches",
+          "tipos_transaccion": "C2B",
+          "tiempo_liquidacion": "2-24 hours after deposit",
+          "datos_obligatorios": [
+            "Payment Reference",
+            "Document Number",
+            "Customer Name"
+          ],
+          "documentos_soporte": "Correspondent receipt",
+          "narrativa_beneficiario": "Reference number",
+          "comprobante_transaccion": "Store/agent receipt",
+          "notas": "Cash payments through correspondent banking agents. Popular in regions with low banking penetration.",
+          "límites": {
+            "C2B": {
+              "min": "$10,000 COP",
+              "max": "$2,000,000 COP per transaction"
+            }
+          },
+          "fees": {
+            "correspondent_fee": "$3,000 - $5,000 COP",
+            "loopay_fee": "2.5% - 3.5%"
+          },
+          "horario_operacion": "Store/agent hours"
+        },
+        {
+          "método_payin": "Digital Wallets (Nequi, Daviplata)",
+          "monedas_payin": "COP",
+          "red_participante": "Bancolombia (Nequi), Davivienda (Daviplata)",
+          "fuente_fx": "Live Interbank based rates available 24x7",
+          "canales": "Mobile apps",
+          "tipos_transaccion": "P2P, C2B",
+          "tiempo_liquidacion": "Real-time",
+          "datos_obligatorios": [
+            "Phone Number",
+            "Customer Name"
+          ],
+          "documentos_soporte": "App confirmation",
+          "narrativa_beneficiario": "Transaction description in app",
+          "comprobante_transaccion": "App receipt + transaction ID",
+          "notas": "Nequi and Daviplata are the leading digital wallets in Colombia. Mobile-first payment experience.",
+          "límites": {
+            "P2P": {
+              "min": "$1,000 COP",
+              "max": "$3,000,000 COP per transaction"
+            }
+          },
+          "fees": {
+            "wallet_fee": "$0 - $1,000 COP",
+            "loopay_fee": "1.5% - 2.0%"
+          },
+          "horario_operacion": "24/7/365"
+        },
+        {
+          "método_payin": "Credit/Debit Card (Colombian)",
+          "monedas_payin": "COP",
+          "red_participante": "Visa, Mastercard, Credibanco",
+          "fuente_fx": "Live card network rates",
+          "canales": "Online payment gateways",
+          "tipos_transaccion": "B2C, C2B",
+          "tiempo_liquidacion": "1-3 business days",
+          "datos_obligatorios": [
+            "Card Number",
+            "Expiry Date",
+            "CVV",
+            "Cardholder Name",
+            "Document Number"
+          ],
+          "documentos_soporte": "Payment gateway confirmation",
+          "narrativa_beneficiario": "Merchant name on statement",
+          "comprobante_transaccion": "Transaction ID + approval code",
+          "notas": "Card payments in Colombia support installments (cuotas). 3D Secure authentication required.",
+          "límites": {
+            "B2C": {
+              "min": "$10,000 COP",
+              "max": "Card limit"
+            }
+          },
+          "fees": {
+            "processing_fee": "2.9% - 3.49% + $900 COP",
+            "loopay_fee": "Included in processing fee"
+          },
+          "horario_operacion": "24/7/365"
+        }
+      ]
+    },
+    "Argentina": {
+      "región": "Sudamérica",
+      "secciones": [
+        {
+          "método_payin": "Transferencia 3.0 (Instant Transfer)",
+          "monedas_payin": "ARS",
+          "red_participante": "COELSA",
+          "fuente_fx": "Live Interbank based rates available 24x7",
+          "canales": "All Argentine banks and wallets",
+          "tipos_transaccion": "B2B, B2C, P2P, C2B",
+          "tiempo_liquidacion": "Real-time (seconds)",
+          "datos_obligatorios": [
+            "CBU/CVU (22 digits) or Alias",
+            "CUIL/CUIT",
+            "Beneficiary Name"
+          ],
+          "documentos_soporte": "Transfer confirmation",
+          "narrativa_beneficiario": "Transfer description",
+          "comprobante_transaccion": "Confirmation number + bank app receipt",
+          "notas": "Transferencia 3.0 is Argentina's instant payment system. Available 24/7 using CBU, CVU, or Alias.",
+          "límites": {
+            "B2B": {
+              "min": "$1 ARS",
+              "max": "No technical limit (bank-defined)"
+            },
+            "P2P": {
+              "min": "$1 ARS",
+              "max": "$200,000 ARS per transaction"
+            }
+          },
+          "fees": {
+            "banco_receptor": "$0 ARS (free)",
+            "loopay_fee": "1.0% - 2.0%"
+          },
+          "horario_operacion": "24/7/365"
+        },
+        {
+          "método_payin": "DEBIN (Electronic Direct Debit)",
+          "monedas_payin": "ARS",
+          "red_participante": "BCRA",
+          "fuente_fx": "Live Interbank based rates available 24x7",
+          "canales": "All Argentine banks",
+          "tipos_transaccion": "B2C, C2B",
+          "tiempo_liquidacion": "Immediate upon customer authorization",
+          "datos_obligatorios": [
+            "CBU/CVU",
+            "CUIL/CUIT",
+            "Customer authorization"
+          ],
+          "documentos_soporte": "DEBIN authorization + confirmation",
+          "narrativa_beneficiario": "DEBIN description",
+          "comprobante_transaccion": "DEBIN ID + bank confirmation",
+          "notas": "DEBIN requires customer to actively authorize payment through their bank app. Popular for e-commerce.",
+          "límites": {
+            "B2C": {
+              "min": "$100 ARS",
+              "max": "$500,000 ARS per transaction"
+            }
+          },
+          "fees": {
+            "processing_fee": "$0 ARS",
+            "loopay_fee": "1.5% - 2.5%"
+          },
+          "horario_operacion": "24/7/365"
+        },
+        {
+          "método_payin": "Mercado Pago",
+          "monedas_payin": "ARS",
+          "red_participante": "Mercado Libre",
+          "fuente_fx": "Live Interbank based rates available 24x7",
+          "canales": "Mercado Pago app/web",
+          "tipos_transaccion": "B2C, P2P, C2B",
+          "tiempo_liquidacion": "Real-time",
+          "datos_obligatorios": [
+            "Mercado Pago CVU",
+            "Customer email/phone"
+          ],
+          "documentos_soporte": "Mercado Pago receipt",
+          "narrativa_beneficiario": "Transaction description",
+          "comprobante_transaccion": "MP transaction ID + email receipt",
+          "notas": "Mercado Pago is the leading digital wallet in Argentina with 40M+ users. Integrated with e-commerce.",
+          "límites": {
+            "B2C": {
+              "min": "$100 ARS",
+              "max": "$500,000 ARS per transaction"
+            }
+          },
+          "fees": {
+            "mp_fee": "3.49% + $6.30 ARS",
+            "loopay_fee": "Included in MP fee"
+          },
+          "horario_operacion": "24/7/365"
+        },
+        {
+          "método_payin": "Credit/Debit Card (Argentine)",
+          "monedas_payin": "ARS",
+          "red_participante": "Visa, Mastercard, Cabal, Naranja",
+          "fuente_fx": "Live card network rates",
+          "canales": "Online payment gateways",
+          "tipos_transaccion": "B2C, C2B",
+          "tiempo_liquidacion": "1-3 business days",
+          "datos_obligatorios": [
+            "Card Number",
+            "Expiry Date",
+            "CVV",
+            "CUIL/CUIT",
+            "Cardholder Name"
+          ],
+          "documentos_soporte": "Payment gateway confirmation",
+          "narrativa_beneficiario": "Merchant name on statement",
+          "comprobante_transaccion": "Transaction ID + approval code",
+          "notas": "Argentine cards support extensive installment plans (up to 18 cuotas). Local cards (Cabal, Naranja) widely used.",
+          "límites": {
+            "B2C": {
+              "min": "$100 ARS",
+              "max": "Card limit"
+            }
+          },
+          "fees": {
+            "processing_fee": "3.0% - 6.5% (varies by installments)",
+            "loopay_fee": "Included in processing fee"
+          },
+          "horario_operacion": "24/7/365"
+        }
+      ]
+    },
+    "Chile": {
+      "región": "Sudamérica",
+      "secciones": [
+        {
+          "método_payin": "Transferencia Bancaria",
+          "monedas_payin": "CLP",
+          "red_participante": "TEF Chile",
+          "fuente_fx": "Live Interbank based rates available 24x7",
+          "canales": "All Chilean banks",
+          "tipos_transaccion": "B2B, B2C",
+          "tiempo_liquidacion": "Same-day (if before 2:00 PM CLT)",
+          "datos_obligatorios": [
+            "Bank Name",
+            "Account Type",
+            "Account Number",
+            "RUT",
+            "Beneficiary Name"
+          ],
+          "documentos_soporte": "Transfer confirmation",
+          "narrativa_beneficiario": "Transfer description",
+          "comprobante_transaccion": "Bank receipt + reference number",
+          "notas": "TEF (Transferencia Electrónica de Fondos) is the standard for bank transfers in Chile.",
+          "límites": {
+            "B2B": {
+              "min": "$1,000 CLP",
+              "max": "$100,000,000 CLP"
+            }
+          },
+          "fees": {
+            "banco_emisor": "$500 - $1,500 CLP",
+            "loopay_fee": "0.8% - 1.5%"
+          },
+          "horario_operacion": "Business days 9:00 AM - 2:00 PM CLT"
+        },
+        {
+          "método_payin": "Webpay",
+          "monedas_payin": "CLP",
+          "red_participante": "Transbank",
+          "fuente_fx": "Live card network rates",
+          "canales": "Online via Transbank gateway",
+          "tipos_transaccion": "B2C, C2B",
+          "tiempo_liquidacion": "1-2 business days",
+          "datos_obligatorios": [
+            "Card Number",
+            "Expiry Date",
+            "CVV",
+            "RUT",
+            "Cardholder Name"
+          ],
+          "documentos_soporte": "Webpay confirmation",
+          "narrativa_beneficiario": "Merchant name",
+          "comprobante_transaccion": "Order number + authorization code",
+          "notas": "Webpay is the dominant payment gateway in Chile. Supports credit, debit, and prepaid cards.",
+          "límites": {
+            "B2C": {
+              "min": "$1,000 CLP",
+              "max": "Card limit"
+            }
+          },
+          "fees": {
+            "processing_fee": "2.95% - 3.49% + $300 CLP",
+            "loopay_fee": "Included in processing fee"
+          },
+          "horario_operacion": "24/7/365"
+        }
+      ]
+    },
+    "Ecuador": {
+      "región": "Sudamérica",
+      "secciones": [
+        {
+          "método_payin": "Transferencia Bancaria",
+          "monedas_payin": "USD",
+          "red_participante": "All Ecuadorian banks",
+          "fuente_fx": "Live Interbank based rates available 24x7",
+          "canales": "Banco Pichincha, Banco Guayaquil, Produbanco, Banco Pacífico, etc.",
+          "tipos_transaccion": "B2B, B2C",
+          "tiempo_liquidacion": "Same-day to T+1",
+          "datos_obligatorios": [
+            "Bank Name",
+            "Account Type",
+            "Account Number",
+            "Cédula or RUC",
+            "Beneficiary Name",
+            "Email"
+          ],
+          "documentos_soporte": "Transfer confirmation from bank",
+          "narrativa_beneficiario": "Transfer description",
+          "comprobante_transaccion": "Bank receipt + reference number",
+          "notas": "Bank transfers are the preferred payment method by 57% of Ecuadorians. Ecuador uses USD as official currency.",
+          "límites": {
+            "B2B": {
+              "min": "$1 USD",
+              "max": "Bank-defined (typically $10,000 - $50,000 USD per day)"
+            },
+            "B2C": {
+              "min": "$1 USD",
+              "max": "$10,000 USD per transaction"
+            }
+          },
+          "fees": {
+            "banco_emisor": "$0.50 - $3.00 USD",
+            "loopay_fee": "1.0% - 1.5%"
+          },
+          "horario_operacion": "Business days 9:00 AM - 5:00 PM ECT"
+        },
+        {
+          "método_payin": "PayPhone",
+          "monedas_payin": "USD",
+          "red_participante": "PayPhone Ecuador",
+          "fuente_fx": "Live Interbank based rates available 24x7",
+          "canales": "Mobile app, QR codes, web",
+          "tipos_transaccion": "P2P, C2B",
+          "tiempo_liquidacion": "Real-time",
+          "datos_obligatorios": [
+            "Phone Number",
+            "Cédula",
+            "Customer Name"
+          ],
+          "documentos_soporte": "PayPhone app confirmation",
+          "narrativa_beneficiario": "Transaction description in app",
+          "comprobante_transaccion": "App receipt + transaction ID",
+          "notas": "PayPhone is Ecuador's leading mobile payment platform. Supports QR code payments and phone-to-phone transfers.",
+          "límites": {
+            "P2P": {
+              "min": "$0.50 USD",
+              "max": "$1,000 USD per transaction"
+            },
+            "C2B": {
+              "min": "$1 USD",
+              "max": "$5,000 USD per transaction"
+            }
+          },
+          "fees": {
+            "app_fee": "$0.15 - $0.35 USD per transaction",
+            "loopay_fee": "1.5% - 2.0%"
+          },
+          "horario_operacion": "24/7/365"
+        },
+        {
+          "método_payin": "Credit/Debit Card (Ecuadorian)",
+          "monedas_payin": "USD",
+          "red_participante": "Visa, Mastercard, American Express, Diners Club",
+          "fuente_fx": "Live card network rates",
+          "canales": "Online payment gateways",
+          "tipos_transaccion": "B2C, C2B",
+          "tiempo_liquidacion": "1-3 business days",
+          "datos_obligatorios": [
+            "Card Number",
+            "Expiry Date",
+            "CVV",
+            "Cardholder Name",
+            "Cédula or RUC",
+            "Billing Address"
+          ],
+          "documentos_soporte": "Payment gateway confirmation",
+          "narrativa_beneficiario": "Merchant name on statement",
+          "comprobante_transaccion": "Transaction ID + authorization code",
+          "notas": "Card payments widely accepted in Ecuador. Diners Club is particularly popular. 3D Secure authentication required.",
+          "límites": {
+            "B2C": {
+              "min": "$1 USD",
+              "max": "Card limit"
+            }
+          },
+          "fees": {
+            "processing_fee": "3.0% - 4.5% + $0.30 USD",
+            "loopay_fee": "Included in processing fee"
+          },
+          "horario_operacion": "24/7/365"
+        },
+        {
+          "método_payin": "Cash Collection (Puntos de Pago)",
+          "monedas_payin": "USD",
+          "red_participante": "ServiPagos, Western Union, MoneyGram",
+          "fuente_fx": "Live Interbank based rates available 24x7",
+          "canales": "Payment agents, convenience stores",
+          "tipos_transaccion": "C2B",
+          "tiempo_liquidacion": "2-24 hours after deposit",
+          "datos_obligatorios": [
+            "Payment Reference",
+            "Cédula",
+            "Customer Name"
+          ],
+          "documentos_soporte": "Agent receipt",
+          "narrativa_beneficiario": "Reference number",
+          "comprobante_transaccion": "Agent receipt + reference",
+          "notas": "Cash payments used by 32% of Ecuadorians. Popular for customers without bank accounts.",
+          "límites": {
+            "C2B": {
+              "min": "$5 USD",
+              "max": "$1,000 USD per transaction"
+            }
+          },
+          "fees": {
+            "agent_fee": "$1.50 - $3.00 USD",
+            "loopay_fee": "2.5% - 3.5%"
+          },
+          "horario_operacion": "Agent business hours"
+        }
+      ]
+    },
+    "Peru": {
+      "región": "Sudamérica",
+      "secciones": [
+        {
+          "método_payin": "Transferencia Interbancaria",
+          "monedas_payin": "PEN",
+          "red_participante": "All Peruvian banks",
+          "fuente_fx": "Live Interbank based rates available 24x7",
+          "canales": "BCP, BBVA, Interbank, Scotiabank, etc.",
+          "tipos_transaccion": "B2B, B2C",
+          "tiempo_liquidacion": "Same-day to T+1",
+          "datos_obligatorios": [
+            "Bank Name",
+            "Account Number (CCI)",
+            "Document Type",
+            "Document Number",
+            "Beneficiary Name"
+          ],
+          "documentos_soporte": "Transfer confirmation",
+          "narrativa_beneficiario": "Transfer description",
+          "comprobante_transaccion": "Bank receipt + operation number",
+          "notas": "CCI (Código de Cuenta Interbancario) is the standard account identifier for interbank transfers in Peru.",
+          "límites": {
+            "B2B": {
+              "min": "S/ 1",
+              "max": "Bank-defined"
+            }
+          },
+          "fees": {
+            "banco_emisor": "S/ 5 - S/ 10",
+            "loopay_fee": "1.0% - 1.5%"
+          },
+          "horario_operacion": "Business days 9:00 AM - 5:00 PM PET"
+        },
+        {
+          "método_payin": "Yape / Plin",
+          "monedas_payin": "PEN",
+          "red_participante": "BCP (Yape), Multi-bank (Plin)",
+          "fuente_fx": "Live Interbank based rates available 24x7",
+          "canales": "Mobile apps",
+          "tipos_transaccion": "P2P, C2B",
+          "tiempo_liquidacion": "Real-time",
+          "datos_obligatorios": [
+            "Phone Number",
+            "Customer Name"
+          ],
+          "documentos_soporte": "App confirmation",
+          "narrativa_beneficiario": "Transaction description",
+          "comprobante_transaccion": "App receipt + operation ID",
+          "notas": "Yape and Plin are the leading mobile payment apps in Peru. QR code payments supported.",
+          "límites": {
+            "P2P": {
+              "min": "S/ 1",
+              "max": "S/ 2,000 per transaction"
+            }
+          },
+          "fees": {
+            "app_fee": "S/ 0 (free for P2P)",
+            "loopay_fee": "1.5% - 2.0%"
+          },
+          "horario_operacion": "24/7/365"
+        }
+      ]
+    },
+    "Uruguay": {
+      "región": "Sudamérica",
+      "secciones": [
+        {
+          "método_payin": "Transferencia Bancaria",
+          "monedas_payin": "UYU",
+          "red_participante": "BROU, Santander, BBVA, Itaú, Scotiabank",
+          "fuente_fx": "Live Interbank based rates available 24x7",
+          "canales": "All major Uruguayan banks",
+          "tipos_transaccion": "B2B, B2C",
+          "tiempo_liquidacion": "Same-day to T+1",
+          "datos_obligatorios": [
+            "Bank Name",
+            "Account Number",
+            "CI or RUT",
+            "Beneficiary Name",
+            "Email"
+          ],
+          "documentos_soporte": "Transfer confirmation",
+          "narrativa_beneficiario": "Transfer description",
+          "comprobante_transaccion": "Bank receipt + reference",
+          "notas": "Bank transfers are the most common payment method in Uruguay. High banking penetration.",
+          "límites": {
+            "B2B": {
+              "min": "$100 UYU",
+              "max": "Bank-defined"
+            }
+          },
+          "fees": {
+            "banco_emisor": "$50 - $150 UYU",
+            "loopay_fee": "1.0% - 1.5%"
+          },
+          "horario_operacion": "Business days 9:00 AM - 5:00 PM UYT"
+        },
+        {
+          "método_payin": "Credit/Debit Card",
+          "monedas_payin": "UYU, USD",
+          "red_participante": "Visa, Mastercard, OCA",
+          "fuente_fx": "Live card network rates",
+          "canales": "Online payment gateways",
+          "tipos_transaccion": "B2C, C2B",
+          "tiempo_liquidacion": "1-3 business days",
+          "datos_obligatorios": [
+            "Card Number",
+            "Expiry Date",
+            "CVV",
+            "Cardholder Name",
+            "CI or RUT"
+          ],
+          "documentos_soporte": "Payment gateway confirmation",
+          "narrativa_beneficiario": "Merchant name",
+          "comprobante_transaccion": "Transaction ID + approval code",
+          "notas": "OCA is Uruguay's local card brand. Installment payments common.",
+          "límites": {
+            "B2C": {
+              "min": "$100 UYU",
+              "max": "Card limit"
+            }
+          },
+          "fees": {
+            "processing_fee": "3.0% - 4.0% + $20 UYU",
+            "loopay_fee": "Included in processing fee"
+          },
+          "horario_operacion": "24/7/365"
+        }
+      ]
+    },
+    "Panama": {
+      "región": "Norteamérica",
+      "secciones": [
+        {
+          "método_payin": "ACH Panama",
+          "monedas_payin": "USD, PAB",
+          "red_participante": "Banco Nacional de Panamá",
+          "fuente_fx": "Live Interbank based rates available 24x7",
+          "canales": "All Panamanian banks",
+          "tipos_transaccion": "B2B, B2C",
+          "tiempo_liquidacion": "1-2 business days",
+          "datos_obligatorios": [
+            "Bank Name",
+            "Account Number",
+            "Cédula or RUC",
+            "Beneficiary Name"
+          ],
+          "documentos_soporte": "ACH confirmation",
+          "narrativa_beneficiario": "Transfer description",
+          "comprobante_transaccion": "ACH receipt",
+          "notas": "Panama uses both USD and PAB (Balboa) interchangeably at 1:1. ACH is the standard for electronic transfers.",
+          "límites": {
+            "B2B": {
+              "min": "$1 USD",
+              "max": "Bank-defined"
+            }
+          },
+          "fees": {
+            "banco_emisor": "$0.25 - $2.00 USD",
+            "loopay_fee": "1.0% - 1.5%"
+          },
+          "horario_operacion": "Business days 8:00 AM - 5:00 PM EST"
+        },
+        {
+          "método_payin": "Yappy",
+          "monedas_payin": "USD, PAB",
+          "red_participante": "Banco General",
+          "fuente_fx": "Live Interbank based rates available 24x7",
+          "canales": "Mobile app",
+          "tipos_transaccion": "P2P, C2B",
+          "tiempo_liquidacion": "Real-time",
+          "datos_obligatorios": [
+            "Phone Number",
+            "Customer Name"
+          ],
+          "documentos_soporte": "App confirmation",
+          "narrativa_beneficiario": "Transaction description",
+          "comprobante_transaccion": "App receipt + transaction ID",
+          "notas": "Yappy is Panama's leading mobile payment app. Very popular for P2P and merchant payments.",
+          "límites": {
+            "P2P": {
+              "min": "$0.25 USD",
+              "max": "$500 USD per transaction"
+            },
+            "C2B": {
+              "min": "$1 USD",
+              "max": "$5,000 USD per transaction"
+            }
+          },
+          "fees": {
+            "app_fee": "$0 (free for P2P)",
+            "loopay_fee": "1.5% - 2.0%"
+          },
+          "horario_operacion": "24/7/365"
+        },
+        {
+          "método_payin": "Credit/Debit Card",
+          "monedas_payin": "USD",
+          "red_participante": "Visa, Mastercard, American Express",
+          "fuente_fx": "Live card network rates",
+          "canales": "Online payment gateways",
+          "tipos_transaccion": "B2C, C2B",
+          "tiempo_liquidacion": "1-3 business days",
+          "datos_obligatorios": [
+            "Card Number",
+            "Expiry Date",
+            "CVV",
+            "Cardholder Name"
+          ],
+          "documentos_soporte": "Payment gateway confirmation",
+          "narrativa_beneficiario": "Merchant name",
+          "comprobante_transaccion": "Transaction ID",
+          "notas": "Card usage is very high in Panama. No installment payments common.",
+          "límites": {
+            "B2C": {
+              "min": "$1 USD",
+              "max": "Card limit"
+            }
+          },
+          "fees": {
+            "processing_fee": "3.0% - 3.5% + $0.30 USD",
+            "loopay_fee": "Included in processing fee"
+          },
+          "horario_operacion": "24/7/365"
+        }
+      ]
+    },
+    "Costa Rica": {
+      "región": "Norteamérica",
+      "secciones": [
+        {
+          "método_payin": "SINPE Móvil",
+          "monedas_payin": "CRC",
+          "red_participante": "Banco Central de Costa Rica",
+          "fuente_fx": "Live Interbank based rates available 24x7",
+          "canales": "All Costa Rican banks and mobile apps",
+          "tipos_transaccion": "P2P, C2B",
+          "tiempo_liquidacion": "Real-time (seconds)",
+          "datos_obligatorios": [
+            "Phone Number",
+            "Cédula",
+            "Customer Name"
+          ],
+          "documentos_soporte": "SINPE confirmation",
+          "narrativa_beneficiario": "Transaction description",
+          "comprobante_transaccion": "SINPE receipt + reference number",
+          "notas": "SINPE Móvil is Costa Rica's instant payment system. Very popular and widely adopted. Uses phone numbers as identifiers.",
+          "límites": {
+            "P2P": {
+              "min": "₡100 CRC",
+              "max": "₡3,500,000 CRC per transaction"
+            },
+            "C2B": {
+              "min": "₡100 CRC",
+              "max": "₡10,000,000 CRC per transaction"
+            }
+          },
+          "fees": {
+            "banco_receptor": "₡0 (free)",
+            "loopay_fee": "1.0% - 1.5%"
+          },
+          "horario_operacion": "24/7/365"
+        },
+        {
+          "método_payin": "Transferencia Bancaria",
+          "monedas_payin": "CRC, USD",
+          "red_participante": "All Costa Rican banks",
+          "fuente_fx": "Live Interbank based rates available 24x7",
+          "canales": "BCR, BAC, Scotiabank, BCT, Davivienda",
+          "tipos_transaccion": "B2B, B2C",
+          "tiempo_liquidacion": "Same-day to T+1",
+          "datos_obligatorios": [
+            "Bank Name",
+            "Account Number (IBAN)",
+            "Cédula",
+            "Beneficiary Name"
+          ],
+          "documentos_soporte": "Transfer confirmation",
+          "narrativa_beneficiario": "Transfer description",
+          "comprobante_transaccion": "Bank receipt",
+          "notas": "Costa Rica supports both CRC and USD accounts. IBAN format used for account numbers.",
+          "límites": {
+            "B2B": {
+              "min": "₡1,000 CRC",
+              "max": "Bank-defined"
+            }
+          },
+          "fees": {
+            "banco_emisor": "₡500 - ₡1,500 CRC",
+            "loopay_fee": "1.0% - 1.5%"
+          },
+          "horario_operacion": "Business days 8:00 AM - 5:00 PM CST"
+        },
+        {
+          "método_payin": "Credit/Debit Card",
+          "monedas_payin": "CRC, USD",
+          "red_participante": "Visa, Mastercard, American Express",
+          "fuente_fx": "Live card network rates",
+          "canales": "Online payment gateways",
+          "tipos_transaccion": "B2C, C2B",
+          "tiempo_liquidacion": "1-3 business days",
+          "datos_obligatorios": [
+            "Card Number",
+            "Expiry Date",
+            "CVV",
+            "Cardholder Name",
+            "Cédula"
+          ],
+          "documentos_soporte": "Payment gateway confirmation",
+          "narrativa_beneficiario": "Merchant name",
+          "comprobante_transaccion": "Transaction ID",
+          "notas": "Card payments support both CRC and USD. Installments common.",
+          "límites": {
+            "B2C": {
+              "min": "₡1,000 CRC",
+              "max": "Card limit"
+            }
+          },
+          "fees": {
+            "processing_fee": "3.0% - 3.5% + ₡200 CRC",
+            "loopay_fee": "Included in processing fee"
+          },
+          "horario_operacion": "24/7/365"
+        }
+      ]
+    },
+    "Dominican Republic": {
+      "región": "Norteamérica",
+      "secciones": [
+        {
+          "método_payin": "Transferencia Bancaria",
+          "monedas_payin": "DOP, USD",
+          "red_participante": "All Dominican banks",
+          "fuente_fx": "Live Interbank based rates available 24x7",
+          "canales": "Banco Popular, BHD León, Banreservas, Banco BDI",
+          "tipos_transaccion": "B2B, B2C",
+          "tiempo_liquidacion": "Same-day to T+1",
+          "datos_obligatorios": [
+            "Bank Name",
+            "Account Number",
+            "Cédula or RNC",
+            "Beneficiary Name"
+          ],
+          "documentos_soporte": "Transfer confirmation",
+          "narrativa_beneficiario": "Transfer description",
+          "comprobante_transaccion": "Bank receipt",
+          "notas": "Bank transfers available in both DOP (Dominican Peso) and USD.",
+          "límites": {
+            "B2B": {
+              "min": "$100 DOP",
+              "max": "Bank-defined"
+            }
+          },
+          "fees": {
+            "banco_emisor": "$50 - $200 DOP",
+            "loopay_fee": "1.0% - 1.5%"
+          },
+          "horario_operacion": "Business days 8:00 AM - 5:00 PM AST"
+        },
+        {
+          "método_payin": "Credit/Debit Card",
+          "monedas_payin": "DOP, USD",
+          "red_participante": "Visa, Mastercard, American Express",
+          "fuente_fx": "Live card network rates",
+          "canales": "Online payment gateways",
+          "tipos_transaccion": "B2C, C2B",
+          "tiempo_liquidacion": "1-3 business days",
+          "datos_obligatorios": [
+            "Card Number",
+            "Expiry Date",
+            "CVV",
+            "Cardholder Name",
+            "Cédula or RNC"
+          ],
+          "documentos_soporte": "Payment gateway confirmation",
+          "narrativa_beneficiario": "Merchant name",
+          "comprobante_transaccion": "Transaction ID",
+          "notas": "Card payments widely accepted. Both DOP and USD supported.",
+          "límites": {
+            "B2C": {
+              "min": "$100 DOP",
+              "max": "Card limit"
+            }
+          },
+          "fees": {
+            "processing_fee": "3.5% - 4.5% + $10 DOP",
+            "loopay_fee": "Included in processing fee"
+          },
+          "horario_operacion": "24/7/365"
+        }
+      ]
+    },
+    "India": {
+      "región": "Asia",
+      "secciones": [
+        {
+          "método_payin": "UPI (Unified Payments Interface)",
+          "monedas_payin": "INR",
+          "red_participante": "NPCI",
+          "fuente_fx": "Live Interbank based rates available 24x7",
+          "canales": "All major banks and UPI apps (Google Pay, PhonePe, Paytm, etc.)",
+          "tipos_transaccion": "B2B, B2C, P2P, C2B",
+          "tiempo_liquidacion": "Real-time (seconds)",
+          "datos_obligatorios": [
+            "UPI ID (Virtual Payment Address)",
+            "Customer Name"
+          ],
+          "documentos_soporte": "UPI transaction reference",
+          "narrativa_beneficiario": "Transaction description",
+          "comprobante_transaccion": "UTR (Unique Transaction Reference)",
+          "notas": "UPI is the most popular payment method in India with 10B+ transactions/month. Supports QR codes and deep linking.",
+          "límites": {
+            "P2P": {
+              "min": "₹1",
+              "max": "₹1,00,000 per transaction"
+            },
+            "B2C": {
+              "min": "₹1",
+              "max": "₹2,00,000 per transaction"
+            }
+          },
+          "fees": {
+            "processing_fee": "₹0 (free for P2P)",
+            "loopay_fee": "1.5% - 2.0% for merchant payments"
+          },
+          "horario_operacion": "24/7/365"
+        },
+        {
+          "método_payin": "NEFT (National Electronic Funds Transfer)",
+          "monedas_payin": "INR",
+          "red_participante": "RBI",
+          "fuente_fx": "Live Interbank based rates available 24x7",
+          "canales": "All Indian banks",
+          "tipos_transaccion": "B2B, B2C",
+          "tiempo_liquidacion": "Hourly batches (T+0)",
+          "datos_obligatorios": [
+            "Beneficiary Name",
+            "Bank Name",
+            "Branch IFSC Code",
+            "Account Number",
+            "Account Type"
+          ],
+          "documentos_soporte": "NEFT confirmation",
+          "narrativa_beneficiario": "Transfer description",
+          "comprobante_transaccion": "UTR number",
+          "notas": "NEFT processes transactions in hourly batches. Available 24/7 since Dec 2019.",
+          "límites": {
+            "B2B": {
+              "min": "₹1",
+              "max": "No limit"
+            }
+          },
+          "fees": {
+            "banco_emisor": "₹2 - ₹25 (based on amount)",
+            "loopay_fee": "0.5% - 1.0%"
+          },
+          "horario_operacion": "24/7/365"
+        },
+        {
+          "método_payin": "IMPS (Immediate Payment Service)",
+          "monedas_payin": "INR",
+          "red_participante": "NPCI",
+          "fuente_fx": "Live Interbank based rates available 24x7",
+          "canales": "All major banks",
+          "tipos_transaccion": "B2B, B2C, P2P",
+          "tiempo_liquidacion": "Real-time (seconds)",
+          "datos_obligatorios": [
+            "Beneficiary Name",
+            "Bank IFSC Code",
+            "Account Number",
+            "Mobile Number (for verification)"
+          ],
+          "documentos_soporte": "IMPS confirmation",
+          "narrativa_beneficiario": "Transfer description",
+          "comprobante_transaccion": "RRN (Retrieval Reference Number)",
+          "notas": "IMPS is faster than NEFT but has transaction limits. Available 24/7.",
+          "límites": {
+            "P2P": {
+              "min": "₹1",
+              "max": "₹5,00,000 per transaction"
+            }
+          },
+          "fees": {
+            "banco_emisor": "₹5 - ₹15",
+            "loopay_fee": "1.0% - 1.5%"
+          },
+          "horario_operacion": "24/7/365"
+        }
+      ]
+    },
+    "SEPA Zone (Europe)": {
+      "región": "Europa",
+      "secciones": [
+        {
+          "método_payin": "SEPA Credit Transfer",
+          "monedas_payin": "EUR",
+          "red_participante": "European Payments Council",
+          "fuente_fx": "Live Interbank based rates available 24x7",
+          "canales": "All banks in SEPA zone (36 countries)",
+          "tipos_transaccion": "B2B, B2C, P2B",
+          "tiempo_liquidacion": "1 business day",
+          "datos_obligatorios": [
+            "Beneficiary Name",
+            "IBAN",
+            "BIC/SWIFT (optional for SEPA)",
+            "Payment Reference"
+          ],
+          "documentos_soporte": "SEPA confirmation",
+          "narrativa_beneficiario": "Payment reference in bank statement",
+          "comprobante_transaccion": "SEPA End-to-End Reference",
+          "notas": "SEPA is the standard for euro transfers within Europe. SEPA Instant available for real-time payments.",
+          "límites": {
+            "B2B": {
+              "min": "€0.01",
+              "max": "€999,999,999.99"
+            }
+          },
+          "fees": {
+            "banco_receptor": "€0 - €5",
+            "loopay_fee": "0.3% - 0.8%"
+          },
+          "horario_operacion": "Business days"
+        },
+        {
+          "método_payin": "SEPA Instant Credit Transfer",
+          "monedas_payin": "EUR",
+          "red_participante": "European Payments Council",
+          "fuente_fx": "Live Interbank based rates available 24x7",
+          "canales": "SEPA Instant participating banks",
+          "tipos_transaccion": "B2B, B2C, P2P, C2B",
+          "tiempo_liquidacion": "Real-time (< 10 seconds)",
+          "datos_obligatorios": [
+            "Beneficiary Name",
+            "IBAN",
+            "Payment Reference"
+          ],
+          "documentos_soporte": "SEPA Instant confirmation",
+          "narrativa_beneficiario": "Payment reference",
+          "comprobante_transaccion": "End-to-End ID + transaction timestamp",
+          "notas": "SEPA Instant provides real-time euro transfers. Available 24/7/365. €100,000 limit per transaction.",
+          "límites": {
+            "B2B": {
+              "min": "€0.01",
+              "max": "€100,000 per transaction"
+            }
+          },
+          "fees": {
+            "banco_receptor": "€0 - €2",
+            "loopay_fee": "0.5% - 1.0%"
+          },
+          "horario_operacion": "24/7/365"
+        },
+        {
+          "método_payin": "SEPA Direct Debit",
+          "monedas_payin": "EUR",
+          "red_participante": "European Payments Council",
+          "fuente_fx": "Live Interbank based rates available 24x7",
+          "canales": "All banks in SEPA zone",
+          "tipos_transaccion": "B2C (with mandate)",
+          "tiempo_liquidacion": "2-5 business days",
+          "datos_obligatorios": [
+            "IBAN",
+            "Mandate Reference",
+            "Creditor Identifier",
+            "Debtor Name"
+          ],
+          "documentos_soporte": "SEPA Direct Debit mandate",
+          "narrativa_beneficiario": "Mandate description",
+          "comprobante_transaccion": "Mandate reference + collection date",
+          "notas": "SEPA Direct Debit requires pre-authorized mandate from customer. Good for recurring payments.",
+          "límites": {
+            "B2C": {
+              "min": "€0.01",
+              "max": "No limit (mandate-based)"
+            }
+          },
+          "fees": {
+            "processing_fee": "€0.20 - €0.50 per transaction",
+            "loopay_fee": "0.5% - 1.0%"
+          },
+          "horario_operacion": "Business days (collection cycles)"
+        }
+      ]
+    }
+  }
+}
+

@@ -1,0 +1,7 @@
+{
+  "comment": "Coverage ratchet floor (Sept 2026 measured baseline). The gate fails when coverage drops below any of these; raise the numbers as coverage improves — target 90. Lower only with an explicit architecture decision.",
+  "statements": 11.2,
+  "branches": 58.6,
+  "functions": 32.9,
+  "lines": 11.2
+}

@@ -1,0 +1,44 @@
+{
+  "compilerOptions": {
+    "target": "ES2021",
+    "useDefineForClassFields": true,
+    "lib": ["ES2021", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "types": ["vite/client"],
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting - STRICT MODE ENABLED */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+
+    /* Path Mapping */
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@app/*": ["./src/app/*"],
+      "@modules/*": ["./src/modules/*"],
+      "@shared/*": ["./src/shared/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@styles/*": ["./src/styles/*"],
+      
+      // Module aliases
+      "@suite-user/*": ["./src/modules/suite-user/*"],
+      "@suite-backoffice/*": ["./src/modules/suite-backoffice/*"],
+      "@common/*": ["./src/modules/common/*"]
+    }
+  },
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}

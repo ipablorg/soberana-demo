@@ -1,0 +1,26 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "You just edited a file. If it's a TSX file, verify against CLAUDE.md Section 7 checklist: semantic tokens only (no hex/rgb/hsl), correct radius (buttons=rounded-lg, cards=rounded-xl), no transition-all (use transition-colors duration-150), icons from @/shared/components/animated-icons barrel, no `any` types, no cross-module imports."
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash(git commit *)",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Before committing: mentally verify that staged files have no hex/rgb/hsl color literals in TSX, no TypeScript `any` types, no cross-module imports (suite-user cannot import from suite-backoffice), no direct lucide-react imports (use animated-icons barrel), and no raw error.message in auth callbacks (use mapError)."
+          }
+        ]
+      }
+    ]
+  }
+}

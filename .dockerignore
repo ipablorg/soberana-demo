@@ -1,0 +1,103 @@
+# ============================================
+# Docker Ignore File for suite-loopay-front
+# Excludes unnecessary files from Docker build context
+# ============================================
+
+# Dependencies (will be installed in Docker)
+node_modules/
+
+# Build output (will be generated in Docker)
+dist/
+build/
+.vite/
+
+# Environment files (use build args in Docker)
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+.env.*.local
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+coverage/
+.nyc_output/
+
+# Documentation
+*.md
+!README.md
+docs/
+.claude/
+cursor/
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+.travis.yml
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Temp files
+tmp/
+temp/
+*.tmp
+
+# Docker files themselves
+Dockerfile
+.dockerignore
+docker-compose.yml
+docker-compose.*.yml
+
+# Development tools
+.eslintrc.js
+.eslintrc.cjs
+.eslintignore
+.prettierrc
+.prettierignore
+tsconfig.spec.json
+
+# Python scripts (translation tools)
+*.py
+__pycache__/
+
+# Test files (not needed in production)
+*.spec.ts
+*.spec.tsx
+*.test.ts
+*.test.tsx
+e2e/
+cypress/
+playwright/
+
+# Public source maps (optional, remove if you want to debug in production)
+# public/**/*.map
+
+# Storybook
+.storybook/
+storybook-static/
+
+# Editor config
+.editorconfig
+
+# Misc development files
+SEO_META_TAGS.html
+components.json

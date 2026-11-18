@@ -1,0 +1,78 @@
+- generic [ref=e2]:
+  - generic [ref=e27]:
+    - generic [ref=e31]:
+      - button [ref=e33]:
+        - generic [ref=e34]:
+          - img
+      - list [ref=e37]:
+        - listitem [ref=e38]:
+          - link [ref=e39] [cursor=pointer]:
+            - /url: /suite
+            - img [ref=e40]
+        - listitem [ref=e43]:
+          - link [ref=e44] [cursor=pointer]:
+            - /url: /suite/receive
+            - img [ref=e46]
+        - listitem [ref=e50]:
+          - link [ref=e51] [cursor=pointer]:
+            - /url: /suite/send
+            - img [ref=e53]
+        - listitem [ref=e56]:
+          - link [ref=e57] [cursor=pointer]:
+            - /url: /suite/transactions
+            - img [ref=e59]
+        - listitem [ref=e64]:
+          - link [ref=e65] [cursor=pointer]:
+            - /url: /suite/beneficiaries
+            - img [ref=e67]
+        - listitem [ref=e72]:
+          - link [ref=e73] [cursor=pointer]:
+            - /url: /suite/zentinel
+            - img [ref=e74]
+        - listitem [ref=e76]:
+          - link [ref=e77] [cursor=pointer]:
+            - /url: /suite/settings
+            - img [ref=e79]
+    - generic [ref=e82]:
+      - banner [ref=e83]:
+        - generic [ref=e84]:
+          - button "Toggle Sidebar" [ref=e85]:
+            - img
+            - generic [ref=e86]: Toggle Sidebar
+          - button "Ir al inicio" [ref=e87] [cursor=pointer]:
+            - img "Loopay" [ref=e88]
+        - button "Menú de usuario" [ref=e90]:
+          - generic [ref=e92]: PR
+          - generic [ref=e93]: Pablo
+      - main [ref=e94]:
+        - generic [ref=e96]:
+          - heading "Pablo, tu cuenta Soberana está lista. ¿Por dónde empezamos?" [level=1] [ref=e97]:
+            - generic [ref=e98]: Pablo, tu cuenta Soberana está lista.
+            - generic [ref=e99]: ¿Por dónde empezamos?
+          - generic [ref=e103]:
+            - img [ref=e105]
+            - generic [ref=e107]:
+              - generic [ref=e108]:
+                - heading "Verificación de identidad pendiente" [level=3] [ref=e109]
+                - generic [ref=e110]: Pendiente
+              - paragraph [ref=e111]: Para operar debes completar la verificación KYC. Es rápido y seguro.
+            - button "Iniciar verificación" [active] [ref=e112]:
+              - text: Iniciar verificación
+              - img
+          - paragraph [ref=e115]: Tu wallet se creará automáticamente cuando completes la verificación de identidad.
+          - generic [ref=e116]:
+            - button "Recibir Depósitos y links de pago" [ref=e118]:
+              - img [ref=e120]
+              - heading "Recibir" [level=3] [ref=e124]
+              - paragraph [ref=e125]: Depósitos y links de pago
+            - button "Enviar Enviar a cuentas bancarias" [ref=e127]:
+              - img [ref=e129]
+              - heading "Enviar" [level=3] [ref=e132]
+              - paragraph [ref=e133]: Enviar a cuentas bancarias
+            - button "Historial Ver todas las transacciones" [ref=e135]:
+              - img [ref=e137]
+              - heading "Historial" [level=3] [ref=e142]
+              - paragraph [ref=e143]: Ver todas las transacciones
+  - region "Notifications (F8)":
+    - list
+  - region "Notifications alt+T"

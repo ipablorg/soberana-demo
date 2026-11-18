@@ -1,0 +1,485 @@
+{
+  "loopay_productos_colombia": {
+    "version": "2.0.0",
+    "descripcion": "Catálogo de productos Loopay para el mercado colombiano",
+    "moneda_base": "COP",
+    "rails_disponibles": {
+      "bre_b": {
+        "nombre": "BRE-B",
+        "descripcion": "Sistema de pagos inmediatos e interoperables del Banco de la República",
+        "operador": "Banco de la República",
+        "tipo": "Pagos instantáneos",
+        "disponibilidad": "24/7/365",
+        "tiempo_liquidacion": "< 20 segundos",
+        "limite_por_transaccion": 11552000,
+        "moneda": "COP",
+        "identificadores": ["Cédula", "Celular", "Email", "Código alfanumérico"],
+        "costo_institucional": "Gratis primeros 3 años",
+        "fecha_lanzamiento": "2025-10-06",
+        "cobertura": "76% de adultos en Colombia (30M+ usuarios)",
+        "interoperabilidad": ["Bancos", "Cooperativas", "Billeteras digitales", "Fintechs"]
+      },
+      "ach_colombia": {
+        "nombre": "ACH Colombia",
+        "descripcion": "Cámara de Compensación Automatizada",
+        "tipo": "Transferencias interbancarias",
+        "tiempo_liquidacion": "4-24 horas según ciclo",
+        "ciclos_diarios": 5,
+        "disponibilidad": "Lunes a Viernes",
+        "horario": "7:00 AM - 6:00 PM"
+      },
+      "transfiya": {
+        "nombre": "TransfiYa",
+        "descripcion": "Sistema de pagos inmediatos P2P",
+        "operador": "ACH Colombia",
+        "tipo": "Pagos instantáneos P2P",
+        "tiempo_liquidacion": "15 minutos",
+        "disponibilidad": "24/7"
+      },
+      "pse": {
+        "nombre": "PSE (Pagos Seguros en Línea)",
+        "descripcion": "Botón de pagos electrónicos",
+        "operador": "ACH Colombia",
+        "tipo": "Débito en línea",
+        "tiempo_liquidacion": "4-6 horas"
+      }
+    },
+    "productos": {
+      "bre_b_instant": {
+        "nombre": "BRE-B Instant",
+        "descripcion": "Pagos instantáneos 24/7 con el nuevo sistema del Banco de la República",
+        "estado": "Disponible",
+        "rail": "BRE-B",
+        "proceso": {
+          "recarga": {
+            "metodos": [
+              {
+                "nombre": "Transferencia BRE-B entrante",
+                "tiempo": "< 20 segundos"
+              },
+              {
+                "nombre": "PSE",
+                "tiempo": "4-6 horas"
+              }
+            ]
+          },
+          "dispersion": {
+            "bre_b": {
+              "tiempo": "< 20 segundos",
+              "disponibilidad": "24/7/365",
+              "identificadores": "Cédula, Celular, Email o Código"
+            }
+          }
+        },
+        "costos": {
+          "dispersiones": {
+            "bre_b": "$500",
+            "bre_b_porcentaje": "0%"
+          },
+          "recargas": {
+            "bre_b": "$0",
+            "pse": "$1.339"
+          }
+        },
+        "tarifas_minimas": {
+          "dispersiones": {
+            "bre_b": "$750"
+          },
+          "recargas": {
+            "pse": "$1.406"
+          }
+        },
+        "limites": {
+          "por_transaccion": 11552000,
+          "diario": 50000000,
+          "mensual": 500000000
+        },
+        "facturacion": {
+          "tipo": "Mes vencido",
+          "descuento": "Automático de wallet del producto"
+        },
+        "aliados": ["Banco de la República", "Bancolombia", "Davivienda", "Nequi", "Daviplata"],
+        "ventaja_diferencial": "Pagos instantáneos 24/7 a cualquier banco o billetera en Colombia",
+        "mercado_objetivo": {
+          "segmento": "Empresas que necesitan pagos inmediatos",
+          "problema_resuelve": "Elimina tiempos de espera ACH, disponible fines de semana y festivos"
+        }
+      },
+      "crossborder": {
+        "nombre": "CrossBorder",
+        "descripcion": "Producto para recibir pagos internacionales en USDT/USDC y dispersar en COP",
+        "estado": "Disponible",
+        "proceso": {
+          "recarga": {
+            "metodo": "Wallet cripto",
+            "redes_autorizadas": ["Ethereum", "Polygon", "Tron", "Solana"],
+            "monedas": ["USDT", "USDC"],
+            "negociacion_tasa": true,
+            "disponibilidad": "Mismo día si se envía antes de las 11am (L-V)"
+          },
+          "dispersion": {
+            "metodo": "ACH Colombia",
+            "ciclos": 5,
+            "tiempo_entrega": {
+              "antes_11am": "Mismo día a partir de 2:30pm",
+              "entre_11am_4pm": "Siguiente día hábil a partir de 11am"
+            },
+            "bancos_destino": "Todos los bancos en Colombia"
+          }
+        },
+        "costos": {
+          "conversion_usdt_cop": "0.5% por transacción"
+        },
+        "facturacion": {
+          "corte": "Día 25 de cada mes",
+          "tipo": "Legalización incluida (ya descontado en cada operación)",
+          "pago_adicional": false
+        },
+        "aliados": ["BREX", "Banco de Occidente", "IRIS", "Canal Occidente"],
+        "mercado_objetivo": {
+          "segmento": "Freelancers, exportadores de servicios, empresas con ingresos internacionales",
+          "problema_resuelve": "Recibir pagos internacionales sin cuenta bancaria en USD"
+        }
+      },
+      "estandar": {
+        "nombre": "Estándar",
+        "descripcion": "Producto de dispersión y recaudo con Bancolombia como banco principal",
+        "estado": "Disponible",
+        "banco_principal": "Bancolombia",
+        "proceso": {
+          "recarga": {
+            "metodos": [
+              {
+                "nombre": "Wompi PSE",
+                "tiempo": "Hasta 6 horas"
+              },
+              {
+                "nombre": "Tarjeta débito/crédito",
+                "tiempo": "Hasta 24 horas hábiles"
+              },
+              {
+                "nombre": "Botón Bancolombia",
+                "tiempo": "1 hora"
+              },
+              {
+                "nombre": "Transferencia Bancolombia a Bancolombia",
+                "tiempo": "1 hora"
+              },
+              {
+                "nombre": "Transferencia otros bancos",
+                "tiempo": "Tiempos ACH"
+              }
+            ]
+          },
+          "dispersion": {
+            "bancolombia": {
+              "tiempo": "1 hora"
+            },
+            "otros_bancos": {
+              "tiempo": "Tiempos ACH"
+            }
+          }
+        },
+        "costos": {
+          "dispersiones": {
+            "mismo_banco": {
+              "valor": "$1.556 + 0.4%",
+              "incluye_iva": true
+            },
+            "otros_bancos": {
+              "valor": "$8.556 + 0.4%",
+              "incluye_iva": true
+            }
+          },
+          "recaudo": {
+            "tarjeta_debito_credito": {
+              "valor": "2.5% + $714",
+              "nota": "No incluye retenciones (Rte fuente, Rte ICA) ni IVA"
+            },
+            "pse": {
+              "valor": "$2.963"
+            },
+            "consignacion_corresponsal": {
+              "valor": "$8.990"
+            }
+          }
+        },
+        "tarifas_minimas": {
+          "dispersiones": {
+            "mismo_banco": "$2.335 + 0.4%",
+            "otros_bancos": "$12.834 + 0.4%"
+          },
+          "recaudo": {
+            "tarjeta_debito_credito": "2.9% + $1.200",
+            "pse": "$3.111",
+            "consignacion_corresponsal": "$9.440"
+          }
+        },
+        "facturacion": {
+          "tipo": "Mes vencido",
+          "descuento": "Automático de wallet del producto"
+        },
+        "aliados": ["Bancolombia", "Wompi", "Epayco"],
+        "mercado_objetivo": {
+          "segmento": "Empresas con alta volumetría transaccional",
+          "preferencia": "Cuentas Bancolombia y/o Davivienda",
+          "nicho": "CFOs, Gerentes Generales, Juntas Directivas",
+          "micronicho": "Tesoreros, Contadores, Departamentos de Pago"
+        }
+      },
+      "estandar_pro": {
+        "nombre": "Estándar Pro (IRIS)",
+        "descripcion": "Producto de dispersión con IRIS, un ciclo ACH adicional para pagos",
+        "estado": "Disponible",
+        "banco_principal": "IRIS",
+        "proceso": {
+          "recarga": {
+            "metodos": [
+              {
+                "nombre": "Transferencia directa a IRIS",
+                "tiempo": "Promedio 5 horas tras confirmación"
+              },
+              {
+                "nombre": "PSE",
+                "tiempo": "Hasta 4 horas"
+              },
+              {
+                "nombre": "IRIS Pay (Link de pago)",
+                "tiempo": "Variable",
+                "nota": "Solicitar a Customer el valor para generar link"
+              }
+            ]
+          },
+          "dispersion": {
+            "todos_los_bancos": {
+              "tiempo": "Promedio 5 horas",
+              "horario": "7:00am - 5:00pm = mismo día",
+              "cambio_estado": "24 horas después de dispersado"
+            }
+          }
+        },
+        "costos": {
+          "dispersiones": {
+            "todos_los_bancos": "$1.309"
+          },
+          "recargas": {
+            "pse": "$1.714",
+            "iris_pay": "$1.785"
+          }
+        },
+        "tarifas_minimas": {
+          "dispersiones": {
+            "todos_los_bancos": "$1.964 + 0.2%"
+          },
+          "recargas": {
+            "pse": "$1.800",
+            "iris_pay": "$1.800"
+          }
+        },
+        "facturacion": {
+          "tipo": "Mes vencido",
+          "descuento": "Automático de wallet del producto"
+        },
+        "aliados": ["IRIS"],
+        "ventaja_diferencial": "Ciclo ACH adicional para realizar pagos"
+      },
+      "optimo_pro": {
+        "nombre": "Óptimo Pro",
+        "descripcion": "Producto de dispersión con TransfiYa para pagos en tiempo real",
+        "estado": "Disponible",
+        "banco_principal": "Movii",
+        "proceso": {
+          "recarga": {
+            "metodos": [
+              {
+                "nombre": "PSE por Epayco",
+                "tiempo": {
+                  "antes_2pm": "6 horas",
+                  "despues_2pm": "Siguiente día hábil"
+                },
+                "generacion": "PayIn automático en plataforma"
+              },
+              {
+                "nombre": "Transferencia a cuenta Movii",
+                "tiempo": "Tiempos ACH"
+              }
+            ]
+          },
+          "dispersion": {
+            "transfiya": {
+              "tiempo": "15 minutos",
+              "condicion": "Cuentas asociadas a TransfiYa"
+            },
+            "no_transfiya": {
+              "tiempo": "Hasta 24 horas hábiles",
+              "condicion": "Cuentas no asociadas a TransfiYa"
+            }
+          }
+        },
+        "costos": {
+          "dispersiones": {
+            "transfiya": "$625",
+            "ach": "$1.071"
+          },
+          "recargas": {
+            "pse": "$1.339"
+          }
+        },
+        "tarifas_minimas": {
+          "dispersiones": {
+            "transfiya": "$938",
+            "ach": "$1.339"
+          },
+          "recargas": {
+            "pse": "$1.406"
+          }
+        },
+        "facturacion": {
+          "tipo": "Mes vencido",
+          "descuento": "Automático de wallet del producto"
+        },
+        "transfiya": {
+          "onboarding_masivo": {
+            "descripcion": "Vincular terceros (personas naturales) a TransfiYa",
+            "requisitos": [
+              "Dispersión exitosa previa en plataforma",
+              "Número telefónico registrado"
+            ],
+            "proceso": "Envío de mensaje SMS para vinculación",
+            "tiempo_proceso": "20 minutos",
+            "actualizacion_plataforma": "Máximo 2 horas"
+          },
+          "validacion_cuentas": {
+            "opcion_1": "Solicitar base de datos al KAM de terceros con dispersiones exitosas",
+            "opcion_2": "Enviar base de datos a Loopay para validación (1-2 días)",
+            "datos_requeridos": [
+              "Nombres y apellidos",
+              "Tipo y número de documento",
+              "Tipo y número de cuenta",
+              "Banco (ID Loopay)"
+            ],
+            "bancos_no_validables": ["Scotiabank", "Dale", "Occidente", "Bogotá", "AV Villas"]
+          },
+          "limites": {
+            "maxAmountOfTransfer": 3000000000,
+            "dailyCountOfTransfersLimit": 10000,
+            "dailySumAmountOfTransfersLimit": 10000000000
+          }
+        },
+        "aliados": ["Movii", "TransfiYa", "Epayco"],
+        "mercado_objetivo": {
+          "segmento": "Empresas con uso predeterminado de TransfiYa",
+          "ventaja": "Omite ciclos ACH para resultados óptimos y económicos"
+        }
+      },
+      "recaudo": {
+        "nombre": "Recaudo",
+        "descripcion": "Producto para recibir pagos de terceros mediante links de pago",
+        "estado": "Disponible",
+        "proceso": {
+          "generacion_links": {
+            "descripcion": "Generar links de pago indefinidas veces",
+            "metodos_pago": ["Transferencia", "Tarjeta de Crédito"]
+          },
+          "billeteras_habilitadas": {
+            "eficiente_express": {
+              "metodos": ["Wompi PSE", "Botón Bancolombia", "Tarjeta crédito (Epayco)"]
+            },
+            "optimo": {
+              "estado": "Inhabilitado",
+              "nota": "Pendiente integración con Payments Way"
+            },
+            "optimo_pro": {
+              "metodos": ["Epayco PSE"]
+            }
+          }
+        },
+        "costos": {
+          "dispersiones": {
+            "transfiya": "$625",
+            "ach": "$1.071"
+          },
+          "recargas": {
+            "pse": "$1.339"
+          }
+        },
+        "tarifas_minimas": {
+          "dispersiones": {
+            "transfiya": "$938",
+            "ach": "$1.339"
+          },
+          "recargas": {
+            "pse": "$1.406"
+          }
+        },
+        "facturacion": {
+          "tipo": "Mes vencido",
+          "descuento": "Manual (facturación a final de mes)",
+          "nota": "No hay descuentos automáticos (pricing) definidos"
+        },
+        "aliados": ["Bancolombia", "Banco Davivienda", "Banco Caja Social", "Banco de Bogotá", "Wompi", "Payments Way", "Movii"],
+        "mercado_objetivo": {
+          "segmento": "Empresas que necesitan recaudar pagos de terceros",
+          "problema_resuelve": "Recibir pagos de manera eficiente y segura con flexibilidad en métodos de pago"
+        }
+      }
+    },
+    "tiempos_ach_colombia": {
+      "descripcion": "Ciclos ACH en Colombia",
+      "ciclos": [
+        {
+          "ciclo": 1,
+          "corte": "7:00 AM",
+          "acreditacion": "11:00 AM mismo día"
+        },
+        {
+          "ciclo": 2,
+          "corte": "10:00 AM",
+          "acreditacion": "2:00 PM mismo día"
+        },
+        {
+          "ciclo": 3,
+          "corte": "1:00 PM",
+          "acreditacion": "5:00 PM mismo día"
+        },
+        {
+          "ciclo": 4,
+          "corte": "4:00 PM",
+          "acreditacion": "8:00 PM mismo día"
+        },
+        {
+          "ciclo": 5,
+          "corte": "6:00 PM",
+          "acreditacion": "Siguiente día hábil 7:00 AM"
+        }
+      ],
+      "nota": "IRIS ofrece un ciclo ACH adicional"
+    },
+    "bancos_soportados": {
+      "principales": [
+        "Bancolombia",
+        "Banco Davivienda",
+        "Banco de Bogotá",
+        "Banco de Occidente",
+        "Banco Caja Social",
+        "BBVA Colombia",
+        "Banco Popular",
+        "Banco AV Villas",
+        "Scotiabank Colpatria",
+        "Banco Itaú",
+        "Banco GNB Sudameris",
+        "Banco Pichincha",
+        "Banco Falabella",
+        "Banco Finandina",
+        "Bancoomeva",
+        "Banco W",
+        "Lulo Bank",
+        "Nequi",
+        "Daviplata",
+        "Movii"
+      ],
+      "billeteras_digitales": ["Nequi", "Daviplata", "Movii", "Dale", "Rappipay"],
+      "corresponsales": ["Efecty", "Baloto", "SuRed"]
+    }
+  }
+}

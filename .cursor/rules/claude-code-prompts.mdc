@@ -1,0 +1,97 @@
+---
+description: Claude Code best practices for prompt design and agentic workflows in this repo
+alwaysApply: true
+---
+
+# Claude Code — Prompting & Workflows
+
+Use `/prompt-designer` skill (`.claude/skills/prompt-designer/`) to craft optimized prompts.
+
+## Loop agéntico (siempre)
+
+1. **Gather context** — leer archivos, buscar patrones, entender estructura
+2. **Take action** — editar, ejecutar comandos, crear archivos
+3. **Verify results** — tests, type-check, lint, build
+
+## Regla #1 — Verificación obligatoria
+
+Todo prompt/tarea debe incluir cómo verificar el resultado:
+
+- `npm run type-check && npm run lint` (CI gate de este repo)
+- `npm run test` o `npx vitest run path/to/file.test.ts`
+- `npm run i18n:verify` si hay strings nuevas
+- Output esperado concreto o criterio de aceptación
+
+## Flujo recomendado
+
+| Fase | Cuándo | Acción |
+|------|--------|--------|
+| Explore | Tarea compleja, multi-módulo, riesgo alto | Plan Mode: leer sin editar |
+| Plan | Alcance no claro | Plan detallado → aprobación |
+| Implement | Alcance claro | Editar con scope mínimo |
+| Verify | Siempre | type-check + lint + tests relevantes |
+| Commit | Solo si el usuario lo pide | Mensaje descriptivo, sin push salvo petición |
+
+## Prompts efectivos
+
+**Scope específico**, no genérico:
+- ❌ "add tests for auth"
+- ✅ "write tests for LoginForm covering empty email submit; use real Zod validation, no mocks"
+
+**Apuntar a patrones existentes**:
+- "follow the pattern in `HotDogWidget.tsx`" / "check git history of X"
+
+**Referencias con @**:
+- `@docs/GRAPHQL_INTEGRATION.md` antes de operaciones GraphQL
+- `@CLAUDE.md` para convenciones del proyecto
+- Archivos concretos como contexto
+
+## Features de Claude Code (cuándo usar)
+
+| Necesidad | Feature |
+|-----------|---------|
+| Explorar sin cambiar | Plan Mode (`--permission-mode plan`) |
+| Contexto aislado | Subagent (`use a subagent to...`) o worktree (`--worktree`) |
+| Tarea repetible | Skill en `.claude/skills/` |
+| Acción determinística | Hook en `.claude/settings.json` |
+| Datos externos | MCP (`claude mcp add`) |
+| CI / batch | `claude -p "..." --output-format json` |
+
+## Skills del proyecto
+
+| Skill | Uso |
+|-------|-----|
+| `/prompt-designer` | Diseñar prompts optimizados |
+| `/component` | Nuevo componente UI (design system) |
+| `/feature` | Scaffold de feature module |
+| `/graphql` | Conectar a API real |
+| `/i18n` | Verificar cobertura Lingui |
+| `/qa` | QA post-implementación |
+| `/audit` | Auditoría design system |
+| `/ship` | Commit + PR |
+
+## Gestión de sesión
+
+- `/clear` entre tareas no relacionadas
+- Scope estrecho: una tarea por prompt
+- Tras 2 correcciones fallidas → `/clear` y prompt mejorado
+- Subagents para exploración amplia (no inflar contexto principal)
+
+## Antipatrones
+
+| Evitar | Hacer |
+|--------|-------|
+| Kitchen-sink session | `/clear` entre tareas |
+| Prompt sin verificación | Añadir type-check/lint/test |
+| CLAUDE.md inflado | Mover detalle a skills o `docs/` |
+| Exploración infinita | Scope estrecho o subagent |
+| Commits/push no pedidos | Solo cuando el usuario lo solicite |
+
+## Verificación estándar Suite Loopay
+
+```bash
+npm run type-check
+npm run lint
+npx vitest run <test-file>   # si aplica
+npm run i18n:verify          # si hay UI text nueva
+```

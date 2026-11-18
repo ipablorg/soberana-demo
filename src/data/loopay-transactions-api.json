@@ -1,0 +1,1102 @@
+{
+  "loopay_transactions_api": {
+    "version": "1.0.0",
+    "base_url": "https://prod.soberana.network/v1",
+    "descripcion": "API de Transacciones Loopay - Conversión entre Fiat y Stablecoins",
+    
+    "authentication": {
+      "type": "Bearer Token",
+      "header": "Authorization",
+      "format": "Bearer <token>",
+      "descripcion": "Todas las solicitudes deben incluir un token JWT válido en el header Authorization"
+    },
+    
+    "overview": {
+      "descripcion": "Una transacción es cómo el valor se mueve a través de Loopay. Hay tres tipos principales:",
+      "tipos_transaccion": {
+        "ON_RAMP": {
+          "nombre": "On-Ramp",
+          "descripcion": "Convierte FIAT a STABLECOIN y lo entrega a una wallet",
+          "flujo": "Fiat (USD/EUR/MXN/BRL) → Stablecoin (USDC/USDT)",
+          "ejemplo_uso": "Usuario deposita $1000 USD y recibe USDC en su wallet"
+        },
+        "OFF_RAMP": {
+          "nombre": "Off-Ramp",
+          "descripcion": "Convierte STABLECOIN a FIAT y lo paga vía rail bancario",
+          "flujo": "Stablecoin (USDC/USDT) → Fiat (USD/EUR/MXN/BRL)",
+          "ejemplo_uso": "Usuario envía 1000 USDC y recibe USD en su cuenta bancaria"
+        },
+        "TRANSFER": {
+          "nombre": "Transfer",
+          "descripcion": "Mueve STABLECOIN de un customer a otro o a una wallet externa",
+          "flujo": "Wallet A → Wallet B (on-chain)",
+          "ejemplo_uso": "Usuario envía 500 USDC a otro usuario o wallet externa"
+        }
+      }
+    },
+    
+    "cobertura": {
+      "monedas_fiat": {
+        "USD": {
+          "nombre": "US Dollar",
+          "rails": ["ACH", "WIRE"],
+          "estado": "Disponible"
+        },
+        "EUR": {
+          "nombre": "Euro",
+          "rails": ["SEPA", "SEPA_INSTANT"],
+          "estado": "Disponible"
+        },
+        "MXN": {
+          "nombre": "Mexican Peso",
+          "rails": ["SPEI"],
+          "estado": "Disponible"
+        },
+        "BRL": {
+          "nombre": "Brazilian Real",
+          "rails": ["PIX"],
+          "estado": "Beta"
+        }
+      },
+      "stablecoins": {
+        "USDC": {
+          "nombre": "USD Coin",
+          "blockchains": ["ethereum", "polygon", "base", "arbitrum", "solana", "optimism"],
+          "estado": "Disponible"
+        },
+        "USDT": {
+          "nombre": "Tether",
+          "blockchains": ["ethereum", "polygon", "arbitrum"],
+          "estado": "Disponible"
+        },
+        "EURC": {
+          "nombre": "Euro Coin",
+          "blockchains": ["ethereum", "polygon", "base"],
+          "estado": "Disponible"
+        }
+      },
+      "blockchains": {
+        "ethereum": {
+          "nombre": "Ethereum",
+          "chainId_mainnet": 1,
+          "chainId_testnet": 11155111,
+          "testnet_nombre": "Sepolia"
+        },
+        "polygon": {
+          "nombre": "Polygon",
+          "chainId_mainnet": 137,
+          "chainId_testnet": 80002,
+          "testnet_nombre": "Amoy"
+        },
+        "base": {
+          "nombre": "Base",
+          "chainId_mainnet": 8453,
+          "chainId_testnet": 84532,
+          "testnet_nombre": "Sepolia"
+        },
+        "arbitrum": {
+          "nombre": "Arbitrum One",
+          "chainId_mainnet": 42161,
+          "chainId_testnet": 421614,
+          "testnet_nombre": "Sepolia"
+        },
+        "solana": {
+          "nombre": "Solana",
+          "mainnet": "mainnet-beta",
+          "testnet": "devnet"
+        },
+        "optimism": {
+          "nombre": "Optimism",
+          "chainId_mainnet": 10,
+          "chainId_testnet": 11155420,
+          "testnet_nombre": "Sepolia"
+        }
+      }
+    },
+    
+    "transaction_anatomy": {
+      "descripcion": "Cada transacción retorna una estructura consistente con detalles específicos según el tipo",
+      "estructura_base": {
+        "id": {
+          "tipo": "uuid",
+          "descripcion": "Identificador único de la transacción"
+        },
+        "customerId": {
+          "tipo": "uuid",
+          "descripcion": "ID del customer que realiza la transacción"
+        },
+        "type": {
+          "tipo": "enum",
+          "valores": ["ON_RAMP", "OFF_RAMP", "TRANSFER"],
+          "descripcion": "Tipo de transacción"
+        },
+        "request": {
+          "tipo": "object",
+          "descripcion": "Parámetros de entrada para esta transacción"
+        },
+        "state": {
+          "status": {
+            "tipo": "string",
+            "descripcion": "Estado actual de la transacción"
+          },
+          "payment": {
+            "tipo": "object",
+            "descripcion": "Campos específicos del rail (ej: brCode para PIX)"
+          },
+          "receipt": {
+            "tipo": "object",
+            "descripcion": "Tasa, montos, fees (después del settlement), transactionHash"
+          },
+          "error": {
+            "tipo": "object",
+            "descripcion": "Objeto de error opcional"
+          }
+        },
+        "createdAt": {
+          "tipo": "ISO-8601",
+          "descripcion": "Fecha de creación"
+        },
+        "updatedAt": {
+          "tipo": "ISO-8601",
+          "descripcion": "Fecha de última actualización"
+        }
+      },
+      "ejemplo_respuesta": {
+        "id": "123e4567-e89b-12d3-a456-426614174000",
+        "customerId": "3c90c3cc-0d44-4b50-8888-8dd25736052a",
+        "type": "ON_RAMP",
+        "request": {
+          "rail": "PIX",
+          "sourceCurrency": "BRL",
+          "sourceAmount": "10000.00",
+          "targetCurrency": "USDC",
+          "targetBlockchain": "polygon"
+        },
+        "state": {
+          "status": "AWAITING_FUNDS",
+          "payment": {
+            "brCode": "00020126580014br.gov.bcb.pix...",
+            "expiresAt": "2024-01-15T11:00:00Z"
+          }
+        },
+        "createdAt": "2024-01-15T10:00:00Z",
+        "updatedAt": "2024-01-15T10:00:00Z"
+      }
+    },
+    
+    "statuses": {
+      "on_ramp": {
+        "AWAITING_FUNDS": {
+          "descripcion": "Esperando el depósito del cliente en el rail de pago seleccionado",
+          "siguiente": ["TRANSFERRING_FIAT", "FAILED"],
+          "accion_usuario": "Usuario debe realizar el depósito usando las instrucciones de pago"
+        },
+        "TRANSFERRING_FIAT": {
+          "descripcion": "Depósito identificado; confirmando liquidación fiat",
+          "siguiente": ["TRADING", "FAILED"],
+          "accion_usuario": null
+        },
+        "TRADING": {
+          "descripcion": "Fondos confirmados; convirtiendo moneda fiat origen a stablecoin destino",
+          "siguiente": ["TRANSFERRING_STABLECOIN", "FAILED"],
+          "accion_usuario": null
+        },
+        "TRANSFERRING_STABLECOIN": {
+          "descripcion": "Enviando stablecoin a la wallet destino",
+          "siguiente": ["SUCCESS", "FAILED"],
+          "accion_usuario": null
+        },
+        "SUCCESS": {
+          "descripcion": "Stablecoin entregado; disponible en state.receipt y state.blockchain",
+          "siguiente": [],
+          "accion_usuario": "Transacción completada"
+        },
+        "FAILED": {
+          "descripcion": "Transacción fallida/expirada; ver state.error si está presente",
+          "siguiente": ["REFUNDING"],
+          "accion_usuario": "Revisar error y reintentar si es posible"
+        },
+        "REFUNDING": {
+          "descripcion": "Transacción ha fallado y los fondos serán devueltos a la cuenta bancaria de origen",
+          "siguiente": ["REFUNDED"],
+          "accion_usuario": null
+        },
+        "REFUNDED": {
+          "descripcion": "Fondos han sido devueltos exitosamente",
+          "siguiente": [],
+          "accion_usuario": "Transacción reembolsada"
+        }
+      },
+      "off_ramp": {
+        "TRANSFERRING_STABLECOIN": {
+          "descripcion": "Extrayendo fondos del stablecoin origen",
+          "siguiente": ["TRADING", "FAILED"],
+          "accion_usuario": null
+        },
+        "TRADING": {
+          "descripcion": "Fondos confirmados; convirtiendo stablecoin origen a moneda fiat destino",
+          "siguiente": ["TRANSFERRING_FIAT", "FAILED"],
+          "accion_usuario": null
+        },
+        "TRANSFERRING_FIAT": {
+          "descripcion": "Pago fiat en progreso",
+          "siguiente": ["SUCCESS", "FAILED"],
+          "accion_usuario": null
+        },
+        "SUCCESS": {
+          "descripcion": "Fiat liquidado en el rail de pago seleccionado; disponible en state.receipt",
+          "siguiente": [],
+          "accion_usuario": "Transacción completada"
+        },
+        "FAILED": {
+          "descripcion": "Transacción fallida/expirada; ver state.error",
+          "siguiente": ["REFUNDING"],
+          "accion_usuario": "Revisar error y reintentar si es posible"
+        },
+        "REFUNDING": {
+          "descripcion": "Transacción ha fallado y los fondos serán devueltos a la wallet",
+          "siguiente": ["REFUNDED"],
+          "accion_usuario": null
+        },
+        "REFUNDED": {
+          "descripcion": "Fondos han sido devueltos exitosamente a la wallet",
+          "siguiente": [],
+          "accion_usuario": "Stablecoins devueltos"
+        }
+      },
+      "transfer": {
+        "PROCESSING": {
+          "descripcion": "Envío/confirmación on-chain en progreso",
+          "siguiente": ["SUCCESS", "FAILED"],
+          "accion_usuario": null
+        },
+        "SUCCESS": {
+          "descripcion": "Transferencia confirmada on-chain; transactionHash y blockExplorerUrl disponibles",
+          "siguiente": [],
+          "accion_usuario": "Transferencia completada"
+        },
+        "FAILED": {
+          "descripcion": "Transferencia fallida (ej: fondos insuficientes, dirección inválida, error de red); ver state.error",
+          "siguiente": [],
+          "accion_usuario": "Revisar error y reintentar"
+        }
+      }
+    },
+    
+    "endpoints": {
+      "transactions": {
+        "on_ramp": {
+          "crear": {
+            "method": "POST",
+            "endpoint": "/transactions/on-ramp",
+            "descripcion": "Crea una nueva transacción on-ramp (Fiat → Crypto)",
+            "headers": {
+              "Authorization": "Bearer <token>",
+              "Content-Type": "application/json",
+              "Idempotency-Key": "<unique-key>"
+            },
+            "body": {
+              "customerId": {
+                "tipo": "uuid",
+                "requerido": true,
+                "descripcion": "ID del customer"
+              },
+              "rail": {
+                "tipo": "string",
+                "requerido": true,
+                "valores": ["ACH", "WIRE", "SEPA", "SEPA_INSTANT", "SPEI", "PIX"],
+                "descripcion": "Rail de pago fiat"
+              },
+              "sourceCurrency": {
+                "tipo": "string",
+                "requerido": true,
+                "valores": ["USD", "EUR", "MXN", "BRL"],
+                "descripcion": "Moneda fiat de origen"
+              },
+              "sourceAmount": {
+                "tipo": "string",
+                "requerido": true,
+                "descripcion": "Monto en moneda fiat (ej: '1000.00')"
+              },
+              "targetCurrency": {
+                "tipo": "string",
+                "requerido": true,
+                "valores": ["USDC", "USDT", "EURC"],
+                "descripcion": "Stablecoin destino"
+              },
+              "targetBlockchain": {
+                "tipo": "string",
+                "requerido": true,
+                "valores": ["ethereum", "polygon", "base", "arbitrum", "solana", "optimism"],
+                "descripcion": "Blockchain destino"
+              },
+              "targetAddress": {
+                "tipo": "string",
+                "requerido": false,
+                "descripcion": "Dirección de wallet externa (si no se usa wallet interna)"
+              },
+              "exchangeRateId": {
+                "tipo": "uuid",
+                "requerido": false,
+                "descripcion": "ID de tasa bloqueada (si se usa locked rate)"
+              },
+              "partnerFeeId": {
+                "tipo": "uuid",
+                "requerido": false,
+                "descripcion": "ID de fee del partner"
+              },
+              "purpose": {
+                "tipo": "string",
+                "requerido": true,
+                "valores": ["PERSONAL_ACCOUNT", "BUSINESS_PAYMENT", "INVESTMENT", "OTHER"],
+                "descripcion": "Propósito de la transacción"
+              }
+            },
+            "ejemplos": {
+              "PIX_to_USDC_Polygon": {
+                "request": {
+                  "method": "POST",
+                  "url": "https://prod.soberana.network/v1/transactions/on-ramp",
+                  "headers": {
+                    "Authorization": "Bearer <token>",
+                    "Content-Type": "application/json",
+                    "Idempotency-Key": "unique-key-123"
+                  },
+                  "body": {
+                    "customerId": "3c90c3cc-0d44-4b50-8888-8dd25736052a",
+                    "rail": "PIX",
+                    "sourceCurrency": "BRL",
+                    "sourceAmount": "5000.00",
+                    "targetCurrency": "USDC",
+                    "targetBlockchain": "polygon",
+                    "purpose": "PERSONAL_ACCOUNT"
+                  }
+                },
+                "response": {
+                  "id": "txn_onramp_123",
+                  "customerId": "3c90c3cc-0d44-4b50-8888-8dd25736052a",
+                  "type": "ON_RAMP",
+                  "request": {
+                    "rail": "PIX",
+                    "sourceCurrency": "BRL",
+                    "sourceAmount": "5000.00",
+                    "targetCurrency": "USDC",
+                    "targetBlockchain": "polygon"
+                  },
+                  "state": {
+                    "status": "AWAITING_FUNDS",
+                    "payment": {
+                      "rail": "PIX",
+                      "brCode": "00020126580014br.gov.bcb.pix0136a629532e-7693-4846-835d-87b0e4c6e85a5204000053039865802BR5913Loopay Pagos6009SAO PAULO62070503***6304E2CA",
+                      "qrCodeBase64": "data:image/png;base64,iVBORw0KGgoAAAANS...",
+                      "expiresAt": "2024-01-15T11:00:00Z"
+                    },
+                    "estimatedAmount": {
+                      "value": "980.50",
+                      "currency": "USDC"
+                    }
+                  },
+                  "createdAt": "2024-01-15T10:00:00Z",
+                  "updatedAt": "2024-01-15T10:00:00Z"
+                }
+              },
+              "ACH_to_USDC_Ethereum": {
+                "request": {
+                  "body": {
+                    "customerId": "cust_usa_456",
+                    "rail": "ACH",
+                    "sourceCurrency": "USD",
+                    "sourceAmount": "1000.00",
+                    "targetCurrency": "USDC",
+                    "targetBlockchain": "ethereum",
+                    "purpose": "INVESTMENT"
+                  }
+                },
+                "response": {
+                  "id": "txn_onramp_456",
+                  "type": "ON_RAMP",
+                  "state": {
+                    "status": "AWAITING_FUNDS",
+                    "payment": {
+                      "rail": "ACH",
+                      "bankName": "Bridge Partner Bank",
+                      "accountNumber": "123456789",
+                      "routingNumber": "021000021",
+                      "accountType": "checking",
+                      "beneficiaryName": "Loopay Inc",
+                      "reference": "TXN-456-REF"
+                    }
+                  }
+                }
+              },
+              "SEPA_to_EURC_Base": {
+                "request": {
+                  "body": {
+                    "customerId": "cust_eu_789",
+                    "rail": "SEPA",
+                    "sourceCurrency": "EUR",
+                    "sourceAmount": "2000.00",
+                    "targetCurrency": "EURC",
+                    "targetBlockchain": "base",
+                    "purpose": "BUSINESS_PAYMENT"
+                  }
+                },
+                "response": {
+                  "id": "txn_onramp_789",
+                  "type": "ON_RAMP",
+                  "state": {
+                    "status": "AWAITING_FUNDS",
+                    "payment": {
+                      "rail": "SEPA",
+                      "iban": "DE89370400440532013000",
+                      "bic": "COBADEFFXXX",
+                      "bankName": "Loopay EU Partner",
+                      "beneficiaryName": "Loopay GmbH",
+                      "reference": "TXN-789-REF"
+                    }
+                  }
+                }
+              },
+              "SPEI_to_USDC_Solana": {
+                "request": {
+                  "body": {
+                    "customerId": "cust_mx_012",
+                    "rail": "SPEI",
+                    "sourceCurrency": "MXN",
+                    "sourceAmount": "20000.00",
+                    "targetCurrency": "USDC",
+                    "targetBlockchain": "solana",
+                    "purpose": "PERSONAL_ACCOUNT"
+                  }
+                },
+                "response": {
+                  "id": "txn_onramp_012",
+                  "type": "ON_RAMP",
+                  "state": {
+                    "status": "AWAITING_FUNDS",
+                    "payment": {
+                      "rail": "SPEI",
+                      "clabe": "012180015000000001",
+                      "bankName": "Loopay Mexico Partner",
+                      "beneficiaryName": "Loopay MX SA de CV",
+                      "reference": "TXN-012-REF"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "obtener": {
+            "method": "GET",
+            "endpoint": "/transactions/{transactionId}",
+            "descripcion": "Obtiene el estado de una transacción"
+          },
+          "listar": {
+            "method": "GET",
+            "endpoint": "/transactions",
+            "descripcion": "Lista transacciones con filtros",
+            "query_params": {
+              "type": "ON_RAMP|OFF_RAMP|TRANSFER",
+              "status": "AWAITING_FUNDS|PROCESSING|SUCCESS|FAILED",
+              "customerId": "uuid",
+              "fromDate": "ISO-8601",
+              "toDate": "ISO-8601",
+              "page": "number",
+              "limit": "number (max 100)"
+            }
+          }
+        },
+        "off_ramp": {
+          "crear": {
+            "method": "POST",
+            "endpoint": "/transactions/off-ramp",
+            "descripcion": "Crea una nueva transacción off-ramp (Crypto → Fiat)",
+            "body": {
+              "customerId": {
+                "tipo": "uuid",
+                "requerido": true
+              },
+              "sourceCurrency": {
+                "tipo": "string",
+                "requerido": true,
+                "valores": ["USDC", "USDT", "EURC"]
+              },
+              "sourceAmount": {
+                "tipo": "string",
+                "requerido": true,
+                "descripcion": "Monto en stablecoin (ej: '1000.00')"
+              },
+              "sourceBlockchain": {
+                "tipo": "string",
+                "requerido": true,
+                "valores": ["ethereum", "polygon", "base", "arbitrum", "solana"]
+              },
+              "targetCurrency": {
+                "tipo": "string",
+                "requerido": true,
+                "valores": ["USD", "EUR", "MXN", "BRL"]
+              },
+              "payment": {
+                "tipo": "object",
+                "requerido": true,
+                "descripcion": "Detalles de pago según el rail",
+                "variantes": {
+                  "ACH": {
+                    "rail": "ACH",
+                    "bankAccountId": "uuid (de external_accounts)"
+                  },
+                  "WIRE": {
+                    "rail": "WIRE",
+                    "bankAccountId": "uuid"
+                  },
+                  "SEPA": {
+                    "rail": "SEPA",
+                    "bankAccountId": "uuid"
+                  },
+                  "SPEI": {
+                    "rail": "SPEI",
+                    "bankAccountId": "uuid"
+                  },
+                  "PIX": {
+                    "rail": "PIX",
+                    "keyType": "cpf|cnpj|email|phone|random",
+                    "keyValue": "string"
+                  }
+                }
+              },
+              "exchangeRateId": {
+                "tipo": "uuid",
+                "requerido": false
+              },
+              "partnerFeeId": {
+                "tipo": "uuid",
+                "requerido": false
+              }
+            },
+            "ejemplos": {
+              "USDC_to_BRL_PIX": {
+                "request": {
+                  "method": "POST",
+                  "url": "https://prod.soberana.network/v1/transactions/off-ramp",
+                  "body": {
+                    "customerId": "cust_br_123",
+                    "sourceCurrency": "USDC",
+                    "sourceAmount": "500.00",
+                    "sourceBlockchain": "polygon",
+                    "targetCurrency": "BRL",
+                    "payment": {
+                      "rail": "PIX",
+                      "keyType": "cpf",
+                      "keyValue": "123.456.789-00"
+                    }
+                  }
+                },
+                "response": {
+                  "id": "txn_offramp_123",
+                  "customerId": "cust_br_123",
+                  "type": "OFF_RAMP",
+                  "request": {
+                    "sourceCurrency": "USDC",
+                    "sourceAmount": "500.00",
+                    "targetCurrency": "BRL",
+                    "payment": {
+                      "rail": "PIX",
+                      "keyType": "cpf",
+                      "keyValue": "123.456.789-00"
+                    }
+                  },
+                  "state": {
+                    "status": "TRANSFERRING_STABLECOIN",
+                    "depositAddress": "0x1234...5678",
+                    "estimatedAmount": {
+                      "value": "2450.00",
+                      "currency": "BRL"
+                    }
+                  },
+                  "createdAt": "2024-01-15T10:00:00Z"
+                }
+              },
+              "USDC_to_USD_ACH": {
+                "request": {
+                  "body": {
+                    "customerId": "cust_usa_456",
+                    "sourceCurrency": "USDC",
+                    "sourceAmount": "1000.00",
+                    "sourceBlockchain": "ethereum",
+                    "targetCurrency": "USD",
+                    "payment": {
+                      "rail": "ACH",
+                      "bankAccountId": "ba_usa_789"
+                    }
+                  }
+                },
+                "response": {
+                  "id": "txn_offramp_456",
+                  "type": "OFF_RAMP",
+                  "state": {
+                    "status": "TRANSFERRING_STABLECOIN",
+                    "depositAddress": "0xabcd...ef01",
+                    "estimatedAmount": {
+                      "value": "995.00",
+                      "currency": "USD"
+                    },
+                    "estimatedDelivery": "2024-01-16T17:00:00Z"
+                  }
+                }
+              },
+              "EURC_to_EUR_SEPA": {
+                "request": {
+                  "body": {
+                    "customerId": "cust_eu_789",
+                    "sourceCurrency": "EURC",
+                    "sourceAmount": "2000.00",
+                    "sourceBlockchain": "base",
+                    "targetCurrency": "EUR",
+                    "payment": {
+                      "rail": "SEPA",
+                      "bankAccountId": "ba_eu_012"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "transfer": {
+          "crear": {
+            "method": "POST",
+            "endpoint": "/transactions/transfer",
+            "descripcion": "Crea una transferencia de stablecoin entre wallets",
+            "body": {
+              "currency": {
+                "tipo": "string",
+                "requerido": true,
+                "valores": ["USDC", "USDT", "EURC"]
+              },
+              "blockchain": {
+                "tipo": "string",
+                "requerido": true,
+                "valores": ["ethereum", "polygon", "base", "arbitrum", "solana"]
+              },
+              "from": {
+                "tipo": "uuid",
+                "requerido": true,
+                "descripcion": "ID del customer origen (usa su wallet interna)"
+              },
+              "to": {
+                "tipo": "string",
+                "requerido": true,
+                "descripcion": "ID de customer destino o dirección de wallet externa"
+              },
+              "amount": {
+                "tipo": "string",
+                "requerido": true,
+                "descripcion": "Monto a transferir (ej: '1000.000000')"
+              },
+              "memo": {
+                "tipo": "string",
+                "requerido": false,
+                "descripcion": "Nota o referencia opcional"
+              }
+            },
+            "ejemplos": {
+              "transfer_interno": {
+                "descripcion": "Transferencia entre dos customers de Loopay",
+                "request": {
+                  "body": {
+                    "currency": "USDC",
+                    "blockchain": "polygon",
+                    "from": "cust_123",
+                    "to": "cust_456",
+                    "amount": "500.000000",
+                    "memo": "Pago por servicios"
+                  }
+                },
+                "response": {
+                  "id": "txn_transfer_789",
+                  "customerId": "cust_123",
+                  "type": "TRANSFER",
+                  "request": {
+                    "currency": "USDC",
+                    "blockchain": "polygon",
+                    "from": "cust_123",
+                    "to": "cust_456",
+                    "amount": "500.000000"
+                  },
+                  "state": {
+                    "status": "PROCESSING"
+                  },
+                  "createdAt": "2024-01-15T10:00:00Z"
+                }
+              },
+              "transfer_externo": {
+                "descripcion": "Transferencia a wallet externa",
+                "request": {
+                  "body": {
+                    "currency": "USDC",
+                    "blockchain": "ethereum",
+                    "from": "cust_123",
+                    "to": "0x742d35Cc6634C0532925a3b844Bc9e7595f8Eb06",
+                    "amount": "1000.000000"
+                  }
+                },
+                "response": {
+                  "id": "txn_transfer_012",
+                  "type": "TRANSFER",
+                  "state": {
+                    "status": "SUCCESS",
+                    "blockchain": {
+                      "transactionHash": "0xabc123...",
+                      "blockNumber": 18500000,
+                      "blockExplorerUrl": "https://etherscan.io/tx/0xabc123..."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "customers": {
+        "crear": {
+          "method": "POST",
+          "endpoint": "/customers",
+          "descripcion": "Registra un nuevo customer (individual o business)",
+          "body": {
+            "type": {
+              "tipo": "string",
+              "requerido": true,
+              "valores": ["INDIVIDUAL", "BUSINESS"]
+            },
+            "email": {
+              "tipo": "string",
+              "requerido": true
+            },
+            "firstName": {
+              "tipo": "string",
+              "requerido": "para INDIVIDUAL"
+            },
+            "lastName": {
+              "tipo": "string",
+              "requerido": "para INDIVIDUAL"
+            },
+            "businessName": {
+              "tipo": "string",
+              "requerido": "para BUSINESS"
+            },
+            "country": {
+              "tipo": "string",
+              "requerido": true,
+              "descripcion": "Código ISO 3166-1 alpha-2 (ej: US, BR, MX, DE)"
+            },
+            "phoneNumber": {
+              "tipo": "string",
+              "requerido": false
+            }
+          },
+          "ejemplo": {
+            "request": {
+              "body": {
+                "type": "INDIVIDUAL",
+                "email": "juan@example.com",
+                "firstName": "Juan",
+                "lastName": "Pérez",
+                "country": "MX",
+                "phoneNumber": "+52 55 1234 5678"
+              }
+            },
+            "response": {
+              "id": "cust_mx_123",
+              "type": "INDIVIDUAL",
+              "email": "juan@example.com",
+              "firstName": "Juan",
+              "lastName": "Pérez",
+              "country": "MX",
+              "kycStatus": "PENDING",
+              "wallet": {
+                "address": "0x1234...5678",
+                "blockchain": "polygon"
+              },
+              "createdAt": "2024-01-15T10:00:00Z"
+            }
+          }
+        },
+        "obtener": {
+          "method": "GET",
+          "endpoint": "/customers/{customerId}"
+        },
+        "listar": {
+          "method": "GET",
+          "endpoint": "/customers"
+        },
+        "actualizar": {
+          "method": "PATCH",
+          "endpoint": "/customers/{customerId}"
+        }
+      },
+      "bank_accounts": {
+        "crear": {
+          "method": "POST",
+          "endpoint": "/customers/{customerId}/bank-accounts",
+          "descripcion": "Asocia una cuenta bancaria a un customer para off-ramp",
+          "body_por_tipo": {
+            "US_ACH_WIRE": {
+              "type": "US",
+              "accountName": "string",
+              "accountNumber": "string",
+              "routingNumber": "string (9 dígitos)",
+              "accountType": "checking|savings"
+            },
+            "SEPA_IBAN": {
+              "type": "IBAN",
+              "accountName": "string",
+              "iban": "string",
+              "bic": "string"
+            },
+            "MEXICO_SPEI": {
+              "type": "MX",
+              "accountName": "string",
+              "clabe": "string (18 dígitos)"
+            },
+            "BRAZIL_PIX": {
+              "type": "BR",
+              "accountName": "string",
+              "pixKeyType": "cpf|cnpj|email|phone|random",
+              "pixKeyValue": "string"
+            }
+          },
+          "ejemplo": {
+            "request": {
+              "body": {
+                "type": "MX",
+                "accountName": "Juan Pérez",
+                "clabe": "012180015000000001"
+              }
+            },
+            "response": {
+              "id": "ba_mx_123",
+              "customerId": "cust_mx_123",
+              "type": "MX",
+              "accountName": "Juan Pérez",
+              "clabeLast4": "0001",
+              "status": "ACTIVE",
+              "createdAt": "2024-01-15T10:00:00Z"
+            }
+          }
+        },
+        "listar": {
+          "method": "GET",
+          "endpoint": "/customers/{customerId}/bank-accounts"
+        },
+        "eliminar": {
+          "method": "DELETE",
+          "endpoint": "/customers/{customerId}/bank-accounts/{bankAccountId}"
+        }
+      },
+      "exchange_rates": {
+        "floating": {
+          "method": "GET",
+          "endpoint": "/exchange-rates",
+          "descripcion": "Obtiene tasa de cambio flotante (referencia, no garantizada)",
+          "query_params": {
+            "sourceCurrency": "USD|EUR|MXN|BRL|USDC|USDT|EURC",
+            "targetCurrency": "USD|EUR|MXN|BRL|USDC|USDT|EURC",
+            "amount": "string (opcional)"
+          },
+          "ejemplo": {
+            "request": {
+              "url": "/exchange-rates?sourceCurrency=USDC&targetCurrency=BRL&amount=1000"
+            },
+            "response": {
+              "sourceCurrency": "USDC",
+              "targetCurrency": "BRL",
+              "rate": "4.95",
+              "sourceAmount": "1000.00",
+              "estimatedTargetAmount": "4950.00",
+              "fees": {
+                "loopay": "5.00",
+                "partner": "0.00"
+              },
+              "finalAmount": "4945.00",
+              "timestamp": "2024-01-15T10:00:00Z"
+            }
+          }
+        },
+        "locked": {
+          "method": "POST",
+          "endpoint": "/exchange-rates/lock",
+          "descripcion": "Bloquea una tasa de cambio por un tiempo definido",
+          "body": {
+            "sourceCurrency": "string",
+            "targetCurrency": "string",
+            "amount": "string",
+            "side": "source|target",
+            "timeLock": "10s|30s|1m|5m"
+          },
+          "ejemplo": {
+            "request": {
+              "body": {
+                "sourceCurrency": "USDC",
+                "targetCurrency": "BRL",
+                "amount": "1000.00",
+                "side": "source",
+                "timeLock": "30s"
+              }
+            },
+            "response": {
+              "exchangeRateId": "er_123456",
+              "sourceCurrency": "USDC",
+              "targetCurrency": "BRL",
+              "rate": "4.95",
+              "lockedSourceAmount": "1000.00",
+              "guaranteedTargetAmount": "4945.00",
+              "fees": {
+                "loopay": "5.00",
+                "lockPremium": "2.50"
+              },
+              "expiresAt": "2024-01-15T10:00:30Z"
+            }
+          }
+        }
+      },
+      "kyc": {
+        "crear_link": {
+          "method": "POST",
+          "endpoint": "/customers/{customerId}/kyc-link",
+          "descripcion": "Genera un link de verificación KYC",
+          "body": {
+            "redirectUrl": {
+              "tipo": "string",
+              "requerido": false,
+              "descripcion": "URL de redirección después del KYC"
+            }
+          },
+          "ejemplo": {
+            "response": {
+              "kycLink": "https://kyc.loopay.com/verify/abc123",
+              "expiresAt": "2024-01-16T10:00:00Z"
+            }
+          }
+        },
+        "obtener_status": {
+          "method": "GET",
+          "endpoint": "/customers/{customerId}/kyc-status",
+          "response": {
+            "status": "PENDING|IN_REVIEW|APPROVED|REJECTED",
+            "updatedAt": "ISO-8601"
+          }
+        }
+      }
+    },
+    
+    "webhooks": {
+      "descripcion": "Webhooks permiten recibir notificaciones en tiempo real sobre cambios de estado",
+      "configurar": {
+        "method": "POST",
+        "endpoint": "/webhooks",
+        "body": {
+          "url": "string (HTTPS)",
+          "events": "array de eventos",
+          "secret": "string (para validar firma)"
+        }
+      },
+      "eventos": {
+        "transaction.created": "Nueva transacción creada",
+        "transaction.status_changed": "Estado de transacción cambió",
+        "transaction.success": "Transacción completada exitosamente",
+        "transaction.failed": "Transacción falló",
+        "transaction.refunded": "Transacción reembolsada",
+        "customer.kyc_approved": "KYC de customer aprobado",
+        "customer.kyc_rejected": "KYC de customer rechazado",
+        "bank_account.verified": "Cuenta bancaria verificada"
+      },
+      "payload_ejemplo": {
+        "event": "transaction.status_changed",
+        "timestamp": "2024-01-15T10:30:00Z",
+        "data": {
+          "transactionId": "txn_123",
+          "customerId": "cust_456",
+          "type": "ON_RAMP",
+          "previousStatus": "AWAITING_FUNDS",
+          "currentStatus": "TRADING",
+          "amount": "1000.00",
+          "sourceCurrency": "BRL",
+          "targetCurrency": "USDC"
+        }
+      },
+      "validacion_firma": {
+        "header": "X-Loopay-Signature",
+        "algoritmo": "HMAC-SHA256",
+        "payload": "timestamp.body"
+      }
+    },
+    
+    "fees": {
+      "descripcion": "Estructura de fees transparente",
+      "tipos": {
+        "loopay_fee": {
+          "descripcion": "Fee de Loopay por la transacción",
+          "on_ramp": "0.5% - 1.5% según volumen",
+          "off_ramp": "0.5% - 1.5% según volumen",
+          "transfer": "Gas fee + 0.1%"
+        },
+        "partner_fee": {
+          "descripcion": "Fee opcional definido por el partner",
+          "configuracion": "Via partnerFeeId en la transacción"
+        },
+        "network_fee": {
+          "descripcion": "Gas fee de la blockchain",
+          "aplica_a": ["transfers", "off_ramp delivery"]
+        },
+        "lock_premium": {
+          "descripcion": "Premium por bloquear tasa de cambio",
+          "rango": "0.1% - 0.5% según duración del lock"
+        }
+      },
+      "visibilidad": "Todos los fees se muestran en state.receipt después de SUCCESS"
+    },
+    
+    "errores_comunes": {
+      "payment_expired": {
+        "codigo": "PAYMENT_EXPIRED",
+        "descripcion": "El tiempo de pago expiró",
+        "accion": "Crear nueva transacción"
+      },
+      "insufficient_funds": {
+        "codigo": "INSUFFICIENT_FUNDS",
+        "descripcion": "Fondos insuficientes en la wallet origen",
+        "accion": "Verificar balance antes de crear transacción"
+      },
+      "invalid_address": {
+        "codigo": "INVALID_ADDRESS",
+        "descripcion": "Dirección de wallet inválida",
+        "accion": "Validar formato de dirección según blockchain"
+      },
+      "kyc_required": {
+        "codigo": "KYC_REQUIRED",
+        "descripcion": "Customer requiere verificación KYC",
+        "accion": "Completar proceso de KYC"
+      },
+      "limit_exceeded": {
+        "codigo": "LIMIT_EXCEEDED",
+        "descripcion": "Límite de transacción excedido",
+        "accion": "Reducir monto o solicitar aumento de límite"
+      },
+      "bank_account_invalid": {
+        "codigo": "BANK_ACCOUNT_INVALID",
+        "descripcion": "Cuenta bancaria inválida o no verificada",
+        "accion": "Verificar datos de cuenta bancaria"
+      }
+    },
+    
+    "mejores_practicas": {
+      "pricing": "Usar floating rate a menos que necesites garantizar monto exacto",
+      "locks": "Mantener timeLock mínimo para reducir premium y riesgo de expiración",
+      "ui": "Mostrar timers relevantes (ventana de pago, countdown de lock)",
+      "validacion": "Validar direcciones de wallet, campos de pago, balances y límites antes de crear transacciones",
+      "compliance": "Observar límites KYC/KYB, sanciones/KYT, alertas AML",
+      "idempotencia": "Siempre usar Idempotency-Key para prevenir duplicados",
+      "webhooks": "Suscribirse a webhooks en lugar de polling frecuente"
+    }
+  }
+}

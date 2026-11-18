@@ -1,0 +1,23 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e6]:
+        - button "Loopay" [ref=e7]:
+          - img "Loopay" [ref=e8]
+        - generic [ref=e9]:
+          - button "🇺🇸 en" [ref=e10]:
+            - generic [ref=e11]:
+              - img
+            - generic [ref=e12]: 🇺🇸
+            - generic [ref=e13]: en
+          - button "Back to Home" [ref=e14]
+    - generic [ref=e17]:
+      - paragraph [ref=e18]: SOBERANA
+      - heading "The payment infrastructure banks deserve." [level=1] [ref=e19]:
+        - text: The payment infrastructure
+        - generic [ref=e20]: banks
+        - text: deserve.
+      - paragraph [ref=e21]: Global payment rails. Digital assets. Smart treasury. One architecture.
+  - region "Notifications (F8)":
+    - list
+  - region "Notifications alt+T"

@@ -1,0 +1,10 @@
+node_modules
+dist
+build
+coverage
+.next
+.vite
+*.min.js
+public
+src/shared/i18n/locales
+vite.config.ts.timestamp-*
